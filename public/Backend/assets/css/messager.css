@@ -1,0 +1,150 @@
+.chatms{
+    margin-top: -6px;
+}
+.avatar{
+    height: 40px;
+    width: 40px;
+}
+.list-group-item:hover, .list-group-item:focus
+{
+    cursor: pointer;
+}
+.list-group-item{
+
+    border: none;
+    display: flex;
+}
+.card-body {
+    overflow: hidden;
+}
+.chatbox
+{
+    height: 80vh !important;
+    overflow-y: scroll;
+}
+.messager-box
+{
+    height: 47vh !important;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.img_user .header-profile-user {
+    margin-bottom: -104px;
+    margin-left: -16px;
+}
+.single-messager{
+    background: #f1f0f0;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+.received {
+    margin-left: 20px ;
+    /* float: right; */
+}
+.sent {
+    margin-left: auto !important;
+    background: #3490dc;
+    color: white !important;
+}
+.sent small{
+    color: white !important;
+}
+.link:hover {
+    list-style: none !important;
+    text-decoration: none;
+}
+.ri-compass-4-line {
+    font-size: 8px !important;
+}
+.offline-icon {
+    font-size: 11px !important;
+}
+
+
+.form{
+
+    position: relative;
+}
+
+.form .fa-search{
+
+    position: absolute;
+    top:16px;
+    left: 20px;
+
+}
+
+.form button {
+    position: absolute;
+    right: 17px;
+    top: 0px;
+    padding: 2px;
+    border: none;
+    font-size: 29px;
+    color: #3490dc;
+    background: none;
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.left-pan i{
+
+   padding-left: 10px;
+}
+
+.form-input{
+
+    height: 44px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus{
+
+    box-shadow: none;
+    border:none;
+}
+.header-chat
+{
+    margin-bottom: -0.7rem!important;
+    margin-top: -19px;
+
+}
+.user_name{
+    margin-top: -13px;
+}
+img.rounded-circle.header-profile-user.avatar-chat {
+    height: 45px;
+    width: 45px;
+}
+ .count_chat {
+    /* margin: 24px -11px; */
+    right: 0;
+    position: absolute;
+}
+
+.action_icon
+{
+    display: flex;
+    margin-left: 45px;
+}
+.action_add {
+    float: right;
+}
+.search_category {
+    display: flex;
+    height: 34px;
+}
+.search_category label{
+    margin-top:7px;
+    width: 9%;
+}
+.search_category input {
+    width: 40%;
+}
