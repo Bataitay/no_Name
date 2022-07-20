@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -18,6 +18,7 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::orderBy('created_at', 'desc')->get();
+
         return view('Backend.Supplier.index', compact('suppliers'));
     }
 
@@ -46,21 +47,21 @@ class SupplierController extends Controller
                 'email' => $request->email,
                 'address' => $request->address,
             ]);
-            $notification = array(
-                'message' => 'Thêm nhà cung cấp' . $request->name . 'thành công',
-                'alert-type' => 'success'
-            );
+            $notification = [
+                'message' => 'Thêm nhà cung cấp'.$request->name.'thành công',
+                'alert-type' => 'success',
+            ];
+
             return redirect()->route('supplier.index')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $notification = array(
+            $notification = [
                 'message' => 'Thêm nhà cung cấp thất bại !!!',
-                'alert-type' => 'warning'
-            );
+                'alert-type' => 'warning',
+            ];
+
             return redirect()->back()->with($notification);
         }
-
-
     }
 
     /**
@@ -83,6 +84,7 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $supplier = Supplier::find($id);
+
         return view('Backend.Supplier.edit', compact('supplier'));
     }
 
@@ -95,17 +97,17 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, $id)
     {
-
         Supplier::findOrFail($id)->update([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
         ]);
-        $notification = array(
-            'message' => 'Cập nhật nhà cung cấp' . $request->name . 'thành công',
-            'alert-type' => 'success'
-        );
+        $notification = [
+            'message' => 'Cập nhật nhà cung cấp'.$request->name.'thành công',
+            'alert-type' => 'success',
+        ];
+
         return redirect()->route('supplier.index')->with($notification);
     }
 
@@ -117,8 +119,9 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id=$request['id'];
+        $id = $request['id'];
         Supplier::where('id', $id)->delete();
+
         return response()->json(['supplier' => 'delete success']);
     }
 }

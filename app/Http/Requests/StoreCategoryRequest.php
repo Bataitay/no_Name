@@ -28,6 +28,7 @@ class StoreCategoryRequest extends FormRequest
             'nameEn' => 'required|unique:categories|max:255',
         ];
     }
+
     public function messages()
     {
         return [

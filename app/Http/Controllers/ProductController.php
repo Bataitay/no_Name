@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Supplier;
 use Carbon\Carbon;
-use GuzzleHttp\Handler\Proxy;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +20,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $productSD;
+
     public function index()
     {
         $products = Product::latest()->get();
@@ -34,6 +33,7 @@ class ProductController extends Controller
             'products' => $products,
             'productSD' => $productSD,
         ];
+
         return view('Backend.Products.index', $param);
     }
 
@@ -69,23 +69,25 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
+            $fileName = time().'.'.$extention;
             $file->move('/images/products/', $fileName);
             $product->image = $fileName;
         }
         try {
             $product->save();
-            $notification = array(
-                'message' => 'Thêm sản phẩm' . $request->name . 'thành công',
-                'alert-type' => 'success'
-            );
+            $notification = [
+                'message' => 'Thêm sản phẩm'.$request->name.'thành công',
+                'alert-type' => 'success',
+            ];
+
             return redirect()->route('product.index')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $notification = array(
+            $notification = [
                 'message' => 'Thêm sản phẩm cấp thất bại !!!',
-                'alert-type' => 'warning'
-            );
+                'alert-type' => 'warning',
+            ];
+
             return redirect()->back()->with($notification);
         }
     }
@@ -99,6 +101,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
+
         return view('Backend.Products.show', compact('product'));
     }
 
@@ -136,23 +139,25 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
+            $fileName = time().'.'.$extention;
             $file->move('/images/products/', $fileName);
             $product->image = $fileName;
         }
         try {
             $product->save();
-            $notification = array(
-                'message' => 'Cập nhật sản phẩm' . $request->name . 'thành công',
-                'alert-type' => 'success'
-            );
+            $notification = [
+                'message' => 'Cập nhật sản phẩm'.$request->name.'thành công',
+                'alert-type' => 'success',
+            ];
+
             return redirect()->route('product.index')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $notification = array(
+            $notification = [
                 'message' => 'Cập nhật sản phẩm cấp thất bại !!!',
-                'alert-type' => 'warning'
-            );
+                'alert-type' => 'warning',
+            ];
+
             return redirect()->back()->with($notification);
         }
     }
@@ -167,6 +172,7 @@ class ProductController extends Controller
     {
         $productdl = Product::findOrFail($id);
         $productdl->destroy($id);
+
         return response()->json(['product' => 'delete successFully']);
         // try {
         // } catch (\Exception $e) {
@@ -178,40 +184,30 @@ class ProductController extends Controller
 
         // };
     }
+
     public function trashed()
     {
-        return view('Backend.products.softDelete');
+        $this->productSD;
     }
+
     public function restore($id)
     {
-        $productSD = Product::withTrashed()->findOrFail($id);
-        try {
-            $productSD->restore();
-            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $productSD->name . ' ' .  'success');
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $productSD->name . ' ' .  'error');
-        }
-        return view('Backend.categories.softdelete', compact('$productSD'));
+        $this->productSD = Product::withTrashed()->findOrFail($id);
+        $this->productSD->restore();
+
+        return redirect()->back()->with('message', 'restore successFully');
     }
+
     public function forceDelete($id)
     {
-        $productSD = Product::onlyTrashed()->findOrFail($id);
-        try {
-            $productSD->forceDelete();
-            return redirect()->route('categories.trashed')->with('message', 'delete' . ' ' . $productSD->name . ' ' .  'success');
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('categories.trashed')->with('message', 'delete ' . ' ' . $productSD->name . ' ' .  'error');
-        }
-        return view('Backend.categories.softdelete', compact('productSD'));
+        $this->productSD = Product::onlyTrashed()->findOrFail($id);
+        $this->productSD->forceDelete();
+
+        return redirect()->back()->with('message', 'delete successFully');
     }
-    // public function getProducts($id){
-    //     if($id!=0){
-    //         $productSD = Product::find($id)->categories()->select('id', 'name')->get()->toArray();
-    //     }else{
-    //         $productSD = Product::all()->toArray();
-    //     }
-    //     return response()->json($productSD);
-    // }
+
+    public function DeleteForever($id)
+    {
+        Product::onlyTrashed()->where('deleted_at', '<', Carbon::now()->subMinutes(1)->toDateTimeString())->forceDelete();
+    }
 }

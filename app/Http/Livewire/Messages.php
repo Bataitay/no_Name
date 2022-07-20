@@ -5,17 +5,22 @@ namespace App\Http\Livewire;
 use App\Models\Messager;
 use App\Models\User;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
 class Messages extends Component
 {
     public $sender;
+
     public $users;
+
     public $messager;
+
     public $allmessages;
+
     use WithFileUploads;
+
     public $photos = [];
 
     public function render()
@@ -25,7 +30,7 @@ class Messages extends Component
         $this->allmessages;
         $userMgs = User::all();
         $currentusers = Auth::user()->id;
-        $userMgs=$userMgs->except([$currentusers]);
+        $userMgs = $userMgs->except([$currentusers]);
         $userMgs = $userMgs->first();
 
         // $current = Carbon::now()->format('H:i') ;
@@ -39,35 +44,37 @@ class Messages extends Component
             // 'timeOff' => $timeOff,
         ]);
     }
-    public function mountdata(){
-        if(isset($this->sender->id)){
+
+    public function mountdata()
+    {
+        if (isset($this->sender->id)) {
             $this->allmessages = Messager::where('user_id', auth()->id())->where('receiver_id', $this->sender->id)
             ->orWhere('user_id', $this->sender->id)->where('receiver_id', auth()->id())->orderBy('id', 'DESC')->get();
-            $notseen = Messager::where('user_id', $this->sender->id)->where('receiver_id',auth()->id());
+            $notseen = Messager::where('user_id', $this->sender->id)->where('receiver_id', auth()->id());
 
-            if($notseen->update(['is_seen'=>true])){
-                 $readed = 'đã xem';
+            if ($notseen->update(['is_seen' => true])) {
+                $readed = 'đã xem';
 
                 return view('Backend.livewire.messages', compact('readed'));
-            };
+            }
         }
     }
+
     public function restForm()
     {
         $this->messager = '';
     }
+
     public function SendMessage()
     {
-         $this->validate(
+        $this->validate(
             ['messager' => 'required'],
             [
                 'messager.required' => '',
             ],
         );
 
-
         // Execution doesn't reach here if validation fails.
-
 
         $data = new Messager;
         $data->messager = $this->messager;
@@ -76,6 +83,7 @@ class Messages extends Component
         $data->save();
         $this->restForm();
     }
+
     public function getUser($id)
     {
         $user = User::find($id);
@@ -84,11 +92,9 @@ class Messages extends Component
         $this->allmessages = Messager::where('user_id', auth()->id())->where('receiver_id', $id)
             ->orWhere('user_id', $id)->where('receiver_id', auth()->id())->orderBy('id', 'DESC')->get();
     }
-    public function deleteMessage ($id)
+
+    public function deleteMessage($id)
     {
         Messager::find($id)->update(['messager' => '']);
-
-
     }
-
 }

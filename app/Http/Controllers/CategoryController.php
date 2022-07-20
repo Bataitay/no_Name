@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Log;
-use Prophecy\Call\Call;
-
-use function PHPUnit\Framework\callback;
+// use Illuminate\Pagination\CursorPaginator;
 
 class CategoryController extends Controller
 {
@@ -23,12 +22,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'desc')->get();
+        $categories = Category::latest()->select('*')->paginate(3);
         $param = [
             'categories' => $categories,
         ];
-        return view('Backend.categories.index',$param);
+        return view('Backend.categories.index', $param);
 
+        return view('Backend.categories.index', $param);
     }
 
     /**
@@ -84,6 +84,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
+
         return view('Backend.categories.edit', compact('category'));
     }
 
@@ -119,35 +120,46 @@ class CategoryController extends Controller
     {
         $id=$request['id'];
         Category::where('id', $id)->delete();
+
         return response()->json(['category' => 'delete success']);
     }
+
     public function trashed()
     {
         $categories = Category::withTrashed()->get();
+
         return view('Backend.categories.softDelete', compact('categories'));
     }
+
     public function restore($id)
     {
         $categories = Category::withTrashed()->find($id);
         try {
             $categories->restore();
-            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $categories->name . ' ' .  'success');
+
+            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $categories->name . ' ' . 'success');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $categories->name . ' ' .  'error');
+
+            return redirect()->route('categories.trashed')->with('message', 'restore' . ' ' . $categories->name . ' ' . 'error');
         }
+
         return view('Backend.categories.softdelete', compact('categories'));
     }
+
     public function forceDelete($id)
     {
         $categories = Category::onlyTrashed()->findOrFail($id);
         try {
             $categories->forceDelete();
-            return redirect()->route('categories.trashed')->with('message', 'delete' . ' ' . $categories->name . ' ' .  'success');
+
+            return redirect()->route('categories.trashed')->with('message', 'delete' . ' ' . $categories->name . ' ' . 'success');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.trashed')->with('message', 'delete ' . ' ' . $categories->name . ' ' .  'error');
+
+            return redirect()->route('categories.trashed')->with('message', 'delete ' . ' ' . $categories->name . ' ' . 'error');
         }
+
         return view('Backend.categories.softdelete', compact('categories'));
     }
     // public function getCategorys($id){

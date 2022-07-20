@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/get_districts/{province_id}',[DistrictController::class,'get_districts_by_province_id']);
-Route::get('/get_wards/{district_id}',[WardController::class,'get_wards_by_district_id']);
-Route::get('/get_provinces',[ProvinceController::class,'get_provinces']);
-
+Route::get('/get_districts/{province_id}', [DistrictController::class, 'get_districts_by_province_id']);
+Route::get('/get_wards/{district_id}', [WardController::class, 'get_wards_by_district_id']);
+Route::get('/get_provinces', [ProvinceController::class, 'get_provinces']);

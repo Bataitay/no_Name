@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
@@ -68,22 +67,22 @@ class AdminSeeder extends Seeder
         $category = Category::create([
             'nameVi' => 'Cơm',
             'nameEn' => 'Rice',
-            'updated_by'=> Carbon::now(),
+            'updated_by' => Carbon::now(),
         ]);
         $category = Category::create([
             'nameVi' => 'Thịt',
             'nameEn' => 'Meat',
-            'updated_by'=> Carbon::now(),
+            'updated_by' => Carbon::now(),
         ]);
         $category = Category::create([
             'nameVi' => 'Cá',
             'nameEn' => 'Fish',
-            'updated_by'=> Carbon::now(),
+            'updated_by' => Carbon::now(),
         ]);
         $category = Category::create([
             'nameVi' => 'Rau củ',
             'nameEn' => 'Vegetable',
-            'updated_by'=> Carbon::now(),
+            'updated_by' => Carbon::now(),
         ]);
     }
 }

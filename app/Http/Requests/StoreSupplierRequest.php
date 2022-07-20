@@ -30,13 +30,14 @@ class StoreSupplierRequest extends FormRequest
             'address' => 'required|max:255',
         ];
     }
+
     public function messages()
     {
         return [
             'required' => 'Bạn chưa nhập tên nhà cung cấp.',
             'unique' => 'Tên nhà cung cấp đã tồn tại.',
             'max' => 'Tên nhà cung cấp không được quá 255 từ.',
-            'email' => 'Định dạng email phải là: xxxx@gmail.com'
+            'email' => 'Định dạng email phải là: xxxx@gmail.com',
         ];
     }
 }

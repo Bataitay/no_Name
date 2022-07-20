@@ -10,5 +10,6 @@ class Category extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['nameVi', 'nameEn','created_by', 'updated_by'];
+
+    protected $fillable = ['nameVi', 'nameEn', 'created_by', 'updated_by'];
 }

@@ -81,7 +81,12 @@
 
                                 </tbody>
                             </table>
+                                {{-- <ul class="pagination justify-content-end">
+                                  <li class="page-item disabled"> --}}
+                                      {{ $categories->links() }}
 
+                                  {{-- </li>
+                                </ul> --}}
                         </div>
                     </div>
                 </div> <!-- end col -->

@@ -9,8 +9,6 @@ use App\Models\Wards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\PostImportRequest;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
@@ -25,13 +23,15 @@ class AdminController extends Controller
 
         return redirect('/login');
     }
+
     public function profile()
     {
         $id = Auth::user()->id;
         $user = User::find($id);
-        $province = Provinces::where('id', $user->province_id)->first();;
+        $province = Provinces::where('id', $user->province_id)->first();
         $district = Districts::where('id', $user->district_id)->first();
         $ward = Wards::where('id', $user->ward_id)->first();
+
         return view('Backend.Profile.index', [
             'user' => $user,
             'province' => $province,
@@ -47,7 +47,8 @@ class AdminController extends Controller
         $provinces = Provinces::all();
         $districts = Districts::where('province_id', $user->province_id)->get();
         $wards = Wards::where('district_id', $user->district_id)->get();
-        return view('Backend.Profile.update',[
+
+        return view('Backend.Profile.update', [
             'user' => $user,
             'provinces' => $provinces,
             'districts' => $districts,
@@ -55,6 +56,7 @@ class AdminController extends Controller
         ]
     );
     }
+
     public function updateprofile(Request $request)
     {
         // dd($request->all());
@@ -82,50 +84,59 @@ class AdminController extends Controller
         }
         try {
             $data->save();
-            $notification = array(
+            $notification = [
                 'message' => 'update profile successFully',
-                'alert-type' => 'success'
-            );
+                'alert-type' => 'success',
+            ];
+
             return redirect()->route('admin.profile')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $notification = array(
+            $notification = [
                 'message' => 'update profile Fail !!!',
-                'alert-type' => 'warning'
-            );
+                'alert-type' => 'warning',
+            ];
+
             return redirect()->back()->with($notification);
         }
     }
-    public function Changepassword(){
+
+    public function Changepassword()
+    {
         return view('Backend.Profile.changepassword');
     }
-    public function updatepassword(Request $request){
+
+    public function updatepassword(Request $request)
+    {
         $validation = $request->validate([
             'old_password' => 'required|min:6',
             'new_password' => 'required|min:6',
-            'confirm_password'=>'required|same:new_password',
+            'confirm_password' => 'required|same:new_password',
         ]);
         $hashedPassword = Auth::user()->password;
-        try{
-            if(Hash::check($request->old_password, $hashedPassword)){
+        try {
+            if (Hash::check($request->old_password, $hashedPassword)) {
                 $users = User::find(Auth::id());
                 $users->password = bcrypt($request->new_password);
                 $users->save();
                 session()->flash('message', 'Change Password successFully');
+
                 return redirect()->back();
-            }else{
+            } else {
                 session()->flash('message', 'Old password is not correct');
+
                 return redirect()->back();
-            };
-        }catch(\Throwable $e){
+            }
+        } catch (\Throwable $e) {
             report($e);
             session()->flash('message', 'Change Password fail!');
-            return redirect()->back();
 
+            return redirect()->back();
         }
     }
-    public function dashboard(){
-    return view('Backend.dashboard');
 
+    public function dashboard()
+    {
+        return view('Backend.dashboard');
     }
 }

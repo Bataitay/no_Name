@@ -21,25 +21,26 @@ class OnlineMiddelware
     {
         $user_offline = User::where('last_activity', '<', now());
         $user_online = User::where('last_activity', '>=', now());
-        if(isset($user_offline)){
+        if (isset($user_offline)) {
             $user_offline->update(['is_online' => false]);
         }
-        if(isset($user_online)){
+        if (isset($user_online)) {
             $user_online->update(['is_online' => true]);
         }
-        if(auth()->check()){
+        if (auth()->check()) {
             $cache_value = Cache::put('user-is-online', auth()->id(), Carbon::now()->addMinutes(1));
             $user = User::find(Cache::get('user-is-online'));
             $user->last_activity = now()->addMinutes(1);
             $user->is_online = true;
             $user->save();
-        }elseif(!auth()->check() and filled(Cache::get('user-is-online'))){
+        } elseif (! auth()->check() and filled(Cache::get('user-is-online'))) {
             $user = User::find(Cache::get('user-is-online'));
-            if(isset($user)){
+            if (isset($user)) {
                 $user->is_online = false;
                 $user->save();
             }
         }
+
         return $next($request);
     }
 }
