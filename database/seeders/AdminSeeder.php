@@ -5,7 +5,10 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\RoleHaspermission;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
@@ -32,7 +35,7 @@ class AdminSeeder extends Seeder
             'phone' => '0368563954',
             'password' => bcrypt('123456789'),
         ]);
-        $write = User::create([
+        $writer = User::create([
             'name' => 'Huyền',
             'email' => 'ngochuyen@admin.com',
             'username' => 'Nguyễn Hoàng Ngọc Huyền ',
@@ -64,6 +67,29 @@ class AdminSeeder extends Seeder
             'phone' => '0368563954',
             'password' => bcrypt('123456789'),
         ]);
+        $admin_role = Role::create([
+            'name' => 'Super Admin',
+        ]);
+        $writer_role = Role::create([
+            'name' => 'writer',
+        ]);
+        $manager_role = Role::create([
+            'name' => 'manager',
+        ]);
+        $groups     = ['Product', 'Customer', 'Category', 'Employee', 'Interface', 'Notifi', 'Role', 'Supplier'];
+        $actions    = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete'];
+        foreach ($groups as $group) {
+            foreach ($actions as $action) {
+                $permission = Permission::create([
+                    'name' => $group . ' ' . $action,
+
+                ]);
+            }
+        }
+        $admin->assignRole($admin_role);
+        $writer->assignRole($writer_role);
+        $manager->assignRole($manager_role);
+        $admin_role->givePermissionTo(Permission::all());
         $category = Category::create([
             'nameVi' => 'Cơm',
             'nameEn' => 'Rice',

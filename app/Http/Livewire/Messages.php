@@ -14,7 +14,7 @@ class Messages extends Component
     public $sender;
 
     public $users;
-
+    public $status;
     public $messager;
 
     public $allmessages;
@@ -36,7 +36,7 @@ class Messages extends Component
             'users' => $this->users,
             'sender' => $sender,
             'userMgs' => $userMgs,
-             'allmessages' => $this->allmessages,
+            //  'allmessages' => $this->allmessages,
         ]);
     }
 
@@ -73,6 +73,7 @@ class Messages extends Component
 
         $data = new Messager;
         $data->messager = $this->messager;
+        $data->status = $this->status;
         $data->user_id = auth()->id();
         $data->receiver_id = $this->sender->id;
         $data->save();
@@ -91,14 +92,18 @@ class Messages extends Component
     public function recallMessage($id)
     {
         $data = Messager::findOrFail($id);
+        $this->status = $data->status;
         if (Auth::user()->id == $data->user_id) {
-            Messager::find($id)->update(['messager' => 'Tin nhắn đã được thu hồi']);
+            Messager::find($id)->update([
+                'messager' => 'Tin nhắn đã được thu hồi',
+                'status' => '1',
+            ]);
         } else {
             '';
         }
     }
     public function deleteMessage($id)
     {
-            Messager::find($id)->delete();
+        Messager::find($id)->delete();
     }
 }

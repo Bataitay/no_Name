@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Livewire\Messages;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +51,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('product/restore/{id}', 'restore')->name('product.restore');
         Route::get('product/forceDelete/{id}', 'forceDelete')->name('product.forceDelete');
     });
+    Route::resource('roles', RoleController::class);
+    Route::resource('permission', PermissionController::class);
 });
 require __DIR__.'/auth.php';

@@ -95,11 +95,11 @@ $adminData = App\Models\User::find($id);
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-profile-line"></i>
-                        <span>Blog Page</span>
+                        <span>Phân Quyền</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">All Blog</a></li>
-                        <li><a href="">Add Blog</a></li>
+                        <li><a href="{{ route('permission.index') }}">Tât cả các quyền</a></li>
+                        <li><a href="{{ route('roles.index') }}">Cấp quyền</a></li>
 
                     </ul>
                 </li>

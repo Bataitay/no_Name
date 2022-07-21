@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('messager', function (Blueprint $table) {
-            $table->boolean('status')->default(0);
+            $table->string('status')->nullable();
         });
     }
 

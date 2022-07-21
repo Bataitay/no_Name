@@ -167,9 +167,9 @@
                                         class="single-messager @if ($mgs->user_id == auth()->id()) sent  @else received @endif">
                                         {{ $mgs->messager }}
                                         <span class="btn-group btn-block justify-content-between mb-0">
-                                            <i @if ($mgs->messager !== 'Tin nhắn đã được thu hồi')
+                                            <i @if ($mgs->status == '')
                                                  wire:click="recallMessage({{ $mgs->id }}) "
-                                                @elseif ($mgs->messager === 'Tin nhắn đã được thu hồi')
+                                                @elseif ($mgs->messager == 1)
                                                 wire:click="deleteMessage({{ $mgs->id }})"
                                                 @endif
                                                 type="button" class="fa fa-trash text-danger icon "></i>
