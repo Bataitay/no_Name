@@ -3,7 +3,7 @@
           <div class="d-flex">
               <!-- LOGO -->
               <div class="navbar-brand-box">
-                  <a href="index.html" class="logo logo-dark">
+                  <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                       <span class="logo-sm">
                           <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
                       </span>
@@ -13,7 +13,7 @@
                       </span>
                   </a>
 
-                  <a href="index.html" class="logo logo-light">
+                  <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
                       <span class="logo-sm">
                           <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm-light"
                               height="22">
@@ -51,10 +51,10 @@
                   </button>
               </div>
 
-              @php
+              {{-- @php
                   $id = Auth::user()->id ?? '';
                   $adminData = App\Models\User::find($id);
-              @endphp
+              @endphp --}}
 
               <div class="dropdown d-inline-block user-dropdown">
                   <button  class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -62,7 +62,7 @@
                       <img class="rounded-circle header-profile-user"
                           src="{{ !empty($adminData->image) ? url('uploads/admin_img/' . $adminData->image) : url('uploads/no_image.jpg') }}"
                           alt="Header Avatar">
-                      <span class="d-none d-xl-inline-block ms-1">{{ $adminData->name ?? '' }}</span>
+                      <span class="d-none d-xl-inline-block ms-1">{{ $adminData->name ?? 'user_Name' }}</span>
                       <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end">

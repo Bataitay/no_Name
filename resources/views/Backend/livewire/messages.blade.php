@@ -30,7 +30,7 @@
                     <a href="#"><i class="mdi mdi-trash-can-outline me-2"></i>Trash</a>
                 </div>
 
-                <h1>{{ $readed ?? ''}}</h1>
+                <h1>{{ $readed ?? '' }}</h1>
                 <h6 class="mt-4">Chat </h6>
 
                 <div class="mt-2">
@@ -55,7 +55,8 @@
                                                     class="ri-compass-4-line rounded-circle  text-success bg-success "></i>Online
                                             </p>
                                         @else
-                                            <p class=" text-muted text-truncate">{{ \Carbon\Carbon::parse($user->last_activity)->diffForHumans() }}</p>
+                                            <p class=" text-muted text-truncate">
+                                                {{ \Carbon\Carbon::parse($user->last_activity)->diffForHumans() }}</p>
                                         @endif
 
                                     </div>
@@ -166,7 +167,12 @@
                                         class="single-messager @if ($mgs->user_id == auth()->id()) sent  @else received @endif">
                                         {{ $mgs->messager }}
                                         <span class="btn-group btn-block justify-content-between mb-0">
-                                            <i wire:click="deleteMessage({{ $mgs->id }})" type="button" class="fa fa-trash text-danger icon "></i>
+                                            <i @if ($mgs->messager !== 'Tin nhắn đã được thu hồi')
+                                                 wire:click="recallMessage({{ $mgs->id }}) "
+                                                @elseif ($mgs->messager === 'Tin nhắn đã được thu hồi')
+                                                wire:click="deleteMessage({{ $mgs->id }})"
+                                                @endif
+                                                type="button" class="fa fa-trash text-danger icon "></i>
                                         </span>
                                         <br><small
                                             class="text-muted w-100 "><em>{{ $mgs->created_at->format('H:i') }}</em></small>
@@ -175,7 +181,7 @@
                                     @else
                                         <div class="img_user">
                                             <img class="rounded-circle header-profile-user  "
-                                                src="{{ url('uploads/admin_img/' . $mgs->user->image) }}"
+                                                src="{{ !empty($mgs->user->image) ? url('uploads/admin_img/' . $mgs->user->image) : url('uploads/no_image.jpg') }}"
                                                 alt="Header Avatar">
                                         </div>
                                     @endif
@@ -188,7 +194,9 @@
                                     <div class="form">
                                         <i class="fa fa-search"></i>
                                         <input wire:model="messager" type="text" class="form-control form-input">
-                                        @error('messager') <span class="error">{{ $message }}</span> @enderror
+                                        @error('messager')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
                                         <button class="left-pan "><i class="ri-send-plane-2-line"></i></button>
                                     </div>
                                 </div>

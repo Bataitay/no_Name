@@ -1,7 +1,7 @@
 <div class="col-sm-6 col-md-4 col-xl-3">
     <!--  Modal content for the above example -->
-    <div class="modal fade bs-example-modal-lg{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
+    <div class="modal fade bs-example-modal-lg{{ $product->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -24,22 +24,20 @@
                         <tbody id="myTable">
 
                             @if ($product->count())
-                                    <tr class="">
+                                <tr class="">
 
-                                        <td>
-                                            <img class="w-100"
-                                                src="{{ !empty($product->photo) ? url('uploads/admin_img/' . $product->photo) : url('uploads/no_image.jpg') }}"
-                                                alt="Card image cap">
-                                        </td>
-                                        <td>{{ $product->supplier->name }} </td>
-                                        <td>{{ $product->category->nameVi }}-{{ $product->category->nameEn }}</td>
-                                        <td>
-                                            @if ($product->user_id == $product->created_by)
-                                                {{ $product->user->name }}
-                                            @endif
-                                        </td>
-                                        <td>{{ $product->description }}</td>
-                                    </tr>
+                                    <td>
+                                        <img class="w-100"
+                                            src="{{ !empty($product->photo) ? url('uploads/admin_img/' . $product->photo) : url('uploads/no_image.jpg') }}"
+                                            alt="Card image cap">
+                                    </td>
+                                    <td>{{ $product->supplier->name }} </td>
+                                    <td>{{ $product->category->nameVi }}-{{ $product->category->nameEn }}</td>
+                                    <td>
+                                        {{ $product->user->name }}
+                                    </td>
+                                    <td>{{ $product->description }}</td>
+                                </tr>
                             @else
                                 <tr>
                                     <td colspan="6">Chưa có dữ liệu...</td>

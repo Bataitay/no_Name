@@ -1,5 +1,5 @@
-<div class="modal fade " id="EditProduct{{ $product->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade " id="EditProduct{{ $product->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,36 +9,39 @@
             <div class="modal-body">
                 <div class="card-body">
                     <h4 class="mb-4">let's go...</h4>
-                    <form action="{{ route('product.update', $product->id) }}"enctype="multipart/form-data" method="POST">
+                    <form action="{{ route('product.update', $product->id) }}"enctype="multipart/form-data"
+                        method="POST">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="nameVi">Tên sản phẩm(Vi)</label>
-                                    <input type="text" value="{{ old('nameVi',$product->nameVi) }}" class="form-control"
-                                       name="nameVi" id="nameVi" placeholder=" Nhập tên sản phẩm">
+                                    <input type="text" value="{{ old('nameVi', $product->nameVi) }}"
+                                        class="form-control" name="nameVi" id="nameVi"
+                                        placeholder=" Nhập tên sản phẩm">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="name">Tên sản phẩm(En)</label>
-                                    <input type="text" value="{{ old('nameEn', $product->nameEn) }}" class="form-control"
-                                      name="nameEn"  id="nameEn" placeholder=" Nhập tên sản phẩm">
+                                    <input type="text" value="{{ old('nameEn', $product->nameEn) }}"
+                                        class="form-control" name="nameEn" id="nameEn"
+                                        placeholder=" Nhập tên sản phẩm">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="mb-2">
                                     <label class="form-label" for="price">Giá</label>
-                                    <input type="text" value="{{ old('price', $product->price) }}" class="form-control"
-                                      name="price"  id="price" placeholder="Nhập Giá">
+                                    <input type="text" value="{{ old('price', $product->price) }}"
+                                        class="form-control" name="price" id="price" placeholder="Nhập Giá">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="mb-2">
                                     <label class="form-label" for="quantity">Số lượng</label>
-                                    <input type="text" value="{{ old('quantity', $product->quantity) }}" class="form-control"
-                                     name="quantity" id="quantity" placeholder="Nhập Số lượng">
+                                    <input type="text" value="{{ old('quantity', $product->quantity) }}"
+                                        class="form-control" name="quantity" id="quantity" placeholder="Nhập Số lượng">
                                 </div>
                             </div>
                         </div>
@@ -48,7 +51,10 @@
                                     <label class="form-label" for="name">Nhà cung cấp</label>
                                     <select class="form-select" name="supplier_id">
                                         @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                            <option value="{{ $supplier->id }}"
+                                                {{ $product->supplier_id == $supplier->id ? 'selected' : '' }}>
+                                                {{ $supplier->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -58,8 +64,10 @@
                                     <label class="form-label" for="email">Danh mục(Vi-En)</label>
                                     <select class="form-select" name="category_id">
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">
-                                                {{ $category->nameVi }}-{{ $category->nameEn }}</option>
+                                            <option value="{{ $category->id }}"
+                                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                                {{ $category->nameVi }}-{{ $category->nameEn }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -108,10 +116,11 @@
         max-width: 1200px;
         margin: 1.75rem auto;
     }
+
     .form-label {
-    margin-bottom: .5rem;
-    float: left;
-}
+        margin-bottom: .5rem;
+        float: left;
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 

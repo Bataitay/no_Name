@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
+    
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();

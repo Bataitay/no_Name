@@ -32,16 +32,11 @@ class Messages extends Component
         $currentusers = Auth::user()->id;
         $userMgs = $userMgs->except([$currentusers]);
         $userMgs = $userMgs->first();
-
-        // $current = Carbon::now()->format('H:i') ;
-        // $current = Auth::user()->last_activity;
-        // $timeOff = $current->diffForHumans($current);
-        // $date = Carbon::now()->locale('vi');
         return view('Backend.livewire.messages', [
             'users' => $this->users,
             'sender' => $sender,
             'userMgs' => $userMgs,
-            // 'timeOff' => $timeOff,
+             'allmessages' => $this->allmessages,
         ]);
     }
 
@@ -49,7 +44,7 @@ class Messages extends Component
     {
         if (isset($this->sender->id)) {
             $this->allmessages = Messager::where('user_id', auth()->id())->where('receiver_id', $this->sender->id)
-            ->orWhere('user_id', $this->sender->id)->where('receiver_id', auth()->id())->orderBy('id', 'DESC')->get();
+                ->orWhere('user_id', $this->sender->id)->where('receiver_id', auth()->id())->orderBy('id', 'DESC')->get();
             $notseen = Messager::where('user_id', $this->sender->id)->where('receiver_id', auth()->id());
 
             if ($notseen->update(['is_seen' => true])) {
@@ -93,8 +88,17 @@ class Messages extends Component
             ->orWhere('user_id', $id)->where('receiver_id', auth()->id())->orderBy('id', 'DESC')->get();
     }
 
+    public function recallMessage($id)
+    {
+        $data = Messager::findOrFail($id);
+        if (Auth::user()->id == $data->user_id) {
+            Messager::find($id)->update(['messager' => 'Tin nhắn đã được thu hồi']);
+        } else {
+            '';
+        }
+    }
     public function deleteMessage($id)
     {
-        Messager::find($id)->update(['messager' => '']);
+            Messager::find($id)->delete();
     }
 }

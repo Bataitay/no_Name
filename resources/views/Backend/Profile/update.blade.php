@@ -98,26 +98,19 @@
                                         <label>Tên nhân viên<noscript></noscript></label>
                                         <input name="name" type="text" class="form-control" id=""
                                             placeholder="Nhập tên nhân viên" value="{{ old('name', $user->name) }}">
-
-
                                     </div>
                                     <div class="form-group">
                                         <label class="d-block">Giới tính</label>
                                         <div class="custom-control custom-control-inline custom-radio">
                                             <input type="radio" class="custom-control-input" name="gender" id="rd1"
-                                                @if($user->gender=='male')
-                                                checked=""
-                                                @endif
-                                                 value="male">
-                                            <label class="custom-control-label" for="rd1">Nam</label>
+                                                @if (Auth::user()->gender == 1) Checked @endif value="1">Male <br>
+                                            {{-- <label class="custom-control-label" for="rd1">Nam</label> --}}
                                         </div>
                                         <div class="custom-control custom-control-inline custom-radio">
                                             <input type="radio" class="custom-control-input" name="gender" id="rd2"
-                                            @if($user->gender=='female')
-                                            checked=""
-                                            @endif
-                                                value="female">
-                                            <label class="custom-control-label" for="rd2">Nữ</label>
+                                                @if (Auth::user()->gender == 0) Checked @endif value="0">
+                                            Female
+                                            {{-- <label class="custom-control-label" for="rd2">Nữ</label> --}}
                                         </div>
 
                                     </div>
