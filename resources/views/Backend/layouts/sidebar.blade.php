@@ -108,13 +108,13 @@ $adminData = App\Models\User::find($id);
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-profile-line"></i>
-                        <span>Footer Page Setup</span>
+                        <span>Cửa hàng</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">Footer Setup</a></li>
-
-
+                        <li><a href="{{ route('showproduct') }}">Mua hàng</a></li>
+                        <li><a href="{{ route('cart') }}">Giỏ hàng</a></li>
                     </ul>
+
                 </li>
 
 

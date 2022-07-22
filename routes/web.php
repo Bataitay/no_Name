@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -53,5 +54,12 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::resource('roles', RoleController::class);
     Route::resource('permission', PermissionController::class);
+
+    Route::get('cart/index', [HomeController::class, 'index'])->name('showproduct');
+    Route::get('cart', [HomeController::class, 'cart'])->name('cart');
+    Route::get('add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('add.to.cart');
+    Route::patch('update-cart', [HomeController::class, 'update'])->name('update.cart');
+    Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove.from.cart');
 });
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
