@@ -20,14 +20,22 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('role_or_permission:Category access|Category create|Category edit|Category delete', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Category viewAny', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Category create', ['only' => ['create','store']]);
+        $this->middleware('role_or_permission:Category update', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Category delete', ['only' => ['destroy']]);
+        $this->middleware('role_or_permission:Category forceDelete', ['only' => ['destroy']]);
+        $this->middleware('role_or_permission:Category restore', ['only' => ['restore']]);
+    }
     public function index()
     {
         $categories = Category::latest()->select('*')->paginate(3);
         $param = [
             'categories' => $categories,
         ];
-        return view('Backend.categories.index', $param);
-
         return view('Backend.categories.index', $param);
     }
 
@@ -49,8 +57,6 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-
-
         Category::insert([
             'nameVi' => $request->nameVi,
             'nameEn' => $request->nameEn,

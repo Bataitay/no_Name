@@ -15,6 +15,14 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('role_or_permission:Supplier access|Supplier create|Supplier edit|Supplier delete', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Supplier viewAny', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Supplier create', ['only' => ['create','store']]);
+        $this->middleware('role_or_permission:Supplier update', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Supplier delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $suppliers = Supplier::orderBy('created_at', 'desc')->get();

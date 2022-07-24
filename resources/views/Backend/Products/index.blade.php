@@ -25,12 +25,14 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-3 ">
-                                <div class="action_add">
-                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                        class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
-                                        Sản phẩm</a>
-                                    @include('Backend.Products.add')
-                                </div>
+                                @can('Permission create')
+                                    <div class="action_add">
+                                        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                            class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
+                                            Sản phẩm</a>
+                                        @include('Backend.Products.add')
+                                    </div>
+                                @endcan
                             </div>
 
                         </div>
@@ -90,20 +92,27 @@
                                                     <td> {{ $product->quantity }}</td>
                                                     <td>{{ $product->updated_by }} </td>
                                                     <td>
-                                                        <a href="{{ route('product.edit', $product->id) }}"
-                                                            class="btn btn-info sm" data-bs-toggle="modal"
-                                                            data-bs-target="#EditProduct{{ $product->id }}"> <i
-                                                                class="fas fa-edit "></i> </a>
-                                                        @include('Backend.Products.edit')
-                                                        <a data-href="{{ route('product.destroy', $product->id) }}" id="{{ $product->id }}"
-                                                            class="btn btn-danger sm deleteIcon"><i
-                                                                class=" fas fa-trash-alt "></i></a>
-                                                        <a href="{{ route('product.show', $product->id) }}"
-                                                            class="btn btn-primary waves-effect waves-light"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target=".bs-example-modal-lg{{ $product->id }}"><i
-                                                                class="ri-eye-close-fill"></i></a>
-                                                        @include('Backend.Products.show')
+                                                        @can('Permission update')
+                                                            <a href="{{ route('product.edit', $product->id) }}"
+                                                                class="btn btn-info sm" data-bs-toggle="modal"
+                                                                data-bs-target="#EditProduct{{ $product->id }}"> <i
+                                                                    class="fas fa-edit "></i> </a>
+                                                            @include('Backend.Products.edit')
+                                                        @endcan
+                                                        @can('Permission delete')
+                                                            <a data-href="{{ route('product.destroy', $product->id) }}"
+                                                                id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
+                                                                    class=" fas fa-trash-alt "></i></a>
+                                                        @endcan
+                                                        @can('Permission show')
+                                                            <a href="{{ route('product.show', $product->id) }}"
+                                                                class="btn btn-primary waves-effect waves-light"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target=".bs-example-modal-lg{{ $product->id }}"><i
+                                                                    class="ri-eye-close-fill"></i></a>
+                                                            @include('Backend.Products.show')
+                                                        @endcan
+
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -203,17 +212,17 @@
                     })
                 });
                 $(document).ready(function() {
-                //#myInput id input-event onkey-up
-                $('#myInput').on('keyup', function(event) {
-                    event.preventDefault();
-                    //toLowerCase tìm chữ hoa và thường
-                    let key = $(this).val().toLowerCase();
-                    //<tbody id="myTable"> -> tr
-                    $('#myTableP tr').filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(key) > -1);
+                    //#myInput id input-event onkey-up
+                    $('#myInput').on('keyup', function(event) {
+                        event.preventDefault();
+                        //toLowerCase tìm chữ hoa và thường
+                        let key = $(this).val().toLowerCase();
+                        //<tbody id="myTable"> -> tr
+                        $('#myTableP tr').filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(key) > -1);
+                        });
                     });
                 });
-            });
             </script>
         @endisset
     @endsection

@@ -20,7 +20,16 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $productSD;
-
+    function __construct()
+    {
+        $this->middleware('role_or_permission:Product access|Product create|Product edit|Product delete', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Product viewAny', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Product create', ['only' => ['create','store']]);
+        $this->middleware('role_or_permission:Product update', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Product delete', ['only' => ['destroy']]);
+        $this->middleware('role_or_permission:Category forceDelete', ['only' => ['destroy']]);
+        $this->middleware('role_or_permission:Category restore', ['only' => ['restore']]);
+    }
     public function index()
     {
         $products = Product::latest()->get();

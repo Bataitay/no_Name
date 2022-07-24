@@ -26,21 +26,26 @@
                             <td>{{ $product->updated_by }} </td>
                             <td class="action_icon">
                                 <div>
-                                    <form action="{{ route('product.restore', $product->id) }}" method="">
-                                        @csrf
-                                        <button type="submit" class="btn btn-info sm "
-                                            onclick="return confirm('do you want restore?')"><i
-                                                class="ri-repeat-fill"></i></button>
-                                    </form>
+                                    @can('Permission forceDelete')
+                                        <form action="{{ route('product.restore', $product->id) }}" method="">
+                                            @csrf
+                                            <button type="submit" class="btn btn-info sm "
+                                                onclick="return confirm('do you want restore?')"><i
+                                                    class="ri-repeat-fill"></i></button>
+                                        </form>
+                                    @endcan
                                 </div>
                                 <div>
-                                <form action="{{ route('product.forceDelete', $product->id) }}" method="POST ">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger sm  "
-                                        onclick="return confirm('do you want delete forever?')"><i
-                                            class="fas fa-trash-alt "></i></button>
-                                </form>
+                                    @can('Permission restore')
+                                        <form action="{{ route('product.forceDelete', $product->id) }}" method="POST ">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger sm  "
+                                                onclick="return confirm('do you want delete forever?')"><i
+                                                    class="fas fa-trash-alt "></i></button>
+                                        </form>
+                                    @endcan
+
                                 </div>
                             </td>
 

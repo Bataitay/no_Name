@@ -27,14 +27,18 @@
                                 </div>
                                 <div class="col-sm-12 col-md-3 ">
                                     <div class="action_add">
-                                        <a href="{{ route('categories.trashed') }}"
-                                            class="btn btn-danger btn-rounded waves-effect waves-light"
-                                            style="float:right;">Thùng
-                                            rác</a>
-                                        <a href="{{ route('category.create') }}"
-                                            class="btn btn-dark btn-rounded waves-effect waves-light"
-                                            style="float:right;">Thêm Danh
-                                            mục</a>
+                                        @can('Employee create')
+                                            <a href="{{ route('categories.trashed') }}"
+                                                class="btn btn-danger btn-rounded waves-effect waves-light"
+                                                style="float:right;">Thùng
+                                                rác</a>
+                                        @endcan
+                                        @can('Employee create')
+                                            <a href="{{ route('category.create') }}"
+                                                class="btn btn-dark btn-rounded waves-effect waves-light"
+                                                style="float:right;">Thêm Danh
+                                                mục</a>
+                                        @endcan
                                     </div>
                                 </div>
 
@@ -55,24 +59,28 @@
                                 <tbody id="myTable">
 
                                     @if (!$categories->count())
-                                    <tr >
-                                        <td colspan="5">Chưa có dữ liệu...</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="5">Chưa có dữ liệu...</td>
+                                        </tr>
                                     @else
                                         @foreach ($categories as $category)
                                             <tr class="item-{{ $category->id }}">
                                                 <td> {{ $category->id }}</td>
                                                 <td>{{ $category->nameVi }} </td>
                                                 <td>{{ $category->nameEn }} </td>
-                                                <td> </td>
+                                                <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
-                                                    <a href="{{ route('category.edit', $category->id) }}"
-                                                        class="btn btn-info sm" title="Edit Data"> <i
-                                                            class="fas fa-edit "></i> </a>
-                                                    <a href="#" id="{{ $category->id }}"
-                                                        class="btn btn-danger sm deleteIcon"><i
-                                                            class=" fas fa-trash-alt "></i></a>
+                                                    @can('Employee create')
+                                                        <a href="{{ route('category.edit', $category->id) }}"
+                                                            class="btn btn-info sm" title="Edit Data"> <i
+                                                                class="fas fa-edit "></i> </a>
+                                                    @endcan
+                                                    @can('Employee create')
+                                                        <a href="#" id="{{ $category->id }}"
+                                                            class="btn btn-danger sm deleteIcon"><i
+                                                                class=" fas fa-trash-alt "></i></a>
+                                                    @endcan
                                                 </td>
 
                                             </tr>
@@ -81,11 +89,11 @@
 
                                 </tbody>
                             </table>
-                                {{-- <ul class="pagination justify-content-end">
+                            {{-- <ul class="pagination justify-content-end">
                                   <li class="page-item disabled"> --}}
-                                      {{ $categories->links() }}
+                            {{ $categories->links() }}
 
-                                  {{-- </li>
+                            {{-- </li>
                                 </ul> --}}
                         </div>
                     </div>

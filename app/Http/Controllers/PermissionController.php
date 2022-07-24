@@ -12,11 +12,19 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('role_or_permission:Permission access|Permission create|Permission edit|Permission delete', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Permission viewAny', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Permission create', ['only' => ['create', 'store']]);
+        $this->middleware('role_or_permission:Permission update', ['only' => ['edit', 'update']]);
+        $this->middleware('role_or_permission:Permission delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $permissions = Permission::latest()->get();
-        return view('Backend.permissions.index',[
-                    'permissions' => $permissions,
+        return view('Backend.permissions.index', [
+            'permissions' => $permissions,
         ]);
     }
 
@@ -41,7 +49,7 @@ class PermissionController extends Controller
         $permissions = new Permission();
         $permissions->name = $request->name;
         $permissions->save();
-        return redirect()->back()->with('message', 'added permission'. $request->name .'success' );
+        return redirect()->back()->with('message', 'added permission' . $request->name . 'success');
     }
 
     /**
@@ -64,8 +72,7 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::findOrFail($id);
-        return view('Backend.permissions.edit', compact('permission') );
-
+        return view('Backend.permissions.edit', compact('permission'));
     }
 
     /**
@@ -80,7 +87,7 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->name = $request->name;
         $permission->save();
-        return redirect()->route('permission.index')->with('message', ' Edited permission '. $request->name .'success' );
+        return redirect()->route('permission.index')->with('message', ' Edited permission ' . $request->name . 'success');
     }
 
     /**
@@ -91,8 +98,8 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $permission = Permission::findOrFail($id );
+        $permission = Permission::findOrFail($id);
         $permission->delete();
-        return redirect()->back()->with('message', 'added permission success' );
+        return redirect()->back()->with('message', 'added permission success');
     }
 }

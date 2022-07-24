@@ -44,7 +44,7 @@
                                         ->get() ?? null;
                             @endphp
                             <a wire:click="getUser({{ $user->id }})" class="d-flex user_name link" href="#">
-                                <li class="list-group-item ">
+                                <li class="list-group-item d-flex">
                                     <img class="rounded-circle header-profile-user avatar-chat"
                                         src="{{ !empty($user->image) ? url('uploads/admin_img/' . $user->image) : url('uploads/no_image.jpg') }}"
                                         alt="Header Avatar">
@@ -167,9 +167,9 @@
                                         class="single-messager @if ($mgs->user_id == auth()->id()) sent  @else received @endif">
                                         {{ $mgs->messager }}
                                         <span class="btn-group btn-block justify-content-between mb-0">
-                                            <i @if ($mgs->status == '')
+                                            <i @if ($mgs->messager !== 'Tin nhắn đã được thu hồi')
                                                  wire:click="recallMessage({{ $mgs->id }}) "
-                                                @elseif ($mgs->messager == 1)
+                                                @elseif ($mgs->messager === 'Tin nhắn đã được thu hồi')
                                                 wire:click="deleteMessage({{ $mgs->id }})"
                                                 @endif
                                                 type="button" class="fa fa-trash text-danger icon "></i>

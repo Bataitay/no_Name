@@ -22,7 +22,6 @@ class Messages extends Component
     use WithFileUploads;
 
     public $photos = [];
-
     public function render()
     {
         $this->users = User::all();
@@ -36,7 +35,6 @@ class Messages extends Component
             'users' => $this->users,
             'sender' => $sender,
             'userMgs' => $userMgs,
-            //  'allmessages' => $this->allmessages,
         ]);
     }
 
@@ -98,12 +96,13 @@ class Messages extends Component
                 'messager' => 'Tin nhắn đã được thu hồi',
                 'status' => '1',
             ]);
-        } else {
-            '';
         }
     }
     public function deleteMessage($id)
     {
-        Messager::find($id)->delete();
+        $data = Messager::findOrFail($id);
+        if (Auth::user()->id == $data->user_id) {
+            Messager::find($id)->delete();
+        }
     }
 }

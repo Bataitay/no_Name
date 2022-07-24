@@ -100,6 +100,7 @@ $adminData = App\Models\User::find($id);
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('permission.index') }}">Tât cả các quyền</a></li>
                         <li><a href="{{ route('roles.index') }}">Cấp quyền</a></li>
+                        <li><a href="{{ route('employee.index') }}">Nhân viên</a></li>
 
                     </ul>
                 </li>

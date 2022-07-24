@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -54,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::resource('roles', RoleController::class);
     Route::resource('permission', PermissionController::class);
+    Route::resource('employee', EmployeeController::class);
 
     Route::get('cart/index', [HomeController::class, 'index'])->name('showproduct');
     Route::get('cart', [HomeController::class, 'cart'])->name('cart');

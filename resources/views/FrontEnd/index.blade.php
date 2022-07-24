@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-sm-12 col-md-3 ">
                                 <div class="action_add">
-                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                    <a href="{{ route('cart') }}"
                                         class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Giỏ
                                         hàng
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span
@@ -47,7 +47,7 @@
                                                 <h4>{{ $product->nameVi }}</h4>
                                                 <p>{{ $product->description }}</p>
                                                 <p><strong>Price:{{ $product->price }} </strong> $</p>
-                                                <p class="btn-holder"><a data-bs-toggle="modal" data-bs-target="#checkouts" href="{{ route('add.to.cart', $product->id) }}"
+                                                <p class="btn-holder"><a  href="{{ route('add.to.cart', $product->id) }}"
                                                         class="btn btn-warning btn-block text-center" role="button">Add
                                                         to cart</a> </p>
                                             </div>
@@ -74,8 +74,4 @@
 
     </div> <!-- container-fluid -->
     </div>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js'></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@endsection
+ @endsection

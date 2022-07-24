@@ -76,7 +76,7 @@ class AdminSeeder extends Seeder
         $manager_role = Role::create([
             'name' => 'manager',
         ]);
-        $groups     = ['Product', 'Customer', 'Category', 'Employee', 'Interface', 'Notifi', 'Role', 'Supplier'];
+        $groups     = ['Product', 'Customer', 'Category', 'Employee', 'Interface', 'Notifi', 'Role','Permission', 'Supplier'];
         $actions    = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete'];
         foreach ($groups as $group) {
             foreach ($actions as $action) {

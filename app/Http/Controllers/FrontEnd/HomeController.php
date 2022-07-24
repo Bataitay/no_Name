@@ -32,10 +32,11 @@ class HomeController extends Controller
     //  */
     public function addToCart($id)
     {
-        dd(session()->invalidate());
+        // dd(session()->invalidate());
 
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
+        // dd($cart);
         if(isset($cart[$id])) {
             $cart[$id]['quantity']++;
         }
