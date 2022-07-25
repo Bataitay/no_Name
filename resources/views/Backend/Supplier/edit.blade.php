@@ -9,7 +9,7 @@
                         <div class="card-body">
 
                             <h4 class="card-title">Thêm nhà cung cấp</h4><br><br>
-                            <form method="post" action="{{ route('supplier.update', supplier->id) }}" id="myForm">
+                            <form method="post" action="{{ route('supplier.update', $supplier->id) }}" id="myForm">
                                 @csrf
                                 @method('PUT')
                                 <div class="row mb-3">

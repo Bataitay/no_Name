@@ -8,36 +8,35 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <h4 class="mb-4">let's go...</h4>
-                    <form action="{{ route('product.store') }}"enctype="multipart/form-data" method="POST">
+                    <form action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="nameVi">Tên sản phẩm(Vi)</label>
                                     <input type="text" value="{{ old('nameVi') }}" class="form-control"
-                                       name="nameVi" id="nameVi" placeholder=" Nhập tên sản phẩm">
+                                        name="nameVi" id="nameVi" placeholder=" Nhập tên sản phẩm">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="name">Tên sản phẩm(En)</label>
                                     <input type="text" value="{{ old('nameEn') }}" class="form-control"
-                                      name="nameEn"  id="nameEn" placeholder=" Nhập tên sản phẩm">
+                                        name="nameEn" id="nameEn" placeholder=" Nhập tên sản phẩm">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="mb-2">
                                     <label class="form-label" for="price">Giá</label>
                                     <input type="text" value="{{ old('price') }}" class="form-control"
-                                      name="price"  id="price" placeholder="Nhập Giá">
+                                        name="price" id="price" placeholder="Nhập Giá">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="mb-2">
                                     <label class="form-label" for="quantity">Số lượng</label>
                                     <input type="text" value="{{ old('quantity') }}" class="form-control"
-                                     name="quantity" id="quantity" placeholder="Nhập Số lượng">
+                                        name="quantity" id="quantity" placeholder="Nhập Số lượng">
                                 </div>
                             </div>
                         </div>
@@ -65,27 +64,16 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label class="form-label" for="photo">Ảnh sản phẩm</label>
-                                    <input type="file" class="form-control" id="photo" name="photo">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="mb-3">
                                     <label class="form-label" for="discription">Mô tả</label>
                                     <textarea name="description" class="form-control" id="discription" rows="5"></textarea>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label text-danger" for=""><i
-                                            class="mdi-archive-arrow-down"></i></label><br>
-                                    <img id="showPhoto" class="rounded w-50 h-50 avatar-lg "
-                                        src="{{ !empty($product->image) ? url('uploads/admin_img/' . $product->image) : url('uploads/no_image.jpg') }}"
-                                        alt="Card image cap">
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col-lg-3 ">
+                                <div class="mb-3 ">
+                                    <label class="form-label " for="photo">Ảnh sản phẩm</label><br><br>
+                                    <input type="file" multiple name="photo[]" id="photo" class="img-fluid d-flex"/>
                                 </div>
                             </div>
                         </div>

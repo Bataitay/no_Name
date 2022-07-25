@@ -121,13 +121,18 @@
                                             placeholder="Nhập ngày sinh "
                                             value="{{ old('day_of_birth', $user->day_of_birth) }}">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Ngày làm việc</label> <input name="start_day" type="date" class="form-control"
+                                            id="" placeholder="Nhập ngày làm việc"
+                                            value="{{ old('start_day', $user->start_day) }}">
+                                    </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Hình ảnh nhân viên</label>
                                         <input name="profile_image" class="form-control" type="file" id="image">
                                     </div>
-                                    <div class="card card-figure">
+                                    <div class="card card-figure h-50 w-100">
                                         <figure class="figure">
                                             <div class="figure-img">
                                                 <img id="showImage" class="rounded w-100 h-100 avatar-lg"
@@ -148,11 +153,7 @@
                                     id="" placeholder="Nhập địa chỉ"
                                     value="{{ old('address', $user->address) }}">
                             </div>
-                            <div class="form-group">
-                                <label>Ngày làm việc</label> <input name="start_day" type="date" class="form-control"
-                                    id="" placeholder="Nhập ngày làm việc"
-                                    value="{{ old('start_day', $user->start_day) }}">
-                            </div>
+
                             <div class="form-group">
                                 <label>Ghi chú</label> <input name="note" type="text" class="form-control"
                                     id="" placeholder="Nhập ghi chú" value="{{ old('note', $user->note) }}">

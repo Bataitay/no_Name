@@ -104,7 +104,7 @@
                                                                 id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
                                                                     class=" fas fa-trash-alt "></i></a>
                                                         @endcan
-                                                        @can('Product show')
+                                                        @can('Product view')
                                                             <a href="{{ route('product.show', $product->id) }}"
                                                                 class="btn btn-primary waves-effect waves-light"
                                                                 data-bs-toggle="modal"
@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
+            
         </div> <!-- end col -->
     </div> <!-- end row -->
 

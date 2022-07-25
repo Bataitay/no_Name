@@ -148,3 +148,9 @@ img.rounded-circle.header-profile-user.avatar-chat {
 .search_category input {
     width: 40%;
 }
+.filepond--drop-label.filepond--drop-label label {
+    display: block;
+    margin: 0;
+    padding: 0.5em;
+    font-size: 12px;
+}

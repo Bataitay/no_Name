@@ -71,7 +71,7 @@
                                                 <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
-                                                    @can('Employee eidt')
+                                                    @can('Employee update')
                                                         <a href="{{ route('category.edit', $category->id) }}"
                                                             class="btn btn-info sm" title="Edit Data"> <i
                                                                 class="fas fa-edit "></i> </a>
