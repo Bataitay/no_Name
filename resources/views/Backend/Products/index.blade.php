@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-3 ">
-                                @can('Permission create')
+                                @can('Product create')
                                     <div class="action_add">
                                         <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                             class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
@@ -92,19 +92,19 @@
                                                     <td> {{ $product->quantity }}</td>
                                                     <td>{{ $product->updated_by }} </td>
                                                     <td>
-                                                        @can('Permission update')
+                                                        @can('Product update')
                                                             <a href="{{ route('product.edit', $product->id) }}"
                                                                 class="btn btn-info sm" data-bs-toggle="modal"
                                                                 data-bs-target="#EditProduct{{ $product->id }}"> <i
                                                                     class="fas fa-edit "></i> </a>
                                                             @include('Backend.Products.edit')
                                                         @endcan
-                                                        @can('Permission delete')
+                                                        @can('Product delete')
                                                             <a data-href="{{ route('product.destroy', $product->id) }}"
                                                                 id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
                                                                     class=" fas fa-trash-alt "></i></a>
                                                         @endcan
-                                                        @can('Permission show')
+                                                        @can('Product show')
                                                             <a href="{{ route('product.show', $product->id) }}"
                                                                 class="btn btn-primary waves-effect waves-light"
                                                                 data-bs-toggle="modal"

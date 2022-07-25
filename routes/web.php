@@ -4,12 +4,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FrontEnd\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Livewire\Messages;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Stmt\Nop;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +65,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('add.to.cart');
     Route::patch('update-cart', [HomeController::class, 'update'])->name('update.cart');
     Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove.from.cart');
+    Route::get('/notification/create',[NotificationController::class,'create'])->name('notification.create');
+    Route::post('/notification/store',[NotificationController::class,'store'])->name('notification.store');
+    Route::get('/notification/readed/{id}',[NotificationController::class,'readed'])->name('notification.readed');
+
 });
 
 require __DIR__ . '/auth.php';

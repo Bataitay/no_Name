@@ -7,6 +7,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,15 +30,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
+            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
+
+            return new LengthAwarePaginator(
+                $this->forPage($page, $perPage),
+                $total ?: $this->count(),
+                $perPage,
+                $page,
+                [
+                    'path' => LengthAwarePaginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]
+            );
+        });
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
         view()->composer('*', function ($view)
         {
             $id = Auth::user()->id ?? '';
             $adminData = User::find($id);
-
+            $role = Role::find($id);
             $view->with([
                 'adminData'=> $adminData,
+                'role' => $role,
             ]);
         });
 

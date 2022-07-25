@@ -32,7 +32,9 @@ class CategoryController extends Controller
     }
     public function index()
     {
-        $categories = Category::latest()->select('*')->paginate(3);
+        $categories = Category::latest()->get()
+        ->filter(fn($category) => $category->nameVi > now()->subMonths(3))
+        ->paginate(6);
         $param = [
             'categories' => $categories,
         ];

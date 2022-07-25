@@ -22,7 +22,7 @@
                                 <div class="col-sm-12 col-md-9 ">
                                     <div class="search_category ">
                                         <label class="col-md-2 " for="">Tìm Kiếm</label>
-                                        <input class="form-control  form-control-sm " type="search" id="myInput">
+                                        <input class="form-control  form-control-sm " type="search" id="myInput" wire:model="search">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-3 ">
@@ -71,12 +71,12 @@
                                                 <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
-                                                    @can('Employee create')
+                                                    @can('Employee eidt')
                                                         <a href="{{ route('category.edit', $category->id) }}"
                                                             class="btn btn-info sm" title="Edit Data"> <i
                                                                 class="fas fa-edit "></i> </a>
                                                     @endcan
-                                                    @can('Employee create')
+                                                    @can('Employee delete')
                                                         <a href="#" id="{{ $category->id }}"
                                                             class="btn btn-danger sm deleteIcon"><i
                                                                 class=" fas fa-trash-alt "></i></a>
@@ -89,12 +89,18 @@
 
                                 </tbody>
                             </table>
-                            {{-- <ul class="pagination justify-content-end">
-                                  <li class="page-item disabled"> --}}
-                            {{ $categories->links() }}
+                            <div class="row">
+                                <div class="col-7">
+                                    Hiển thị {{ $categories->perPage() }} - {{ $categories->currentPage() }} của {{ $categories->perPage() }}
+                                </div>
+                                <div class="col-5" >
+                                    <div class="btn-group float-end">
 
-                            {{-- </li>
-                                </ul> --}}
+                                        {{ $categories->links() }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div> <!-- end col -->

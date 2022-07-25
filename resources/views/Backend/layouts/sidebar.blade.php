@@ -120,15 +120,10 @@ $adminData = App\Models\User::find($id);
 
 
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <a href="{{ route('notification.create') }}" class="has-arrow waves-effect">
                         <i class="ri-profile-line"></i>
-                        <span>Contact Message </span>
+                        <span>Thông báo</span>
                     </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">Contact Message</a></li>
-
-
-                    </ul>
                 </li>
 
 
