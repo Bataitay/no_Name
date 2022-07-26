@@ -124,6 +124,17 @@
 
                                     </tbody>
                                 </table>
+                                <div class="row">
+                                    <div class="col-7">
+                                        Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của {{ $products->lastPage() }}
+                                    </div>
+                                    <div class="col-5" >
+                                        <div class="btn-group float-end">
+
+                                            {{ $products->links() }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="softDelete" role="tabpanel">
                                 <p class="mb-0">
@@ -157,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div> <!-- end col -->
     </div> <!-- end row -->
 

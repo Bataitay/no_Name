@@ -73,7 +73,7 @@
         <div class="main-content">
             @yield('content')
             <!-- End Page-content -->
-            @if ($role->role != 'isAdmin')
+            @if ($current->role != 'isAdmin')
                 @foreach (Auth::user()->unreadNotifications as $notification)
                     <div class="alert alert-info" role="alert">
                         {{ $notification->data['title'] }} : {{ $notification->data['content'] }}
@@ -160,9 +160,21 @@
             FilePondPluginImageResize,
             FilePondPluginImageTransform
         );
-
-        const inputElement = document.querySelector("input[id ='photo']");
+        const inputElement = document.getElementById('filepond');
+        console.log(inputElement);
         const pond = FilePond.create(inputElement);
+        FilePond.setOptions({
+            server: {
+                url: '{{ route('product.store') }}',
+                process: '/',
+                revert: '/',
+                patch: "?patch=",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
+
     </script>
     <!--tinymce js-->
     <script src="{{ asset('backend/assets/libs/tinymce/tinymce.min.js') }} "></script>

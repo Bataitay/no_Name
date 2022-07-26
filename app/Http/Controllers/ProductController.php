@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use cnviradiya\LaravelFilepond\Filepond;
 
 class ProductController extends Controller
 {
@@ -33,7 +34,9 @@ class ProductController extends Controller
     }
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->get()
+        ->filter(fn($product) => $product->nameVi > now()->subMonths(3))
+        ->paginate(6);
         $categories = Category::all();
         $suppliers = Supplier::all();
         $productSD = Product::onlyTrashed()->get();
@@ -63,7 +66,7 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request, Filepond $filepond)
     {
         $product = new Product;
         $product->nameVi = $request->nameVi;
@@ -75,16 +78,25 @@ class ProductController extends Controller
         $product->supplier_id = $request->supplier_id;
         $product->created_by = Auth::user()->id;
         $product->updated_by = Carbon::now();
-        dd($_FILES);
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filenameWithExt = $request->file('photo')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('photo')->getClientOriginalExtension();
-            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
-            $path = $request->file('photo')->storeAs('public/uploads/', $fileNameToStore);
-            $product['photo'] = $fileNameToStore;
+        // dd($_FILES);
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filenameWithExt = $request->file('photo')->getClientOriginalName();
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     $extension = $request->file('photo')->getClientOriginalExtension();
+        //     $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+        //     $path = $request->file('photo')->storeAs('public/uploads/', $fileNameToStore);
+        //     $product['photo'] = $fileNameToStore;
+        // }
+        $path = $filepond->getPathFromServerId($request->input('photo')); // Here upload_file is your name of your element
+        $pathArr = explode('.', $path);
+        $imageExt = '';
+        if (is_array($pathArr)) {
+            $imageExt = end($pathArr);
         }
+        $fileName = 'photo.' . $imageExt;
+        $finalLocation = storage_path('uploads/' . $fileName);
+        \File::move($path, $finalLocation);
         try {
             $product->save();
             $notification = [

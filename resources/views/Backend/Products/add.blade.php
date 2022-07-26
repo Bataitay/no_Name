@@ -65,15 +65,15 @@
                             <div class="col-lg-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="discription">Mô tả</label>
-                                    <textarea name="description" class="form-control" id="discription" rows="5"></textarea>
+                                    <textarea name="description" class="form-control" id="discription" rows="1"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row d-flex">
-                            <div class="col-lg-3 ">
+                            <div class="col-lg-12 ">
                                 <div class="mb-3 ">
                                     <label class="form-label " for="photo">Ảnh sản phẩm</label><br><br>
-                                    <input type="file" multiple name="photo[]" id="photo" class="img-fluid d-flex"/>
+                                    <input type="file"  name="photo" id="filepond" class="img-fluid filepond" multiple/>
                                 </div>
                             </div>
                         </div>

@@ -91,7 +91,7 @@
                             </table>
                             <div class="row">
                                 <div class="col-7">
-                                    Hiển thị {{ $categories->perPage() }} - {{ $categories->currentPage() }} của {{ $categories->perPage() }}
+                                    Hiển thị {{ $categories->perPage() }} - {{ $categories->currentPage() }} của {{ $categories->lastPage() }}
                                 </div>
                                 <div class="col-5" >
                                     <div class="btn-group float-end">
