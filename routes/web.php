@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('storeprofile', 'storeprofile')->name('admin.storeprofile');
         Route::get('changepassword', 'Changepassword')->name('admin.changepassword');
         Route::post('updateprofile', 'updateprofile')->name('admin.updateprofile');
+        Route::post('uploadImage', 'uploadImage')->name('admin.uploadImage');
         Route::get('dashboard', 'dashboard')->name('admin.dashboard');
         Route::post('updatepassword', 'updatepassword')->name('admin.updatepassword');
     });
@@ -51,7 +52,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('category/{id}/categories', 'getProducts')->name('category.categories');
     });
     Route::resource('supplier', SupplierController::class);
-    Route::resource('product', ProductController::class);
+    Route::resource('/product', ProductController::class);
+    // Route::post('/update',[ProductController::class,'update']);
     Route::controller(ProductController::class)->group(function () {
         Route::get('product/trashed', 'trashed')->name('product.trashed');
         Route::get('product/restore/{id}', 'restore')->name('product.restore');
@@ -71,5 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notification/readed/{id}',[NotificationController::class,'readed'])->name('notification.readed');
 
 });
-
+Route::get('hello', function(){
+    return view('welcome');
+});
 require __DIR__ . '/auth.php';

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
 
@@ -46,8 +46,14 @@
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+<<<<<<< HEAD
     <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" ></script>
+=======
+
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
+
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
 </head>
 
 <body data-topbar="dark">
@@ -72,7 +78,7 @@
         <div class="main-content">
             @yield('content')
             <!-- End Page-content -->
-            @if ($role->role != 'isAdmin')
+            @if ($current->role != 'isAdmin')
                 @foreach (Auth::user()->unreadNotifications as $notification)
                     <div class="alert alert-info" role="alert">
                         {{ $notification->data['title'] }} : {{ $notification->data['content'] }}
@@ -81,7 +87,7 @@
                     </div>
                 @endforeach
             @endif
-
+            <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
             @include('Backend.layouts.footer')
 
 
@@ -160,6 +166,7 @@
             FilePondPluginImageResize,
             FilePondPluginImageTransform
         );
+<<<<<<< HEAD
 
         const inputElement = document.getElementById('filepond');
         console.log(inputElement);
@@ -167,6 +174,14 @@
         FilePond.setOptions({
             server: {
                 url: '{{ route('product.store') }}',
+=======
+        
+        const inputElement = document.getElementById('filepond');
+
+        const pond = FilePond.create(inputElement);
+        FilePond.setOptions({
+            server: {
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                 url: '{{ route('admin.uploadImage') }}',
                 process: '/',
                 revert: '/',
@@ -176,6 +191,10 @@
                 }
             }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
     </script>
     <!--tinymce js-->
     <script src="{{ asset('backend/assets/libs/tinymce/tinymce.min.js') }} "></script>

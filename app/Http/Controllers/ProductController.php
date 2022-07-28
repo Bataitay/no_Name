@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use cnviradiya\LaravelFilepond\Filepond;
 
 class ProductController extends Controller
 {
@@ -22,10 +23,11 @@ class ProductController extends Controller
     protected $productSD;
     function __construct()
     {
-        $this->middleware('role_or_permission:Product access|Product create|Product edit|Product delete', ['only' => ['index']]);
+        $this->middleware('role_or_permission:Product access|Product create|Product edit|Product delete', ['only' => ['index', 'show']]);
         $this->middleware('role_or_permission:Product viewAny', ['only' => ['index']]);
-        $this->middleware('role_or_permission:Product create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Product update', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Product view', ['only' => ['show']]);
+        $this->middleware('role_or_permission:Product create', ['only' => ['create', 'store']]);
+        $this->middleware('role_or_permission:Product update', ['only' => ['edit', 'update']]);
         $this->middleware('role_or_permission:Product delete', ['only' => ['destroy']]);
         $this->middleware('role_or_permission:Category forceDelete', ['only' => ['destroy']]);
         $this->middleware('role_or_permission:Category restore', ['only' => ['restore']]);
@@ -82,18 +84,29 @@ class ProductController extends Controller
         $product->supplier_id = $request->supplier_id;
         $product->created_by = Auth::user()->id;
         $product->updated_by = Carbon::now();
-        // dd($request->all());
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extention = $file->getClientOriginalExtension();
-            $fileName = time().'.'.$extention;
-            $file->move('/images/products/', $fileName);
-            $product->image = $fileName;
-        }
+        // dd($_FILES);
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filenameWithExt = $request->file('photo')->getClientOriginalName();
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     $extension = $request->file('photo')->getClientOriginalExtension();
+        //     $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+        //     $path = $request->file('photo')->storeAs('public/uploads/', $fileNameToStore);
+        //     $product['photo'] = $fileNameToStore;
+        // }
+        // $path = $filepond->getPathFromServerId($request->input('photo')); // Here upload_file is your name of your element
+        // $pathArr = explode('.', $path);
+        // $imageExt = '';
+        // if (is_array($pathArr)) {
+        //     $imageExt = end($pathArr);
+        // }
+        // $fileName = 'photo.' . $imageExt;
+        // $finalLocation = storage_path('uploads/' . $fileName);
+        // \File::move($path, $finalLocation);
         try {
             $product->save();
             $notification = [
-                'message' => 'Thêm sản phẩm'.$request->name.'thành công',
+                'message' => 'Thêm sản phẩm' . $request->name . 'thành công',
                 'alert-type' => 'success',
             ];
 
@@ -155,14 +168,14 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
-            $fileName = time().'.'.$extention;
+            $fileName = time() . '.' . $extention;
             $file->move('/images/products/', $fileName);
             $product->image = $fileName;
         }
         try {
             $product->save();
             $notification = [
-                'message' => 'Cập nhật sản phẩm'.$request->name.'thành công',
+                'message' => 'Cập nhật sản phẩm' . $request->name . 'thành công',
                 'alert-type' => 'success',
             ];
 

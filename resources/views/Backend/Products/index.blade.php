@@ -102,7 +102,7 @@
                                                                 id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
                                                                     class=" fas fa-trash-alt "></i></a>
                                                         @endcan
-                                                        @can('Product show')
+                                                        @can('Product view')
                                                             <a href="{{ route('product.show', $product->id) }}"
                                                                 class="btn btn-primary waves-effect waves-light"
                                                                 data-bs-toggle="modal"
@@ -128,6 +128,10 @@
                                     </div>
                                     <div class="col-5" >
                                         <div class="btn-group float-end">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                                             {{ $products->links() }}
                                         </div>
                                     </div>
@@ -165,7 +169,7 @@
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
+
         </div> <!-- end col -->
     </div> <!-- end row -->
 
@@ -187,7 +191,6 @@
                     let id = $(this).attr('id');
                     let href = $(this).data('href');
                     let csrf = '{{ csrf_token() }}';
-                    console.log(id);
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -206,7 +209,6 @@
                                 },
                                 success: function(res) {
                                     Swal.fire(
-                                        // console.log(res);
                                         'Deleted!',
                                         'Your file has been deleted.',
                                         'success'

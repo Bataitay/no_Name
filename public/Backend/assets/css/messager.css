@@ -148,6 +148,7 @@ img.rounded-circle.header-profile-user.avatar-chat {
 .search_category input {
     width: 40%;
 }
+<<<<<<< HEAD
 .image_photo
 {
     height: 300px;
@@ -157,3 +158,15 @@ img.rounded-circle.header-profile-user.avatar-chat {
 {
 float: right;
 } */
+=======
+.filepond--drop-label.filepond--drop-label label {
+    display: block;
+    margin: 0;
+    padding: 0.5em;
+    font-size: 12px;
+}
+.image_photo{
+    width: 300px;
+    height: 300px;
+}
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f

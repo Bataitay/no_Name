@@ -8,7 +8,11 @@
                         <th class="col-lg-4">
                             <center>
                                 <img class=" image_photo rounded-circle"
+<<<<<<< HEAD
                                  src="{{ !empty($user->image) ? asset( $user->image) : asset('uploads/no_image.jpg')}}"
+=======
+                                <img src="{{ !empty($user->image) ? asset( $user->image) : asset('uploads/no_image.jpg')}}"
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                                     alt="Card image cap">
                             </center>
                         </th>

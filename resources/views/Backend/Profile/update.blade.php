@@ -120,18 +120,29 @@
                                             value="{{ old('day_of_birth', $user->day_of_birth) }}">
                                     </div>
                                     <div class="form-group">
+<<<<<<< HEAD
                                         <label>Ngày làm việc</label> <input name="start_day" type="date"
                                             class="form-control" id="" placeholder="Nhập ngày làm việc"
+=======
+                                        <label>Ngày làm việc</label> <input name="start_day" type="date" class="form-control"
+                                            id="" placeholder="Nhập ngày làm việc"
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                                             value="{{ old('start_day', $user->start_day) }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="form-group">
+                                    <div class="form-group md-3">
                                         <label>Hình ảnh nhân viên</label>
+<<<<<<< HEAD
                                         <input type="file" name="profile_image" id="filepond"
                                             class="img-fluid filepond rounded-circle" multiple>
                                     </div>
                                     {{-- <div class="card card-figure">
+=======
+                                        <input type="file" name="profile_image" id="filepond" class="img-fluid filepond rounded-circle" multiple>
+                                    </div>
+                                    {{-- <div class="card card-figure h-50 w-100">
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                                         <figure class="figure">
                                             <div class="figure-img">
                                                 <img id="showImage" class="rounded w-100 h-100 avatar-lg"

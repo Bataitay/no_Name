@@ -50,10 +50,10 @@ class AppServiceProvider extends ServiceProvider
         {
             $id = Auth::user()->id ?? '';
             $adminData = User::find($id);
-            $role = Role::find($id);
+            $current = Role::find($id);
             $view->with([
                 'adminData'=> $adminData,
-                'role' => $role,
+                'current' => $current,
             ]);
         });
 

@@ -21,6 +21,11 @@
         "vite": "^2.9.14"
     },
     "dependencies": {
+<<<<<<< HEAD
         "filepond": "^4.30.4"
+=======
+        "filepond": "^4.30.4",
+        "jquery-filepond": "^1.0.0"
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
     }
 }

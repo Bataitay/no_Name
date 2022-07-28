@@ -70,7 +70,11 @@
                                                 <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
+<<<<<<< HEAD
                                                     @can('Category update')
+=======
+                                                    @can('Employee update')
+>>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                                                         <a href="{{ route('category.edit', $category->id) }}"
                                                             class="btn btn-info sm" title="Edit Data"> <i
                                                                 class="fas fa-edit "></i> </a>
