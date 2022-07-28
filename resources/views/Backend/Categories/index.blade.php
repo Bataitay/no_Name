@@ -27,13 +27,13 @@
                                 </div>
                                 <div class="col-sm-12 col-md-3 ">
                                     <div class="action_add">
-                                        @can('Employee create')
+                                        @can('Category create')
                                             <a href="{{ route('categories.trashed') }}"
                                                 class="btn btn-danger btn-rounded waves-effect waves-light"
                                                 style="float:right;">Thùng
                                                 rác</a>
                                         @endcan
-                                        @can('Employee create')
+                                        @can('Category create')
                                             <a href="{{ route('category.create') }}"
                                                 class="btn btn-dark btn-rounded waves-effect waves-light"
                                                 style="float:right;">Thêm Danh
@@ -71,12 +71,12 @@
                                                 <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
-                                                    @can('Employee eidt')
+                                                    @can('Category update')
                                                         <a href="{{ route('category.edit', $category->id) }}"
                                                             class="btn btn-info sm" title="Edit Data"> <i
                                                                 class="fas fa-edit "></i> </a>
                                                     @endcan
-                                                    @can('Employee delete')
+                                                    @can('Category delete')
                                                         <a href="#" id="{{ $category->id }}"
                                                             class="btn btn-danger sm deleteIcon"><i
                                                                 class=" fas fa-trash-alt "></i></a>
@@ -91,7 +91,7 @@
                             </table>
                             <div class="row">
                                 <div class="col-7">
-                                    Hiển thị {{ $categories->perPage() }} - {{ $categories->currentPage() }} của {{ $categories->perPage() }}
+                                    Hiển thị {{ $categories->perPage() }} - {{ $categories->currentPage() }} của {{ $categories->lastPage() }}
                                 </div>
                                 <div class="col-5" >
                                     <div class="btn-group float-end">

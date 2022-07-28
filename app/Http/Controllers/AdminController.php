@@ -49,15 +49,31 @@ class AdminController extends Controller
         $districts = Districts::where('province_id', $user->province_id)->get();
         $wards = Wards::where('district_id', $user->district_id)->get();
 
-        return view('Backend.Profile.update', [
-            'user' => $user,
-            'provinces' => $provinces,
-            'districts' => $districts,
-            'wards' => $wards,
-        ]
-    );
+        return view(
+            'Backend.Profile.update',
+            [
+                'user' => $user,
+                'provinces' => $provinces,
+                'districts' => $districts,
+                'wards' => $wards,
+            ]
+        );
     }
-
+    public function uploadImage(Request $request)
+    {
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filenameWithExt = $request->file('profile_image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('profile_image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('profile_image')->store('/uploads', 'public');
+            $data->image = $path;
+            $data->save();
+        }
+    }
     public function updateprofile(Request $request)
     {
         $id = Auth::user()->id;
@@ -74,14 +90,6 @@ class AdminController extends Controller
         $data->district_id = $request->district_id;
         $data->province_id = $request->province_id;
         $data->note = $request->note;
-
-        if ($request->file('profile_image')) {
-            $file = $request->file('profile_image');
-            $fileName = $file->getClientOriginalName();
-            $file->move(public_path('uploads/admin_img'), $fileName);
-            $data['image'] = $fileName;
-            // dd($data['image']);
-        }
         try {
             $data->save();
             $notification = [
@@ -120,13 +128,13 @@ class AdminController extends Controller
                 $users->password = bcrypt($request->new_password);
                 $users->save();
                 session()->flash('message', 'Change Password successFully');
-
-                return redirect()->back();
-            } else {
-                session()->flash('message', 'Old password is not correct');
-
                 return redirect()->back();
             }
+                $message ='mật khẩu không khớp';
+                return redirect()->back()->with([
+                    'message' => $message,
+                    'alert-type' =>'warning'
+                ]);
         } catch (\Throwable $e) {
             report($e);
             session()->flash('message', 'Change Password fail!');

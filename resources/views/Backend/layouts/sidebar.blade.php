@@ -9,7 +9,7 @@ $adminData = App\Models\User::find($id);
         <!-- User details -->
         <div class="user-profile text-center mt-3">
             <div class="">
-                <img src="{{ !empty($adminData->image) ? url('uploads/admin_img/' . $adminData->image) : url('uploads/no_image.jpg') }}"
+                <img src="{{ !empty($adminData->image) ? asset($adminData->image) : asset('uploads/no_image.jpg') }}"
                  alt="" class="avatar-md rounded-circle">
             </div>
             <div class="mt-3">

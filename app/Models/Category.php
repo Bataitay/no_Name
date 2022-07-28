@@ -11,8 +11,13 @@ class Category extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['nameVi', 'nameEn', 'created_by', 'updated_by'];
-    public function products(){
+    protected $fillable = ['nameVi', 'nameEn', 'created_by','supplier_id', 'updated_by'];
+    public function products()
+    {
         return $this->hasMany(Product::class);
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

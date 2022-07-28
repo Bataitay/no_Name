@@ -46,7 +46,7 @@
                             <a wire:click="getUser({{ $user->id }})" class="d-flex user_name link" href="#">
                                 <li class="list-group-item d-flex">
                                     <img class="rounded-circle header-profile-user avatar-chat"
-                                        src="{{ !empty($user->image) ? url('uploads/admin_img/' . $user->image) : url('uploads/no_image.jpg') }}"
+                                        src="{{ !empty($user->image) ? asset($user->image) : asset('uploads/no_image.jpg') }}"
                                         alt="Header Avatar">
                                     <div class="flex-1 chat-user-box overflow-hidden m-2 ">
                                         <p class="user-title m-0">{{ $user->name }}</p>
@@ -133,7 +133,7 @@
                         <div class="d-flex mb-4 header-chat " id="">
                             @if (isset($sender))
                                 <img class="rounded-circle header-profile-user "
-                                    src="{{ !empty($sender->image) ? url('uploads/admin_img/' . $sender->image) : url('uploads/no_image.jpg') }}"
+                                    src="{{ !empty($sender->image) ? asset($sender->image) : asset('uploads/no_image.jpg') }}"
                                     alt="Header Avatar">
                                 <div class="flex-1">
                                     <h5 class="font-size-14 my-1">{{ $sender->name }}</h5>
@@ -147,7 +147,7 @@
                                 </div>
                             @else
                                 <img class="rounded-circle header-profile-user avatar-chat"
-                                    src="{{ !empty($userMgs->image) ? url('uploads/admin_img/' . $userMgs->image) : url('uploads/no_image.jpg') }}"
+                                    src="{{ !empty($userMgs->image) ? asset($userMgs->image) : asset('uploads/no_image.jpg') }}"
                                     alt="Header Avatar">
                                 <div class="flex-1">
                                     <h5 class="font-size-14 my-1">{{ $userMgs->name }}</h5>
@@ -181,7 +181,7 @@
                                     @else
                                         <div class="img_user">
                                             <img class="rounded-circle header-profile-user  "
-                                                src="{{ !empty($mgs->user->image) ? url('uploads/admin_img/' . $mgs->user->image) : url('uploads/no_image.jpg') }}"
+                                                src="{{ !empty($mgs->user->image) ? asset($mgs->user->image) : asset('uploads/no_image.jpg') }}"
                                                 alt="Header Avatar">
                                         </div>
                                     @endif

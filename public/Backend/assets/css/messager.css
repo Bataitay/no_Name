@@ -148,3 +148,8 @@ img.rounded-circle.header-profile-user.avatar-chat {
 .search_category input {
     width: 40%;
 }
+.image_photo
+{
+    height: 300px;
+    width: 300px;
+}

@@ -65,7 +65,7 @@
         <div class="main-content">
             @yield('content')
             <!-- End Page-content -->
-            @if ($role->role != 'isAdmin')
+            {{-- @if ($role->role != 'isAdmin') --}}
                 @foreach (Auth::user()->unreadNotifications as $notification)
                     <div class="alert alert-info" role="alert">
                         {{ $notification->data['title'] }} : {{ $notification->data['content'] }}
@@ -73,7 +73,7 @@
                             href="{{ route('notification.readed', $notification->id) }}">Nhận</a>
                     </div>
                 @endforeach
-            @endif
+            {{-- @endif --}}
 
             @include('Backend.layouts.footer')
 
@@ -118,12 +118,19 @@
     </script>
 
     <script src="{{ asset('backend/assets/js/pages/dashboard.init.js') }}"></script>
-
+    <script src="{{ asset('backend/assets/js/handlebars.js') }}"></script>
     <!-- App js -->
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet">
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" ></script>
     <script>
         @if (Session::has('message'))
             var type = "{{ Session::get('alert-type', 'info') }}"
@@ -146,7 +153,28 @@
             }
         @endif
     </script>
-
+    <script>
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageResize,
+            FilePondPluginImageTransform
+        );
+        const inputElement = document.getElementById('filepond');
+        console.log(inputElement);
+        const pond = FilePond.create(inputElement);
+        FilePond.setOptions({
+            server: {
+                url: '{{ route('product.store') }}',
+                url: '{{ route('admin.uploadImage') }}',
+                process: '/',
+                revert: '/',
+                patch: "?patch=",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
+    </script>
     <!--tinymce js-->
     <script src="{{ asset('backend/assets/libs/tinymce/tinymce.min.js') }} "></script>
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Log;
 // use Illuminate\Pagination\CursorPaginator;
 
@@ -24,8 +25,8 @@ class CategoryController extends Controller
     {
         $this->middleware('role_or_permission:Category access|Category create|Category edit|Category delete', ['only' => ['index']]);
         $this->middleware('role_or_permission:Category viewAny', ['only' => ['index']]);
-        $this->middleware('role_or_permission:Category create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Category update', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Category create', ['only' => ['create', 'store']]);
+        $this->middleware('role_or_permission:Category update', ['only' => ['edit', 'update']]);
         $this->middleware('role_or_permission:Category delete', ['only' => ['destroy']]);
         $this->middleware('role_or_permission:Category forceDelete', ['only' => ['destroy']]);
         $this->middleware('role_or_permission:Category restore', ['only' => ['restore']]);
@@ -33,8 +34,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->get()
-        ->filter(fn($category) => $category->nameVi > now()->subMonths(3))
-        ->paginate(6);
+            ->filter(fn ($category) => $category->nameVi > now()->subMonths(3))
+            ->paginate(6);
         $param = [
             'categories' => $categories,
         ];
@@ -48,7 +49,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('Backend.Categories.add');
+        $suppliers = Supplier::all();
+        return view('Backend.Categories.add', compact('suppliers'));
     }
 
     /**
@@ -62,6 +64,7 @@ class CategoryController extends Controller
         Category::insert([
             'nameVi' => $request->nameVi,
             'nameEn' => $request->nameEn,
+            'supplier_id' => $request->supplier_id,
             'created_by' => Auth::user()->id,
             'updated_by' => Carbon::now(),
         ]);
@@ -92,8 +95,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-
-        return view('Backend.categories.edit', compact('category'));
+        $suppliers = Supplier::all();
+        return view('Backend.categories.edit', compact('category', 'suppliers'));
     }
 
     /**
@@ -105,12 +108,13 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        Category::findOrFail($id)->update([
-            'nameVi' => $request->nameVi,
-            'nameEn' => $request->nameEn,
-            'created_by' => Auth::user()->id,
-            'updated_by' => Carbon::now(),
-        ]);
+        $category = Category::findOrFail($id);
+        $category->nameVi = $request->nameVi;
+        $category->nameEn = $request->nameEn;
+        $category->supplier_id  = $request->supplier_id;
+        $category->created_by = Auth::user()->id;
+        $category->updated_by = Carbon::now();
+        $category->save();
         $notification = array(
             'message' => 'Cập nhật danh mục' . $request->name . 'thành công',
             'alert-type' => 'success'
@@ -126,7 +130,7 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id=$request['id'];
+        $id = $request['id'];
         Category::where('id', $id)->delete();
 
         return response()->json(['category' => 'delete success']);
@@ -134,7 +138,7 @@ class CategoryController extends Controller
 
     public function trashed()
     {
-        $categories = Category::withTrashed()->get();
+        $categories = Category::onlyTrashed()->get();
 
         return view('Backend.categories.softDelete', compact('categories'));
     }
@@ -168,7 +172,6 @@ class CategoryController extends Controller
             return redirect()->route('categories.trashed')->with('message', 'delete ' . ' ' . $categories->name . ' ' . 'error');
         }
 
-        return view('Backend.categories.softdelete', compact('categories'));
     }
     // public function getCategorys($id){
     //     if($id!=0){

@@ -56,7 +56,7 @@ class SupplierController extends Controller
                 'address' => $request->address,
             ]);
             $notification = [
-                'message' => 'Thêm nhà cung cấp'.$request->name.'thành công',
+                'message' => 'Thêm nhà cung cấp thành công',
                 'alert-type' => 'success',
             ];
 
@@ -92,7 +92,6 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $supplier = Supplier::find($id);
-
         return view('Backend.Supplier.edit', compact('supplier'));
     }
 
@@ -105,14 +104,14 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, $id)
     {
-        Supplier::findOrFail($id)->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'address' => $request->address,
-        ]);
+        $supplier = Supplier::findOrFail($id);
+        $supplier->name = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->email  = $request->email;
+        $supplier->address = $request->address;
+        $supplier->save();
         $notification = [
-            'message' => 'Cập nhật nhà cung cấp'.$request->name.'thành công',
+            'message' => 'Cập nhật nhà cung cấp thành công',
             'alert-type' => 'success',
         ];
 

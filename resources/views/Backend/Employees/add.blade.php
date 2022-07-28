@@ -1,5 +1,6 @@
 @extends('Backend.master')
 @section('content')
+<script src="https://cdn.tailwindcss.com"></script>
     <div class="page-content">
         <div class="container-fluid">
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">

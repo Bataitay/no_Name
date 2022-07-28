@@ -13,4 +13,8 @@ class Supplier extends Model
 
     // protected $primaryKey = ['id'];
     protected $fillable = ['name', 'email', 'phone', 'address'];
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }

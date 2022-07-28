@@ -2,21 +2,19 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-
                             <h4 class="card-title">Thêm nhà cung cấp</h4><br><br>
-                            <form method="post" action="{{ route('supplier.update', supplier->id) }}" id="myForm">
+                            <form method="post" action="{{ route('supplier.update', $supplier->id) }}" id="myForm">
                                 @csrf
                                 @method('PUT')
                                 <div class="row mb-3">
                                     <label for="example-text-input"
                                         class="col-sm-2 col-form-label ">Tên nhà cung cấp</label>
                                     <div class="form-group col-sm-10">
-                                        <input name="name" class="form-control" type="text" value="{{ old('name',$supplier->name) }}">
+                                        <input name="name" class="form-control" type="text" value="{{ $supplier->name }}">
                                         @error('name')
                                             <div  class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}</div>
                                         @enderror
@@ -26,7 +24,7 @@
                                     <label for="example-text-input"
                                         class="col-sm-2 col-form-label ">Điện thoại</label>
                                     <div class="form-group col-sm-10">
-                                        <input name="phone" class="form-control" type="number" value="{{ old('phone', $supplier->phone) }}">
+                                        <input name="phone" class="form-control" type="number" value="{{ $supplier->phone }}">
                                         @error('phone')
                                             <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}</div>
                                         @enderror
@@ -36,7 +34,7 @@
                                     <label for="example-text-input"
                                         class="col-sm-2 col-form-label ">E-mail</label>
                                     <div class="form-group col-sm-10">
-                                        <input name="email" class="form-control" type="text" value="{{ old('email',$supplier->email) }}">
+                                        <input name="email" class="form-control" type="text" value="{{ $supplier->email }}">
                                         @error('email')
                                             <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}</div>
                                         @enderror

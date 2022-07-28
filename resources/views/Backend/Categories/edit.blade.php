@@ -9,9 +9,6 @@
                         <div class="card-body">
 
                             <h4 class="card-title">Chỉnh Sửa danh mục</h4><br><br>
-
-
-
                             <form method="post" action="{{ route('category.update', $category->id) }}" id="myForm">
                                 @csrf
                                 @method('PUT')
@@ -37,6 +34,23 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">Tên nhà cung cấp</label>
+                                    {{-- {{ dd($category->supplier_id  ) }} --}}
+                                    <div class="form-group col-sm-10">
+                                        <select id="supplier_id " name="supplier_id" class="form-select"
+                                            aria-label="Default select example">
+                                            <option selected="">Chọn nhà cung cấp</option>
+                                            @foreach ($suppliers as $supp)
+                                                <option value="{{ $supp->id }}"
+                                                   @if ($category->supplier_id == $supp->id)
+                                                     selected
+                                                   @endif
+                                                    >{{ $supp->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- end row -->
 
                                 <a class="btn btn-danger waves-effect waves-light"
@@ -56,5 +70,5 @@
         </div>
     </div>
 
-    
+
 @endsection

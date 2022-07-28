@@ -24,8 +24,8 @@ class UpdateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'nameVi' => 'required|unique:categories|max:255',
-            'nameEn' => 'required|unique:categories|max:255',
+            'nameVi' => 'required|max:255',
+            'nameEn' => 'required|max:255',
         ];
     }
 
@@ -33,7 +33,6 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'required' => 'Bạn chưa nhập tên danh mục.',
-            'unique' => 'Tên danh mục đã tồn tại.',
             'max' => 'Tên danh mục không được quá 255 từ.',
         ];
     }

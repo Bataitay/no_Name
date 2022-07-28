@@ -24,9 +24,9 @@ class UpdateSupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:categories|max:255',
-            'phone' => 'required|unique:categories|max:11',
-            'email' => 'required|email|unique:categories|max:11',
+            'name' => 'required|unique:suppliers|max:255',
+            'phone' => 'required|unique:suppliers|max:11',
+            'email' => 'required|email|unique:suppliers',
             'address' => 'required|max:255',
         ];
     }
@@ -36,7 +36,8 @@ class UpdateSupplierRequest extends FormRequest
         return [
             'required' => 'Bạn chưa nhập tên nhà cung cấp.',
             'unique' => 'Tên nhà cung cấp đã tồn tại.',
-            'max' => 'Tên nhà cung cấp không được quá 255 từ.',
+            'name.max' => 'Tên nhà cung cấp không được quá 255 từ.',
+            'phone.max' => 'Số điện thoại không được quá 255 từ.',
             'email' => 'Định dạng email phải là: xxxx@gmail.com',
         ];
     }

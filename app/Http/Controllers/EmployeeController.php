@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -37,7 +38,11 @@ class EmployeeController extends Controller
         'password' => bcrypt($request->password),
         ]);
         $employee->syncRoles($request->roles);
-        return redirect()->route('employee.index')->withSuccess('Added ployee successfully!!!');
+        $notification = array(
+            'message' =>'Thêm nhân viên thành công',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('employee.index')->with($notification);
     }
     public function show($id){
 
