@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->string('role')->default('0');
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('total');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('roles', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             //
         });
     }

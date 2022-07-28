@@ -37,6 +37,18 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">Tên nhà cung cấp</label>
+                                    <div class="form-group col-sm-10">
+                                        <select id="supplier_id" name="supplier_id" class="form-select"
+                                            aria-label="Default select example">
+                                            <option selected="">Chọn nhà cung cấp</option>
+                                            @foreach ($category->supplier as $supp)
+                                                <option value="{{ $supp->id }}">{{ $supp->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- end row -->
 
                                 <a class="btn btn-danger waves-effect waves-light"
@@ -56,5 +68,5 @@
         </div>
     </div>
 
-    
+
 @endsection

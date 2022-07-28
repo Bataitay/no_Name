@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(AdminController::class)->group(function () {
         Route::get('logout', 'destroy')->name('admin.logout');
         Route::get('profile', 'profile')->name('admin.profile');
+        Route::post('uploadImage', 'uploadImage')->name('admin.uploadImage');
         Route::get('storeprofile', 'storeprofile')->name('admin.storeprofile');
         Route::get('changepassword', 'Changepassword')->name('admin.changepassword');
         Route::post('updateprofile', 'updateprofile')->name('admin.updateprofile');

@@ -32,7 +32,9 @@ class ProductController extends Controller
     }
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->get()
+        ->filter(fn($product) => $product->nameVi > now()->subMonths(3))
+        ->paginate(6);
         $categories = Category::all();
         $suppliers = Supplier::all();
         $productSD = Product::onlyTrashed()->get();
@@ -53,7 +55,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('Backend.Products.add');
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+        $param = [
+            'categories' => $categories,
+            'suppliers' => $suppliers,
+        ];
+        return view('Backend.Products.add', $param);
     }
 
     /**

@@ -81,6 +81,7 @@ class AdminSeeder extends Seeder
         foreach ($groups as $group) {
             foreach ($actions as $action) {
                 $permission = Permission::create([
+                    'group_name' => $group,
                     'name' => $group . ' ' . $action,
 
                 ]);
@@ -90,25 +91,6 @@ class AdminSeeder extends Seeder
         $writer->assignRole($writer_role);
         $manager->assignRole($manager_role);
         $admin_role->givePermissionTo(Permission::all());
-        $category = Category::create([
-            'nameVi' => 'Cơm',
-            'nameEn' => 'Rice',
-            'updated_by' => Carbon::now(),
-        ]);
-        $category = Category::create([
-            'nameVi' => 'Thịt',
-            'nameEn' => 'Meat',
-            'updated_by' => Carbon::now(),
-        ]);
-        $category = Category::create([
-            'nameVi' => 'Cá',
-            'nameEn' => 'Fish',
-            'updated_by' => Carbon::now(),
-        ]);
-        $category = Category::create([
-            'nameVi' => 'Rau củ',
-            'nameEn' => 'Vegetable',
-            'updated_by' => Carbon::now(),
-        ]);
+       
     }
 }

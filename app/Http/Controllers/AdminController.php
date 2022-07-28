@@ -57,7 +57,22 @@ class AdminController extends Controller
         ]
     );
     }
+    public function uploadImage(Request $request)
+    {
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filenameWithExt = $request->file('profile_image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('profile_image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('profile_image')->store('/uploads', 'public');
+            $data->image = $path;
+            $data->save();
+        }
 
+    }
     public function updateprofile(Request $request)
     {
         $id = Auth::user()->id;
@@ -74,14 +89,6 @@ class AdminController extends Controller
         $data->district_id = $request->district_id;
         $data->province_id = $request->province_id;
         $data->note = $request->note;
-
-        if ($request->file('profile_image')) {
-            $file = $request->file('profile_image');
-            $fileName = $file->getClientOriginalName();
-            $file->move(public_path('uploads/admin_img'), $fileName);
-            $data['image'] = $fileName;
-            // dd($data['image']);
-        }
         try {
             $data->save();
             $notification = [

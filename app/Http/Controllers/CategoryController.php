@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Log;
 // use Illuminate\Pagination\CursorPaginator;
 
@@ -48,7 +49,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('Backend.Categories.add');
+        $suppliers = Supplier::all();
+        return view('Backend.Categories.add', compact('suppliers'));
     }
 
     /**
@@ -62,6 +64,7 @@ class CategoryController extends Controller
         Category::insert([
             'nameVi' => $request->nameVi,
             'nameEn' => $request->nameEn,
+            'supplier_id' => $request->supplier_id,
             'created_by' => Auth::user()->id,
             'updated_by' => Carbon::now(),
         ]);

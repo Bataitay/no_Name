@@ -27,10 +27,8 @@
                             <div class="col-sm-12 col-md-3 ">
                                 @can('Product create')
                                     <div class="action_add">
-                                        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                            class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
+                                        <a href="{{ route('product.create') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
                                             Sản phẩm</a>
-                                        @include('Backend.Products.add')
                                     </div>
                                 @endcan
                             </div>
@@ -124,6 +122,16 @@
 
                                     </tbody>
                                 </table>
+                                <div class="row">
+                                    <div class="col-7">
+                                        Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của {{ $products->lastPage() }}
+                                    </div>
+                                    <div class="col-5" >
+                                        <div class="btn-group float-end">
+                                            {{ $products->links() }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="softDelete" role="tabpanel">
                                 <p class="mb-0">

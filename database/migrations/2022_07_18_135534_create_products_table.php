@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('photo');
             $table->string('description');
             $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->timestamps();
         });
     }
