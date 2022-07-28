@@ -66,7 +66,7 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request, Filepond $filepond)
+    public function store(StoreProductRequest $request)
     {
         $product = new Product;
         $product->nameVi = $request->nameVi;
@@ -88,15 +88,15 @@ class ProductController extends Controller
         //     $path = $request->file('photo')->storeAs('public/uploads/', $fileNameToStore);
         //     $product['photo'] = $fileNameToStore;
         // }
-        $path = $filepond->getPathFromServerId($request->input('photo')); // Here upload_file is your name of your element
-        $pathArr = explode('.', $path);
-        $imageExt = '';
-        if (is_array($pathArr)) {
-            $imageExt = end($pathArr);
-        }
-        $fileName = 'photo.' . $imageExt;
-        $finalLocation = storage_path('uploads/' . $fileName);
-        \File::move($path, $finalLocation);
+        // $path = $filepond->getPathFromServerId($request->input('photo')); // Here upload_file is your name of your element
+        // $pathArr = explode('.', $path);
+        // $imageExt = '';
+        // if (is_array($pathArr)) {
+        //     $imageExt = end($pathArr);
+        // }
+        // $fileName = 'photo.' . $imageExt;
+        // $finalLocation = storage_path('uploads/' . $fileName);
+        // \File::move($path, $finalLocation);
         try {
             $product->save();
             $notification = [

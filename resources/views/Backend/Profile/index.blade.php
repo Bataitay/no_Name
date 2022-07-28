@@ -7,8 +7,8 @@
                     <tr>
                         <th class="col-lg-4">
                             <center>
-                                <img class="w-100"
-                                    src="{{ !empty($user->image) ? url('uploads/admin_img/' . $user->image) : url('uploads/no_image.jpg') }}"
+                                <img class=" image_photo rounded-circle"
+                                <img src="{{ !empty($user->image) ? asset( $user->image) : asset('uploads/no_image.jpg')}}"
                                     alt="Card image cap">
                             </center>
                         </th>

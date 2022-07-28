@@ -60,7 +60,7 @@
                   <button  class="btn header-item waves-effect" id="page-header-user-dropdown"
                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img class="rounded-circle header-profile-user"
-                          src="{{ !empty($adminData->image) ? url('uploads/admin_img/' . $adminData->image) : url('uploads/no_image.jpg') }}"
+                          src="{{ !empty($adminData->image) ? asset( $adminData->image) : asset('uploads/no_image.jpg') }}"
                           alt="Header Avatar">
                       <span class="d-none d-xl-inline-block ms-1">{{ $adminData->name ?? 'user_Name' }}</span>
                       <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

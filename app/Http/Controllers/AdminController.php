@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use cnviradiya\LaravelFilepond\Filepond;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -49,17 +51,36 @@ class AdminController extends Controller
         $districts = Districts::where('province_id', $user->province_id)->get();
         $wards = Wards::where('district_id', $user->district_id)->get();
 
-        return view('Backend.Profile.update', [
-            'user' => $user,
-            'provinces' => $provinces,
-            'districts' => $districts,
-            'wards' => $wards,
-        ]
-    );
+        return view(
+            'Backend.Profile.update',
+            [
+                'user' => $user,
+                'provinces' => $provinces,
+                'districts' => $districts,
+                'wards' => $wards,
+            ]
+        );
+    }
+    public function uploadImage(Request $request)
+    {
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filenameWithExt = $request->file('profile_image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('profile_image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('profile_image')->store('/uploads', 'public');
+            $data->image = $path;
+            $data->save();
+        }
+
     }
 
     public function updateprofile(Request $request)
     {
+
         $id = Auth::user()->id;
         $data = User::find($id);
         $data->name = $request->name;
@@ -75,13 +96,17 @@ class AdminController extends Controller
         $data->province_id = $request->province_id;
         $data->note = $request->note;
 
-        if ($request->file('profile_image')) {
-            $file = $request->file('profile_image');
-            $fileName = $file->getClientOriginalName();
-            $file->move(public_path('uploads/admin_img'), $fileName);
-            $data['image'] = $fileName;
-            // dd($data['image']);
-        }
+
+
+        // $path = $filepond->getPathFromServerId($request->input('profile_image')); // Here upload_file is your name of your element
+        // $pathArr = explode('.', $path);
+        // $imageExt = '';
+        // if (is_array($pathArr)) {
+        //     $imageExt = end($pathArr);
+        // }
+        // $fileName = 'profile_image.' . $imageExt;
+        // $finalLocation = storage_path('uploads/' . $fileName);
+        // \File::move($path, $finalLocation);
         try {
             $data->save();
             $notification = [

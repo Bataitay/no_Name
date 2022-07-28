@@ -154,3 +154,7 @@ img.rounded-circle.header-profile-user.avatar-chat {
     padding: 0.5em;
     font-size: 12px;
 }
+.image_photo{
+    width: 300px;
+    height: 300px;
+}

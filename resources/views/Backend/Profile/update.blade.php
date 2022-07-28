@@ -128,11 +128,11 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="form-group">
+                                    <div class="form-group md-3">
                                         <label>Hình ảnh nhân viên</label>
-                                        <input name="profile_image" class="form-control" type="file" id="image">
+                                        <input type="file" name="profile_image" id="filepond" class="img-fluid filepond rounded-circle" multiple>
                                     </div>
-                                    <div class="card card-figure h-50 w-100">
+                                    {{-- <div class="card card-figure h-50 w-100">
                                         <figure class="figure">
                                             <div class="figure-img">
                                                 <img id="showImage" class="rounded w-100 h-100 avatar-lg"
@@ -143,7 +143,7 @@
                                                 </a>
                                             </div>
                                         </figure>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                             </div>

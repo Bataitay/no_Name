@@ -160,12 +160,13 @@
             FilePondPluginImageResize,
             FilePondPluginImageTransform
         );
+        
         const inputElement = document.getElementById('filepond');
-        console.log(inputElement);
+
         const pond = FilePond.create(inputElement);
         FilePond.setOptions({
             server: {
-                url: '{{ route('product.store') }}',
+                url: '{{ route('admin.uploadImage') }}',
                 process: '/',
                 revert: '/',
                 patch: "?patch=",

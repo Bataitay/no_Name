@@ -190,7 +190,6 @@
                     let id = $(this).attr('id');
                     let href = $(this).data('href');
                     let csrf = '{{ csrf_token() }}';
-                    console.log(id);
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -209,7 +208,6 @@
                                 },
                                 success: function(res) {
                                     Swal.fire(
-                                        // console.log(res);
                                         'Deleted!',
                                         'Your file has been deleted.',
                                         'success'
