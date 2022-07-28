@@ -46,14 +46,9 @@
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
-<<<<<<< HEAD
     <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" ></script>
-=======
 
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
-
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
 </head>
 
 <body data-topbar="dark">
@@ -166,22 +161,12 @@
             FilePondPluginImageResize,
             FilePondPluginImageTransform
         );
-<<<<<<< HEAD
 
-        const inputElement = document.getElementById('filepond');
-        console.log(inputElement);
-        const pond = FilePond.create(inputElement);
-        FilePond.setOptions({
-            server: {
-                url: '{{ route('product.store') }}',
-=======
-        
         const inputElement = document.getElementById('filepond');
 
         const pond = FilePond.create(inputElement);
         FilePond.setOptions({
             server: {
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
                 url: '{{ route('admin.uploadImage') }}',
                 process: '/',
                 revert: '/',
@@ -191,10 +176,8 @@
                 }
             }
         });
-<<<<<<< HEAD
-=======
 
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
+
     </script>
     <!--tinymce js-->
     <script src="{{ asset('backend/assets/libs/tinymce/tinymce.min.js') }} "></script>

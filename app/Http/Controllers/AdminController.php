@@ -77,22 +77,6 @@ class AdminController extends Controller
         }
 
     }
-    public function uploadImage(Request $request)
-    {
-        $id = Auth::user()->id;
-        $data = User::find($id);
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-            $filenameWithExt = $request->file('profile_image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('profile_image')->getClientOriginalExtension();
-            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
-            $path = 'storage/' . $request->file('profile_image')->store('/uploads', 'public');
-            $data->image = $path;
-            $data->save();
-        }
-
-    }
     public function updateprofile(Request $request)
     {
 
@@ -110,21 +94,6 @@ class AdminController extends Controller
         $data->district_id = $request->district_id;
         $data->province_id = $request->province_id;
         $data->note = $request->note;
-<<<<<<< HEAD
-=======
-
-
-
-        // $path = $filepond->getPathFromServerId($request->input('profile_image')); // Here upload_file is your name of your element
-        // $pathArr = explode('.', $path);
-        // $imageExt = '';
-        // if (is_array($pathArr)) {
-        //     $imageExt = end($pathArr);
-        // }
-        // $fileName = 'profile_image.' . $imageExt;
-        // $finalLocation = storage_path('uploads/' . $fileName);
-        // \File::move($path, $finalLocation);
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
         try {
             $data->save();
             $notification = [

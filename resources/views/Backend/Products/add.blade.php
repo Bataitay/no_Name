@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('Backend.master')
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,84 +46,7 @@
                                         <input type="submit" class="btn btn-secondary btn-rounded waves-effect waves-light"
                                             value="Thêm cột">
                                     </div>
-=======
-<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Thêm sản phẩm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="nameVi">Tên sản phẩm(Vi)</label>
-                                    <input type="text" value="{{ old('nameVi') }}" class="form-control"
-                                        name="nameVi" id="nameVi" placeholder=" Nhập tên sản phẩm">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Tên sản phẩm(En)</label>
-                                    <input type="text" value="{{ old('nameEn') }}" class="form-control"
-                                        name="nameEn" id="nameEn" placeholder=" Nhập tên sản phẩm">
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="mb-2">
-                                    <label class="form-label" for="price">Giá</label>
-                                    <input type="text" value="{{ old('price') }}" class="form-control"
-                                        name="price" id="price" placeholder="Nhập Giá">
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="mb-2">
-                                    <label class="form-label" for="quantity">Số lượng</label>
-                                    <input type="text" value="{{ old('quantity') }}" class="form-control"
-                                        name="quantity" id="quantity" placeholder="Nhập Số lượng">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Nhà cung cấp</label>
-                                    <select class="form-select" name="supplier_id">
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="email">Danh mục(Vi-En)</label>
-                                    <select class="form-select" name="category_id">
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">
-                                                {{ $category->nameVi }}-{{ $category->nameEn }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="discription">Mô tả</label>
-                                    <textarea name="description" class="form-control" id="discription" rows="1"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row d-flex">
-                            <div class="col-lg-12 ">
-                                <div class="mb-3 ">
-                                    <label class="form-label " for="photo">Ảnh sản phẩm</label><br><br>
-                                    <input type="file"  name="photo" id="filepond" class="img-fluid filepond" multiple/>
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
+
                                 </div>
 
 
