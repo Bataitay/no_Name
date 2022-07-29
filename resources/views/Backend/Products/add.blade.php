@@ -48,7 +48,8 @@
                                 <div class="card-body">
                                     <form method="" action="">
                                         @csrf
-                                        <table class="table-sm table-bordered" width="100%" style="border-color: #ddd;">
+                                        <table  class="table table-bordered dt-responsive nowrap text-center align-middle dataTable no-footer dtr-inline"
+                                        style="border-color: #ddd; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th>Danh mục</th>
@@ -137,7 +138,6 @@
                         if (category_id == '') {
                             $('#category_id').notify("Danh mục không được để trống", {
                                 position:"top left",
-
                             });
                             return false;
                         }
@@ -148,10 +148,34 @@
                             category_name:category_name,
                             category_id:category_id,
                         };
-                        console.log(data);
                         var html = tamplate(data);
                         $('#addRow').append(html);
                     });
+                    $(document).on("click", ".removeeventmore ", function(event){
+                        $(this).closest(".delete_add_more_item").remove();
+                        totalAll();
+                    })
+
+                    $(document).on('keyup','.quantity, .price', function(event){
+                        var quantity = $(this).closest('tr').find('input.quantity').val();
+                        var price = $(this).closest('tr').find('input.price').val();
+                        var total = quantity * price;
+                        // console.log(total);
+                        $(this).closest('tr').find('input.total').val(total);
+                        totalAll();
+                    });
+                    function totalAll(){
+                        var sum = 0;
+                        $('.total').each(function(){
+                            var value = $(this).val();
+                            console.log(value);
+                            if(!isNaN(value) && value.length != 0){
+                                sum += parseFloat(value);
+                                console.log(sum);
+                            }
+                        });
+                        $('#estimated_amount').val(sum);
+                    }
                 });
             </script>
 
@@ -172,9 +196,7 @@
                             },
                             success: function(data) {
                                 var html = '<option value="">Chọn danh mục</option>';
-                                console.log(data);
                                 $.each(data, function(key, v) {
-                                    // console.log(v.id);
                                     html += '<option value=" ' + v.id + ' ">' + v.nameEn + '-' + v.nameVi+'</option>';
                                 });
                                 $('#category_id').html(html);

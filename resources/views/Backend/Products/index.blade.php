@@ -27,19 +27,12 @@
                             <div class="col-sm-12 col-md-3 ">
                                 @can('Product create')
                                     <div class="action_add">
-<<<<<<< HEAD
                                         <a href="{{ route('product.create') }}"
                                             class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
                                             Sản phẩm</a>
                                     @endcan
                                 </div>
 
-=======
-                                        <a href="{{ route('product.create') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
-                                            Sản phẩm</a>
-                                    </div>
-                                @endcan
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
                             </div>
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
@@ -119,47 +112,15 @@
                                                                 @include('Backend.Products.show')
                                                             @endcan
 
-<<<<<<< HEAD
                                                         </td>
                                                     </tr>
                                                 @endforeach
                                             @else
                                                 <tr>
                                                     <td colspan="6">Chưa có dữ liệu...</td>
-=======
-                                                    <td> {{ $product->id }}</td>
-                                                    <td>{{ $product->nameVi }} </td>
-                                                    <td>{{ $product->nameEn }} </td>
-                                                    <td> {{ $product->quantity }}</td>
-                                                    <td>{{ $product->updated_by }} </td>
-                                                    <td>
-                                                        @can('Product update')
-                                                            <a href="{{ route('product.edit', $product->id) }}"
-                                                                class="btn btn-info sm" data-bs-toggle="modal"
-                                                                data-bs-target="#EditProduct{{ $product->id }}"> <i
-                                                                    class="fas fa-edit "></i> </a>
-                                                            @include('Backend.Products.edit')
-                                                        @endcan
-                                                        @can('Product delete')
-                                                            <a data-href="{{ route('product.destroy', $product->id) }}"
-                                                                id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
-                                                                    class=" fas fa-trash-alt "></i></a>
-                                                        @endcan
-                                                        @can('Product view')
-                                                            <a href="{{ route('product.show', $product->id) }}"
-                                                                class="btn btn-primary waves-effect waves-light"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target=".bs-example-modal-lg{{ $product->id }}"><i
-                                                                    class="ri-eye-close-fill"></i></a>
-                                                            @include('Backend.Products.show')
-                                                        @endcan
-
-                                                    </td>
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
                                                 </tr>
                                             @endif
 
-<<<<<<< HEAD
                                         </tbody>
                                     </table>
                                     <div class="row">
@@ -176,28 +137,6 @@
                                 <div class="tab-pane" id="softDelete" role="tabpanel">
                                     <p class="mb-0">
                                         @include('Backend.Products.softDelete')
-=======
-                                    </tbody>
-                                </table>
-                                <div class="row">
-                                    <div class="col-7">
-                                        Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của {{ $products->lastPage() }}
-                                    </div>
-                                    <div class="col-5" >
-                                        <div class="btn-group float-end">
-<<<<<<< HEAD
-=======
-
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
-                                            {{ $products->links() }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="softDelete" role="tabpanel">
-                                <p class="mb-0">
-                                    @include('Backend.Products.softDelete')
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
 
                                     </p>
                                 </div>
@@ -227,23 +166,15 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
                 <!-- end page title -->
             </div> <!-- end col -->
         </div> <!-- end row -->
-=======
-            </div>
-
-        </div> <!-- end col -->
-    </div> <!-- end row -->
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
 
 
         </head>
 
         <body>
 
-<<<<<<< HEAD
     </div> <!-- container-fluid -->
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
@@ -282,44 +213,6 @@
                                     'success'
                                 )
                                 $('.item-' + id).remove();
-=======
-        </div> <!-- container-fluid -->
-        </div>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js'></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @isset($product)
-            <script>
-                $(document).on('click', '.deleteIcon', function(e) {
-                    e.preventDefault();
-                    let id = $(this).attr('id');
-                    let href = $(this).data('href');
-                    let csrf = '{{ csrf_token() }}';
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: href,
-                                method: 'delete',
-                                data: {
-                                    _token: csrf
-                                },
-                                success: function(res) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Your file has been deleted.',
-                                        'success'
-                                    )
-                                    $('.item-' + id).remove();
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
 
                             }
 
