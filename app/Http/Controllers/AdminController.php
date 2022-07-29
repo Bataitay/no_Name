@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use cnviradiya\LaravelFilepond\Filepond;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -76,6 +78,7 @@ class AdminController extends Controller
     }
     public function updateprofile(Request $request)
     {
+
         $id = Auth::user()->id;
         $data = User::find($id);
         $data->name = $request->name;

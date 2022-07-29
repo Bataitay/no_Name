@@ -12,24 +12,26 @@
                                 @csrf
 
                                 <div class="row mb-3">
-                                    <label for="example-text-input"
-                                        class="col-sm-2 col-form-label ">Tên danh
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">Tên danh
                                         mục(Vi)</label>
                                     <div class="form-group col-sm-10">
-                                        <input name="nameVi" class="form-control" type="text" value="{{ old('nameVi') }}">
+                                        <input name="nameVi" class="form-control" type="text"
+                                            value="{{ old('nameVi') }}">
                                         @error('nameVi')
-                                            <div  class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}</div>
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="example-text-input"
-                                        class="col-sm-2 col-form-label ">Tên danh
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">Tên danh
                                         mục(En)</label>
                                     <div class="form-group col-sm-10">
-                                        <input name="nameEn" class="form-control" type="text" value="{{ old('nameEn') }}">
+                                        <input name="nameEn" class="form-control" type="text"
+                                            value="{{ old('nameEn') }}">
                                         @error('nameEn')
-                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}</div>
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                 </div>
@@ -57,6 +59,4 @@
             </div>
         </div>
     </div>
-
-
 @endsection

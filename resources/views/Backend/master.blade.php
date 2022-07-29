@@ -9,14 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
 
     <!-- jquery.vectormap css -->
     <link href="{{ asset('backend/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
         rel="stylesheet" type="text/css" />
-
     <!-- DataTables -->
     <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}"
         rel="stylesheet" type="text/css" />
@@ -40,6 +39,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet">
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" ></script>
 
 </head>
 
@@ -82,17 +89,11 @@
         <!-- end main content-->
 
     </div>
-    <!-- END layout-wrapper -->
-
-    <!-- Right Sidebar -->
-
-    <!-- /Right-bar -->
-
-    <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/handlebars.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/simplebar/simplebar.min.js') }}"></script>

@@ -112,9 +112,7 @@
                                             Female
                                             {{-- <label class="custom-control-label" for="rd2">Nữ</label> --}}
                                         </div>
-
                                     </div>
-
                                     <div class="form-group">
                                         <label>Ngày sinh <noscript></noscript></label>
                                         <input name="day_of_birth" type="date" class="form-control" id=""
@@ -122,13 +120,13 @@
                                             value="{{ old('day_of_birth', $user->day_of_birth) }}">
                                     </div>
                                     <div class="form-group">
-                                        <label>Ngày làm việc</label> <input name="start_day" type="date" class="form-control"
-                                            id="" placeholder="Nhập ngày làm việc"
+                                        <label>Ngày làm việc</label> <input name="start_day" type="date"
+                                            class="form-control" id="" placeholder="Nhập ngày làm việc"
                                             value="{{ old('start_day', $user->start_day) }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="form-group">
+                                    <div class="form-group md-3">
                                         <label>Hình ảnh nhân viên</label>
                                         <input type="file" name="profile_image" id="filepond"
                                             class="img-fluid filepond rounded-circle" multiple>

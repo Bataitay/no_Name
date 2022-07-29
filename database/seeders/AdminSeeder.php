@@ -91,6 +91,10 @@ class AdminSeeder extends Seeder
         $writer->assignRole($writer_role);
         $manager->assignRole($manager_role);
         $admin_role->givePermissionTo(Permission::all());
+<<<<<<< HEAD
         
+=======
+       
+>>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
     }
 }

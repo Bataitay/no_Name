@@ -8,9 +8,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-
                             <h4 class="card-title">Thêm sản phẩm</h4><br><br>
-
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="md-3">
@@ -143,7 +141,6 @@
                             });
                             return false;
                         }
-
                         var source = $("#document-template").html();
                         var tamplate = Handlebars.compile(source);
                         var data = {
