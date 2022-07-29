@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('product/trashed', 'trashed')->name('product.trashed');
         Route::get('product/restore/{id}', 'restore')->name('product.restore');
         Route::get('product/forceDelete/{id}', 'forceDelete')->name('product.forceDelete');
+        Route::get('get-category', 'getCategory')->name('get-category');
     });
     Route::resource('roles', RoleController::class);
     Route::resource('permission', PermissionController::class);

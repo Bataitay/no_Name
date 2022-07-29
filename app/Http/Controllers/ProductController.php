@@ -10,6 +10,7 @@ use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -225,5 +226,10 @@ class ProductController extends Controller
     public function DeleteForever($id)
     {
         Product::onlyTrashed()->where('deleted_at', '<', Carbon::now()->subMinutes(1)->toDateTimeString())->forceDelete();
+    }
+    public function getCategory(Request $request){
+        $supplier_id = $request->supplier_id;
+        $allcategory = Category::where('supplier_id',$supplier_id)->get();
+       return response()->json($allcategory);
     }
 }

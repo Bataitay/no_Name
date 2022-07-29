@@ -153,3 +153,7 @@ img.rounded-circle.header-profile-user.avatar-chat {
     height: 300px;
     width: 300px;
 }
+.addeventmore
+{
+    border-radius: 20%;
+}
