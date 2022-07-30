@@ -40,6 +40,7 @@
                         <div class="tab-pane active" id="home" role="tabpanel">
                             <div class="row">
                                 @foreach ($products as $product)
+                                @if ($product->status == '1')
                                     <div class="col-xs-18 col-sm-6 col-md-3">
                                         <div class="thumbnail">
                                             <img src="" alt="">
@@ -53,6 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 @endforeach
                             </div>
 

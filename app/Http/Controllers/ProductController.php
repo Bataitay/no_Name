@@ -36,8 +36,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->get()
-        ->filter(fn($product) => $product->nameVi > now()->subMonths(3))
-        ->paginate(6);
+            ->filter(fn ($product) => $product->nameVi > now()->subMonths(3))
+            ->paginate(6);
         $categories = Category::all();
         $suppliers = Supplier::all();
         $productSD = Product::onlyTrashed()->get();
@@ -75,42 +75,32 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = new Product;
-        $product->nameVi = $request->nameVi;
-        $product->nameEn = $request->nameEn;
-        $product->price = $request->price;
-        $product->description = $request->description;
-        $product->quantity = $request->quantity;
-        $product->category_id = $request->category_id;
-        $product->supplier_id = $request->supplier_id;
-        $product->created_by = Auth::user()->id;
-        $product->updated_by = Carbon::now();
-        // dd($_FILES);
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filenameWithExt = $request->file('photo')->getClientOriginalName();
-        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        //     $extension = $request->file('photo')->getClientOriginalExtension();
-        //     $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
-        //     $path = $request->file('photo')->storeAs('public/uploads/', $fileNameToStore);
-        //     $product['photo'] = $fileNameToStore;
-        // }
-        // $path = $filepond->getPathFromServerId($request->input('photo')); // Here upload_file is your name of your element
-        // $pathArr = explode('.', $path);
-        // $imageExt = '';
-        // if (is_array($pathArr)) {
-        //     $imageExt = end($pathArr);
-        // }
-        // $fileName = 'photo.' . $imageExt;
-        // $finalLocation = storage_path('uploads/' . $fileName);
-        // \File::move($path, $finalLocation);
+        if (!$request->category_id == null) {
+            $count_category = count($request->category_id);
+            for ($i = 0; $i < $count_category; $i++) {
+                $product = new Product;
+                $product->category_id = $request->category_id[$i];
+
+                $product->nameVi = $request->nameVi[$i];
+                $product->nameEn = $request->nameEn[$i];
+                $product->price = $request->price[$i];
+                $product->description = $request->description[$i];
+                $product->quantity = $request->quantity[$i];
+                $product->total = $request->total[$i];
+
+                $product->status = '0';
+                $product->created_by = Auth::user()->id;
+                $product->updated_by = Carbon::now();
+                $product->save();
+            }
+        }
+
+        $notification = array(
+            'message' => 'Thêm sản phẩm thành công',
+            'alert-type' => 'success',
+        );
         try {
             $product->save();
-            $notification = [
-                'message' => 'Thêm sản phẩm' . $request->name . 'thành công',
-                'alert-type' => 'success',
-            ];
-
             return redirect()->route('product.index')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -118,7 +108,6 @@ class ProductController extends Controller
                 'message' => 'Thêm sản phẩm cấp thất bại !!!',
                 'alert-type' => 'warning',
             ];
-
             return redirect()->back()->with($notification);
         }
     }
@@ -165,7 +154,6 @@ class ProductController extends Controller
         $product->supplier_id = $request->supplier_id;
         $product->created_by = Auth::user()->id;
         $product->updated_by = Carbon::now();
-        // dd($request->all());
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
@@ -175,19 +163,17 @@ class ProductController extends Controller
         }
         try {
             $product->save();
-            $notification = [
+            $notification = array(
                 'message' => 'Cập nhật sản phẩm' . $request->name . 'thành công',
                 'alert-type' => 'success',
-            ];
-
+            );
             return redirect()->route('product.index')->with($notification);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $notification = [
+            $notification = array(
                 'message' => 'Cập nhật sản phẩm cấp thất bại !!!',
                 'alert-type' => 'warning',
-            ];
-
+            );
             return redirect()->back()->with($notification);
         }
     }
@@ -240,9 +226,32 @@ class ProductController extends Controller
     {
         Product::onlyTrashed()->where('deleted_at', '<', Carbon::now()->subMinutes(1)->toDateTimeString())->forceDelete();
     }
-    public function getCategory(Request $request){
+    public function getCategory(Request $request)
+    {
         $supplier_id = $request->supplier_id;
-        $allcategory = Category::where('supplier_id',$supplier_id)->get();
-       return response()->json($allcategory);
+        $allcategory = Category::where('supplier_id', $supplier_id)->get();
+        return response()->json($allcategory);
+    }
+    public function showToFe($id){
+        $product = Product::findOrFail($id);
+        $product->status = '1';
+        if($product->save()){
+            $notification = array(
+                'message' => 'Duyệt sản phẩm thành công',
+                'alert-type' => 'success',
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+    public function hideToFe($id){
+        $product = Product::findOrFail($id);
+        $product->status = '0';
+        if($product->save()){
+            $notification = array(
+                'message' => 'Ẩn sản phẩm thành công',
+                'alert-type' => 'success',
+            );
+            return redirect()->back()->with($notification);
+        }
     }
 }

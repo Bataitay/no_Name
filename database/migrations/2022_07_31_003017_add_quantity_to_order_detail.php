@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->foreignId('supplier_id')->constrained('suppliers');
+        Schema::table('order_detail', function (Blueprint $table) {
+            $table->integer('quantity');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('order_detail', function (Blueprint $table) {
             //
         });
     }

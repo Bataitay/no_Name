@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Oder extends Model
+class Order extends Model
 {
     use HasFactory;
-    protected $table = 'oders';
-    public function users(){
-        return $this->hasMany(User::class,'user_id','id');
+    protected $table = 'orders';
+    protected $fillable = ['user_id','payment_method','status','quantity','note'];
+    public function users()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
-    public function products(){
-        return $this->hasMany(Product::class,'product_id', 'id');
+    public function order_details()
+    {
+        return $this->hasMany(User::class,);
     }
+
 }

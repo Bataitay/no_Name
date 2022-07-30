@@ -28,10 +28,6 @@
                                         <select name="category_id" id="category_id" class="form-select"
                                             aria-label="Default select example">
                                             <option selected="" value="">Chọn danh mục</option>
-                                            {{-- @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">
-                                                    {{ $category->nameVi }}-{{ $category->nameEn }}</option>
-                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -46,13 +42,13 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <form method="" action="">
+                                    <form method="POST" action="{{ route('product.store') }}">
                                         @csrf
                                         <table  class="table table-bordered dt-responsive nowrap text-center align-middle dataTable no-footer dtr-inline"
                                         style="border-color: #ddd; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
-                                                    <th>Danh mục</th>
+                                                    <th width="17%">Danh mục</th>
                                                     <th>Tên (Vi)</th>
                                                     <th>Tên (En)</th>
                                                     <th>Số lượng</th>
@@ -95,9 +91,10 @@
             </div>
             <script id="document-template" type="text/x-handlebars-template">
                 <tr class="delete_add_more_item" id="delete_add_more_item">
-                    <input type="hide" name="supplier_id[]" value="@{{ supplier_id }}">
+                    <input type="hidden" name="supplier_id[]" value="@{{ supplier_id }}">
                     <td>
-                        <input type="hide" name="category_id[]" class="form-control  text-right" value="@{{ category_name }}" readonly>
+                        <input type="hidden" name="category_id[]" class="form-control  text-right" value="@{{ category_id }}" >
+                        @{{ category_name }}
                     </td>
                     <td>
                         <input type="text" name="nameVi[]" class="form-control " value="">
@@ -106,10 +103,10 @@
                         <input type="text" name="nameEn[]" class="form-control" value="">
                     </td>
                     <td>
-                        <input type="number" min="0" class="form-control quantity text-right" name="quantity[]" value="">
+                        <input type="number" min="0" class="form-control quantity text-right" name="quantity[]" value=" old(quantity) ">
                     </td>
                     <td>
-                        <input type="number" min="0" class="form-control price text-right" name="price[]" value="">
+                        <input type="number" min="0" class="form-control price text-right" name="price[]" value=" old(price) ">
                     </td>
                     <td>
                         <input type="text" name="description[]" value="" class="form-control">
@@ -122,7 +119,7 @@
                     </td>
                 </tr>
             </script>
-            {{-- ---------------------------add column--------------------------------- --}}
+            {{-----------------------------add column-----------------------------------}}
             <script type="text/javascript">
                 $(document).ready(function() {
                     $(document).on("click", ".addeventmore", function() {
@@ -179,11 +176,7 @@
                 });
             </script>
 
-
-
-
-
-            {{-- ---------------------------end column--------------------------------- --}}
+            {{-----------------------------end column-----------------------------------}}
             <script type="text/javascript">
                 $(function() {
                     $(document).on('change', '#supplier_id', function() {

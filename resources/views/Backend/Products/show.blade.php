@@ -31,7 +31,7 @@
                                             src="{{ !empty($product->photo) ? url('uploads/admin_img/' . $product->photo) : url('uploads/no_image.jpg') }}"
                                             alt="Card image cap">
                                     </td>
-                                    <td>{{ $product->supplier->name }} </td>
+                                    <td>{{ $product->category->supplier->name }} </td>
                                     <td>{{ $product->category->nameVi }}-{{ $product->category->nameEn }}</td>
                                     <td>
                                         {{ $product->user->name }}

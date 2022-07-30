@@ -28,19 +28,12 @@
                                 </div>
                                 <div class="col-sm-12 col-md-3 ">
                                     <div class="action_add">
-<<<<<<< HEAD
                                         @can('Category create')
                                             <a href="{{ route('categories.trashed') }}"
                                                 class="btn btn-danger btn-rounded waves-effect waves-light"
                                                 style="float:right;">Thùng
                                                 rác</a>
                                         @endcan
-=======
-                                        <a href="{{ route('categories.trashed') }}"
-                                            class="btn btn-danger btn-rounded waves-effect waves-light"
-                                            style="float:right;">Thùng
-                                            rác</a>
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
                                         @can('Category create')
                                             <a href="{{ route('category.create') }}"
                                                 class="btn btn-dark btn-rounded waves-effect waves-light"
@@ -79,15 +72,7 @@
                                                 <td> {{ $category->products->count() }}</td>
                                                 <td>{{ $category->updated_by }} </td>
                                                 <td>
-<<<<<<< HEAD
                                                     @can('Category update')
-=======
-<<<<<<< HEAD
-                                                    @can('Category update')
-=======
-                                                    @can('Employee update')
->>>>>>> 0da327349a868451857b3ac1b727941aac25a41f
->>>>>>> 675112841f2e90a692d2ed445afa2d7bcf0c8cb9
                                                         <a href="{{ route('category.edit', $category->id) }}"
                                                             class="btn btn-info sm" title="Edit Data"> <i
                                                                 class="fas fa-edit "></i> </a>

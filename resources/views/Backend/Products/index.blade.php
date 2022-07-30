@@ -70,12 +70,14 @@
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr class="">
-                                                <th width="5%">Mã sản phẩm</th>
                                                 <th>Tên sản phẩm(Vi)</th>
                                                 <th>Tên sản phẩm(En)</th>
-                                                <th>Số lượng sản phẩm</th>
+                                                <th width="10%">Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Trạng thái</th>
                                                 <th>Thời gian cập nhật</th>
                                                 <th width="20%">Thao tác</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody id="myTableP">
@@ -83,12 +85,18 @@
                                             @if ($products->count())
                                                 @foreach ($products as $product)
                                                     <tr class="item-{{ $product->id }}">
-
-                                                        <td> {{ $product->id }}</td>
                                                         <td>{{ $product->nameVi }} </td>
                                                         <td>{{ $product->nameEn }} </td>
+                                                        <td> {{ $product->price }}</td>
                                                         <td> {{ $product->quantity }}</td>
-                                                        <td>{{ $product->updated_by }} </td>
+                                                        <td>
+                                                            @if ($product->status == '0')
+                                                            <a href="{{ route('showToFe', $product->id) }}" class="btn btn-warning">Ẩn</a>
+                                                            @elseif($product->status == '1')
+                                                            <a  href="{{ route('hideToFe', $product->id) }}" class="btn btn-success">Hiện</a>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ date('d-m-Y',strtotime($product->updated_by)) }} </td>
                                                         <td>
                                                             @can('Product update')
                                                                 <a href="{{ route('product.edit', $product->id) }}"
@@ -103,7 +111,7 @@
                                                                     class="btn btn-danger sm deleteIcon"><i
                                                                         class=" fas fa-trash-alt "></i></a>
                                                             @endcan
-                                                            @can('Product show')
+                                                            @can('Product view')
                                                                 <a href="{{ route('product.show', $product->id) }}"
                                                                     class="btn btn-primary waves-effect waves-light"
                                                                     data-bs-toggle="modal"
@@ -117,7 +125,7 @@
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="6">Chưa có dữ liệu...</td>
+                                                    <td colspan="7">Chưa có dữ liệu...</td>
                                                 </tr>
                                             @endif
 
@@ -125,9 +133,10 @@
                                     </table>
                                     <div class="row">
                                         <div class="col-7">
-                                            Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của {{ $products->lastPage() }}
+                                            Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của
+                                            {{ $products->lastPage() }}
                                         </div>
-                                        <div class="col-5" >
+                                        <div class="col-5">
                                             <div class="btn-group float-end">
                                                 {{ $products->links() }}
                                             </div>

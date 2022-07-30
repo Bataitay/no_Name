@@ -1,6 +1,7 @@
 @extends('backend.master')
 
 @section('content')
+
       <div class="page-content">
         <div class="container-fluid">
             <table id="cart" class="table table-hover table-condensed">
@@ -53,13 +54,14 @@
                             <a href="{{ route('showproduct') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i>
                                 Continue
                                 Shopping</a>
-                            <button class="btn btn-danger">Checkout</button>
+                            <a href="{{ route('checkout') }}" class="btn btn-danger">Checkout</a>
                         </td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

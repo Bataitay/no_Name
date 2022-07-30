@@ -30,8 +30,9 @@
                                         <form action="{{ route('product.restore', $product->id) }}" method="">
                                             @csrf
                                             <button type="submit" class="btn btn-info sm "
-                                                onclick="return confirm('do you want restore?')"><i
-                                                    class="ri-repeat-fill"></i></button>
+                                                onclick="return confirm('do you want restore?')">
+                                                <i class="ri-repeat-fill"></i>
+                                            </button>
                                         </form>
                                     @endcan
                                 </div>

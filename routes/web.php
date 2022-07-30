@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('product/restore/{id}', 'restore')->name('product.restore');
         Route::get('product/forceDelete/{id}', 'forceDelete')->name('product.forceDelete');
         Route::get('get-category', 'getCategory')->name('get-category');
+        Route::get('showToFe/{id}', 'showToFe')->name('showToFe');
+        Route::get('hideToFe/{id}', 'hideToFe')->name('hideToFe');
     });
     Route::resource('roles', RoleController::class);
     Route::resource('permission', PermissionController::class);
@@ -68,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('add.to.cart');
     Route::patch('update-cart', [HomeController::class, 'update'])->name('update.cart');
     Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove.from.cart');
+    Route::get('checkout', [HomeController::class, 'checkout'])->name('checkout');
+    Route::post('order', [HomeController::class, 'order'])->name('order');
+    
     Route::get('/notification/create',[NotificationController::class,'create'])->name('notification.create');
     Route::post('/notification/store',[NotificationController::class,'store'])->name('notification.store');
     Route::get('/notification/readed/{id}',[NotificationController::class,'readed'])->name('notification.readed');

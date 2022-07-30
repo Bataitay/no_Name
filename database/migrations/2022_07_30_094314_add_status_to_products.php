@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('total');
+            $table->tinyInteger('status')->default('0')->comment('0=Hide, 1=Show');
         });
     }
 

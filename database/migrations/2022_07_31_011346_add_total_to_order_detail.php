@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->string('group_name');
+        Schema::table('order_detail', function (Blueprint $table) {
+            $table->integer('total');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('permission', function (Blueprint $table) {
+        Schema::table('order_detail', function (Blueprint $table) {
             //
         });
     }
