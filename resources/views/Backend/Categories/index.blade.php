@@ -28,12 +28,12 @@
                                 </div>
                                 <div class="col-sm-12 col-md-3 ">
                                     <div class="action_add">
-                                        @can('Category create')
+                                        {{-- @can('Category create') --}}
                                             <a href="{{ route('categories.trashed') }}"
                                                 class="btn btn-danger btn-rounded waves-effect waves-light"
                                                 style="float:right;">Thùng
                                                 rác</a>
-                                        @endcan
+                                        {{-- @endcan --}}
                                         @can('Category create')
                                             <a href="{{ route('category.create') }}"
                                                 class="btn btn-dark btn-rounded waves-effect waves-light"

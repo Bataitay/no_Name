@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Wards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Termwind\Components\Raw;
 
@@ -111,45 +112,61 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
-        dd($request->all());
+        foreach (session('cart') as $id => $details) {
+            // dd($details['quantity']);
+            $product = Product::find($id);
+            if ($product->quantity < $details['quantity']) {
+                $notification = array(
+                    'message' => 'sản phẩm ' . $product->nameVi . ' chỉ còn ' . $product->quantity,
+                    'alert-type' => 'warning',
+                );
+                return redirect()->back()->with($notification);
+            }
+        }
+        if ($request->product_id == null) {
+            $notification = array(
+                'message' => 'Bạn vẫn chưa chọn sản phẩm nào để mua.',
+                'alert-type' => 'warning',
+            );
+            return redirect()->back()->with($notification);
+        } else {
+            $order = new Order;
+            $order->user_id = auth()->user()->id;
+            $order->status    = '0';
+            $order->payment_method    = '0';
+            $order->note = $request->note;
+            $order->totalAll = $request->totalAll;
+            $order->save();
+        }
+        try {
+            if ($order) {
 
-        // $order = Order::with('products')->where('user_id', auth()->id())->get();
-        // $products = Product::select('id', ''qu>antity')->whereIn('id', $order->pluck('product_id'))->pluck('quantity','id');
-        $order = new Order;
-        $order->user_id = auth()->user()->id;
-        $order->status    = '0';
-        $order->payment_method    = '0';
-        $order->note = $request->note;
-        $order->totalAll = $request->totalAll;
-        if ($order) {
-            if (!$request->getContent() == null) {
                 $count_product = count($request->product_id);
-
                 for ($i = 0; $i < $count_product; $i++) {
-
                     $orderItem = new Order_detail();
+                    $orderItem->order_id =  $order->id;
                     $orderItem->product_id = $request->product_id[$i];
                     $orderItem->quantity = $request->quantity[$i];
                     $orderItem->total = $request->total[$i];
+                    $orderItem->save();
+                    session()->forget('cart');
+                    DB::table('products')
+                        ->where('id', '=', $orderItem->product_id)
+                        ->decrement('quantity', $orderItem->quantity);
                 }
-            }
-
-            try {
-                $order->order_details()->save($orderItem);
                 $notification = [
                     'message' => 'Đặt hàng thành công',
                     'alert-type' => 'success',
                 ];
                 return redirect()->back()->with($notification);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-                $notification = [
-                    'message' => 'Đặt hàng thất bại',
-                    'alert-type' => 'warning',
-                ];
-
-                return redirect()->back()->with($notification);
             }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $notification = [
+                'message' => 'Đặt hàng thất bại',
+                'alert-type' => 'warning',
+            ];
+            return redirect()->back()->with($notification);
         }
     }
 }
