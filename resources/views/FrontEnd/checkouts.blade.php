@@ -74,13 +74,33 @@
                                                     </tr>
                                                 @endforeach
                                             @endif
-                                            <tr class="cart-subtotal">
-                                                <td>Shipping</td>
-                                                <td>Free</td>
-                                            </tr>
+
                                         </tbody>
                                         <tfoot>
                                             <tr class="order-total">
+                                                <tr class="cart-subtotal">
+                                                    <td>Đơn vị vận chuyển</td>
+                                                    <td>
+                                                        <select class="form-control">
+                                                            <option value="">Viettel</option>
+                                                            <option value="">GHN</option>
+                                                            <option value="">GTK</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <td>Mã giảm giá</td>
+                                                    <td><input type="text"></td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <td>Phương thức thanh toán</td>
+                                                    <td>
+                                                    <select class="form-control">
+                                                        <option value="">thu hộ</option>
+                                                        <option value="">Thanh toán qua thẻ</option>
+                                                    </select>
+                                                </td>
+                                                </tr>
                                                 <th>Thành tiền </th>
                                                 <th><input type="hidden" value="{{ $totalAll }}" name="totalAll">${{ $totalAll }}</th>
                                             </tr>

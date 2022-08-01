@@ -22,7 +22,7 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('FrontEnd.index', compact('products'));
+        return view('FrontEnd.product.index', compact('products'));
     }
 
     /**
@@ -32,7 +32,7 @@ class HomeController extends Controller
      */
     public function cart()
     {
-        return view('FrontEnd.cart');
+        return view('FrontEnd.addToCart.index');
     }
 
     // /**
@@ -45,7 +45,6 @@ class HomeController extends Controller
 
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
-        // dd($cart);
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
@@ -56,9 +55,9 @@ class HomeController extends Controller
             ];
         }
         session()->put('cart', $cart);
-        // dd(session('cart'));
-
-        return redirect()->back()->with('message', 'Product added to cart successfully!');
+        $data = [];
+        $data['cart']= session()->has('cart');
+        return response()->json($data);
     }
 
     // /**
@@ -73,6 +72,7 @@ class HomeController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             session()->flash('message', 'Cart updated successfully');
+
         }
     }
 
@@ -89,40 +89,31 @@ class HomeController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-            session()->flash('message', 'Product removed successfully');
         }
+        return response()->json(['message', 'Product removed successfully']);
     }
     public function checkout()
     {
-        $id = Auth::user()->id;
-        $user = User::find($id);
-        $provinces = Provinces::all();
-        $districts = Districts::where('province_id', $user->province_id)->get();
-        $wards = Wards::where('district_id', $user->district_id)->get();
+        // $id = Auth::user()->id ?? '';
+        // $user = User::find($id);
+        // $provinces = Provinces::all();
+        // $districts = Districts::where('province_id', $user->province_id)->get();
+        // $wards = Wards::where('district_id', $user->district_id)->get();
         // $this->addToCart($id);
         return view(
-            'FrontEnd.checkouts',
+            'FrontEnd.checkOut.index',
             [
-                'user' => $user,
-                'provinces' => $provinces,
-                'districts' => $districts,
-                'wards' => $wards,
+                // 'user' => $user,
+                // 'provinces' => $provinces,
+                // 'districts' => $districts,
+                // 'wards' => $wards,
             ]
         );
     }
     public function order(Request $request)
     {
-        foreach (session('cart') as $id => $details) {
-            // dd($details['quantity']);
-            $product = Product::find($id);
-            if ($product->quantity < $details['quantity']) {
-                $notification = array(
-                    'message' => 'sản phẩm ' . $product->nameVi . ' chỉ còn ' . $product->quantity,
-                    'alert-type' => 'warning',
-                );
-                return redirect()->back()->with($notification);
-            }
-        }
+
+        // DB::transaction(function () use( $request){
         if ($request->product_id == null) {
             $notification = array(
                 'message' => 'Bạn vẫn chưa chọn sản phẩm nào để mua.',
@@ -130,6 +121,17 @@ class HomeController extends Controller
             );
             return redirect()->back()->with($notification);
         } else {
+            foreach (session('cart') as $id => $details) {
+                // dd($details['quantity']);
+                $product = Product::find($id);
+                if ($product->quantity < $details['quantity']) {
+                    $notification = array(
+                        'message' => 'sản phẩm ' . $product->nameVi . ' chỉ còn ' . $product->quantity,
+                        'alert-type' => 'warning',
+                    );
+                    return redirect()->back()->with($notification);
+                }
+            }
             $order = new Order;
             $order->user_id = auth()->user()->id;
             $order->status    = '0';

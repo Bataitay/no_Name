@@ -8,8 +8,7 @@
                           <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
                       </span>
                       <span class="logo-lg">
-                          <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="logo-dark"
-                              height="20">
+                          <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
                       </span>
                   </a>
 
@@ -57,8 +56,8 @@
               @endphp --}}
 
               <div class="dropdown d-inline-block user-dropdown">
-                  <button  class="btn header-item waves-effect" id="page-header-user-dropdown"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
                       <img class="rounded-circle header-profile-user"
                           src="{{ !empty($adminData->image) ? asset($adminData->image) : asset('uploads/no_image.jpg') }}"
                           alt="Header Avatar">
@@ -67,8 +66,10 @@
                   </button>
                   <div class="dropdown-menu dropdown-menu-end">
                       <!-- item-->
-                      <a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                      <a class="dropdown-item" href="{{ route('admin.changepassword') }}"><i class="ri-wallet-2-line align-middle me-1"></i> Change
+                      <a class="dropdown-item" href="{{ route('admin.profile') }}"><i
+                              class="ri-user-line align-middle me-1"></i> Profile</a>
+                      <a class="dropdown-item" href="{{ route('admin.changepassword') }}"><i
+                              class="ri-wallet-2-line align-middle me-1"></i> Change
                           Password</a>
                       <a class="dropdown-item d-block" href="#"><span
                               class="badge bg-success float-end mt-1">11</span><i
@@ -79,6 +80,12 @@
 
                       <a class="dropdown-item text-danger" href="{{ route('admin.logout') }}"><i
                               class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                      <script type="text/javascript">
+                        //   history.pushState(null, null, `{{ route('login') }}`);
+                          window.addEventListener('popstate', function() {
+                              history.pushState(null, null, `{{ route('login') }}`);
+                          });
+                      </script>
                   </div>
               </div>
 

@@ -25,7 +25,7 @@ use PhpParser\Node\Stmt\Nop;
 |
 */
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['prevent-back-history'])->group(function () {
     Route::controller(AdminController::class)->group(function () {
         Route::get('logout', 'destroy')->name('admin.logout');
         Route::get('profile', 'profile')->name('admin.profile');
@@ -68,17 +68,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cart/index', [HomeController::class, 'index'])->name('showproduct');
     Route::get('cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('add.to.cart');
-    Route::patch('update-cart', [HomeController::class, 'update'])->name('update.cart');
-    Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove.from.cart');
+    Route::post('update-cart', [HomeController::class, 'update'])->name('update.cart');
+    Route::delete('remove-from-cart/{id}', [HomeController::class, 'remove'])->name('remove.from.cart');
     Route::get('checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::post('order', [HomeController::class, 'order'])->name('order');
-    
+
     Route::get('/notification/create',[NotificationController::class,'create'])->name('notification.create');
     Route::post('/notification/store',[NotificationController::class,'store'])->name('notification.store');
     Route::get('/notification/readed/{id}',[NotificationController::class,'readed'])->name('notification.readed');
 
 });
-Route::get('hello', function(){
-    return view('welcome');
-});
+
 require __DIR__ . '/auth.php';
