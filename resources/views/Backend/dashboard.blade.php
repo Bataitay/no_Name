@@ -1,5 +1,6 @@
 @extends('Backend.master')
 @section('content')
+    {{-- {{ dd(session()->invalidate()) }} --}}
 
 <div class="page-content">
 <div class="container-fluid">

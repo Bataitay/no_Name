@@ -12,4 +12,9 @@ class Wards extends Model
     protected $table = 'wards';
 
     protected $fillable = ['name', 'gso_id', 'district_id'];
+
+    public function districts()
+    {
+        return $this->belongsTo(Districts::class);
+    }
 }

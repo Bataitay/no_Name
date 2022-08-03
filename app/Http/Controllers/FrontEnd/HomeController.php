@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Districts;
 use App\Models\Oder;
 use App\Models\Order;
@@ -19,6 +20,22 @@ use Termwind\Components\Raw;
 
 class HomeController extends Controller
 {
+    public function destroy(Request $request)
+    {
+        Auth::guard('customers')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+        $cart = collect(session()->get('cart', []));
+        session()->put('cart', $cart);
+
+        header("cache-Control: no-store, no-cache, must-revalidate");
+        header("cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+        return redirect()->route('login');
+    }
     public function index()
     {
         $products = Product::all();
@@ -44,7 +61,7 @@ class HomeController extends Controller
     {
 
         $product = Product::findOrFail($id);
-        $cart = session()->get('cart', []);
+        $cart = collect(session()->get('cart', []));
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
@@ -56,7 +73,7 @@ class HomeController extends Controller
         }
         session()->put('cart', $cart);
         $data = [];
-        $data['cart']= session()->has('cart');
+        $data['cart'] = session()->has('cart');
         return response()->json($data);
     }
 
@@ -72,7 +89,6 @@ class HomeController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             session()->flash('message', 'Cart updated successfully');
-
         }
     }
 
@@ -87,33 +103,34 @@ class HomeController extends Controller
             $cart = session()->get('cart');
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
-                session()->put('cart', $cart);
+                session()->forget('cart', $cart);
             }
         }
         return response()->json(['message', 'Product removed successfully']);
     }
-    public function checkout()
+    public function checkOuts()
     {
-        // $id = Auth::user()->id ?? '';
-        // $user = User::find($id);
-        // $provinces = Provinces::all();
-        // $districts = Districts::where('province_id', $user->province_id)->get();
-        // $wards = Wards::where('district_id', $user->district_id)->get();
-        // $this->addToCart($id);
-        return view(
-            'FrontEnd.checkOut.index',
-            [
-                // 'user' => $user,
-                // 'provinces' => $provinces,
-                // 'districts' => $districts,
-                // 'wards' => $wards,
-            ]
-        );
+        $allProvinces = Provinces::get();
+        return view('frontend.checkOut.index', compact('allProvinces'));
     }
-    public function order(Request $request)
+    public function GetDistricts(Request $request)
     {
 
-        // DB::transaction(function () use( $request){
+        // dd($request->all());
+        $province_id = $request->province_id;
+        $allDistricts = Districts::where('province_id', $province_id)->get();
+        return response()->json($allDistricts);
+    }
+    public function getWards(Request $request)
+    {
+        $district_id = $request->district_id;
+        $allWards = Wards::where('district_id', $district_id)->get();
+        return response()->json($allWards);
+    }
+
+    public function order(Request $request)
+    {
+        // dd($request->all());
         if ($request->product_id == null) {
             $notification = array(
                 'message' => 'Bạn vẫn chưa chọn sản phẩm nào để mua.',
@@ -132,8 +149,17 @@ class HomeController extends Controller
                     return redirect()->back()->with($notification);
                 }
             }
+            $id = Auth::guard('customers')->user()->id;
+            $data = Customer::find($id);
+            $data->phone = $request->phone;
+            $data->ward_id = $request->ward_id;
+            $data->district_id = $request->district_id;
+            $data->province_id = $request->province_id;
+            $data->address = $request->address;
+            $data->save();
+
             $order = new Order;
-            $order->user_id = auth()->user()->id;
+            $order->customer_id = Auth::guard('customers')->user()->id;
             $order->status    = '0';
             $order->payment_method    = '0';
             $order->note = $request->note;

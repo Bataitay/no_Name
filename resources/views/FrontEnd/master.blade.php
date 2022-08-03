@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/elegant-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('FrontEnd/css/nice-select.css') }}" type="text/css">
+    {{-- <link rel="stylesheet" href="{{ asset('FrontEnd/css/nice-select.css') }}" type="text/css"> --}}
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/jquery-ui.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('FrontEnd/css/slicknav.min.css') }}" type="text/css">
@@ -97,10 +97,29 @@
 
     <!-- Featured Section Begin -->
     @yield('content')
-    <!-- Featured Section End -->
-    <!-- Latest Product Section Begin -->
-    <!-- Latest Product Section End -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    <script>
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    toastr.info(" {{ Session::get('message') }} ");
+                    break;
 
+                case 'success':
+                    toastr.success(" {{ Session::get('message') }} ");
+                    break;
+
+                case 'warning':
+                    toastr.warning(" {{ Session::get('message') }} ");
+                    break;
+
+                case 'error':
+                    toastr.error(" {{ Session::get('message') }} ");
+                    break;
+            }
+        @endif
+    </script>
     <!-- Footer Section Begin -->
     @include('FrontEnd.layouts.footer')
     <!-- Footer Section End -->
@@ -108,7 +127,7 @@
     <!-- Js Plugins -->
     <script src="{{ asset('FrontEnd/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('FrontEnd/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('FrontEnd/js/jquery.nice-select.min.js') }}"></script>
+    {{-- <script src="{{ asset('FrontEnd/js/jquery.nice-select.min.js') }}"></script> --}}
     <script src="{{ asset('FrontEnd/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('FrontEnd/js/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('FrontEnd/js/mixitup.min.js') }}"></script>

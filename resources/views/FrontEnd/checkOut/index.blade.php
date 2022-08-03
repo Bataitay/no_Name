@@ -1,6 +1,10 @@
 @extends('FrontEnd.master')
 @section('content')
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    {{-- {{ dd(session()->invalidate()) }} --}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('frontend/img/breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -29,82 +33,72 @@
             </div>
             <div class="checkout__form">
                 <h4>Billing Details</h4>
-                <form action="#">
+
+                <form class="checkout-form" method="POST" action="{{ route('order') }}">
+                    @csrf
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
-                                        <input type="text">
+                                        <p>Họ và tên<span>*</span></p>
+                                        <input type="text" name="name"
+                                            value={{ Auth::guard('customers')->user()->name ?? '' }}>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Last Name<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add">
-                                <input type="text" placeholder="Apartment, suite, unite ect (optinal)">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country/State<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Postcode / ZIP<span>*</span></p>
-                                <input type="text">
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="text">
+                                        <p>Số điện thoại<span>*</span></p>
+                                        <input type="number" name="phone"
+                                        value="{{ Auth::guard('customers')->user()->phone ?? '' }}">
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="acc">
-                                    Create an account?
-                                    <input type="checkbox" id="acc">
-                                    <span class="checkmark"></span>
-                                </label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="example-text-input" class="form-label">Tỉnh/Thành phố<span>*</span></label>
+                                    <select name="province_id" id="province_id" class="form-control province_id"
+                                        aria-label="Default select example" data-toggle="select2">
+                                        <option selected="" value="">Vui lòng chọn</option>
+                                        {{-- @if (Auth::guard('customers')->user()->check()) --}}
+                                        @foreach ($allProvinces as $province)
+                                            <option value="{{ $province->id }}" @selected($province->id == Auth::guard('customers')->user()->province_id)>
+                                                {{ $province->name }}</option>
+                                        @endforeach
+                                        {{-- @endif --}}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="example-text-input" class="form-label">Huyện/Quận<span>*</span></label>
+                                    <select name="district_id" id="district_id" class="form-control district_id"
+                                        aria-label="Default select example">
+                                        <option selected="" value="">Vui lòng chọn</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Xã/Phường<span>*</span></label>
+                                    <select name="ward_id" class="form-control ward_id" aria-label="Default select example"
+                                        id="ward_id">
+                                        <option selected="" value="">Vui lòng chọn</option>
+                                    </select>
+                                </div>
                             </div>
-                            <p>Create an account by entering the information below. If you are a returning customer
-                                please login at the top of the page</p>
-                            <div class="checkout__input">
-                                <p>Account Password<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="diff-acc">
-                                    Ship to a different address?
-                                    <input type="checkbox" id="diff-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Order notes<span>*</span></p>
-                                <input type="text"
-                                    placeholder="Notes about your order, e.g. special notes for delivery.">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="checkout__input">
+                                        <label>Số nhà, tên đường<span>*</span></label>
+                                        <input type="text" name="address">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="checkout__input">
+                                        <label>Ghi chú<span>*</span></label>
+                                        <input type="text" name="note">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -119,15 +113,15 @@
                                                 $total = $details['price'] * $details['quantity'];
                                                 $totalAll += $total;
                                             @endphp
-                                            <li> <input type="hidden" value="{{ $id }}"
+                                            <li>
+                                                <input type="hidden" value="{{ $id }}"
                                                     name="product_id[]">{{ $details['nameVi'] ?? '' }} x
                                                 <input type="hidden" value="{{ $details['quantity'] }}"
                                                     name="quantity[]">{{ $details['quantity'] ?? '' }}
                                                 <span><input type="hidden" value="{{ $total }}"
                                                         name="total[]">{{ $total }}</span>
                                             </li>
-                                            <li>Organic Bananas <span><input type="hidden" value="{{ $total }}"
-                                                        name="total[]">{{ $total }}</span></li>
+
                                         @endforeach
                                     @endif
                                 </ul>
@@ -149,7 +143,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
+                                <button type="submit" class="site-btn">Thanh Toán</button>
                             </div>
                         </div>
                     </div>
@@ -157,4 +151,51 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        $(function() {
+            $(document).on('change', '.province_id', function() {
+                var province_id = $(this).val();
+                var district_name = $('.district_id').find('option:selected').text();
+                $.ajax({
+                    url: "{{ route('getDistricts') }}",
+                    type: "GET",
+                    data: {
+                        province_id: province_id
+                    },
+                    success: function(data) {
+                        var html = '<option value="">Vui lòng chọn</option>';
+                        $.each(data, function(key, v) {
+                            html += '<option value=" ' + v.province_id + ' "> ' + v
+                                .name + '</option>';
+                        });
+                        $('.district_id').html(html);
+                    }
+                })
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $(document).on('change', '#district_id', function() {
+                var district_id = $(this).val();
+                var ward_name = $('.ward_id').find('option:selected').text();
+                $.ajax({
+                    url: "{{ route('getWards') }}",
+                    type: "GET",
+                    data: {
+                        district_id: district_id
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        var html = '<option value="">Vui lòng chọn</option>';
+                        $.each(data, function(key, v) {
+                            html += '<option value =" ' + v.id + ' "> ' + v.name +
+                                '</option>';
+                        });
+                        $('#ward_id').html(html);
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

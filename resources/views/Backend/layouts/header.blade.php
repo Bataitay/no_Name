@@ -12,7 +12,7 @@
                       </span>
                   </a>
 
-                  <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
+                  <a href="{{ route('showproduct') }}" class="logo logo-light">
                       <span class="logo-sm">
                           <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm-light"
                               height="22">
@@ -80,12 +80,6 @@
 
                       <a class="dropdown-item text-danger" href="{{ route('admin.logout') }}"><i
                               class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
-                      <script type="text/javascript">
-                        //   history.pushState(null, null, `{{ route('login') }}`);
-                          window.addEventListener('popstate', function() {
-                              history.pushState(null, null, `{{ route('login') }}`);
-                          });
-                      </script>
                   </div>
               </div>
 

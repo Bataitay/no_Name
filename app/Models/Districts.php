@@ -12,4 +12,8 @@ class Districts extends Model
     protected $table = 'districts';
 
     protected $fillable = ['name', 'gso_id', 'province_id'];
+    public function provinces()
+    {
+        return $this->belongsTo(Prov::class,'district_id','id');
+    }
 }

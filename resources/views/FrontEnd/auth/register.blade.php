@@ -10,9 +10,11 @@
             <!-- Background image for card set in CSS! -->
           </div>
           <div class="card-body p-4 p-sm-5">
-            <h5 class="card-title text-center mb-5 fw-light fs-5">Register|Login</h5>
+            <h5 class="card-title text-center fw-light fs-5">Đăng ký|Đăng nhập</h5>
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Khách hàng </h5>
+
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
-            <form method="POST" action="{{ route('admin.register') }}">
+            <form method="POST" action="{{ route('register') }}">
                 @csrf
               <div class="form-floating mb-3">
                 <input name="name" type="text" class="form-control" id="floatingInputUsername" placeholder="myusername" required autofocus>
@@ -40,7 +42,7 @@
                 <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Register</button>
               </div>
 
-              <a class="d-block text-center mt-2 small" href="{{ route('admin.login') }}">Have an account? Sign In</a>
+              <a class="d-block text-center mt-2 small" href="{{ route('login') }}">Have an account? Sign In</a>
 
               <hr class="my-4">
 

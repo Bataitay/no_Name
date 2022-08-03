@@ -104,7 +104,7 @@
                             <li>Tổng thanh toán <span>{{ $total }}.vnd</span></li>
                         </ul>
                         @if(session('cart'))
-                        <a href="{{ route('checkout') }}" class="primary-btn">Mua hàng</a>
+                        <a href="{{ route('checkOuts') }}" class="primary-btn">Mua hàng</a>
                         @else
                         <a href="{{ route('showproduct') }}" class="primary-btn">Giỏ hàng của bạn đang trống</a>
                         @endif
