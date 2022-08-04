@@ -29,4 +29,8 @@ class Customer extends Authenticatable
         'image',
         'phone',
     ];
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

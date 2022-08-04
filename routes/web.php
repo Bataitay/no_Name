@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\NotificationController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Livewire\Messages;
+use FontLib\Table\Type\name;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Stmt\Nop;
@@ -65,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('permission', PermissionController::class);
         Route::resource('employee', EmployeeController::class);
+        Route::get('getCustomers', [CustomerController::class,'getCustomers'])->name('getCustomers');
+        // Route::get('getOder', [CustomerController::class],'getOder')->name('getOder');
 
 
         Route::get('/notification/create', [NotificationController::class, 'create'])->name('notification.create');

@@ -26,7 +26,7 @@ $adminData = App\Models\User::find($id);
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="{{ route('showproduct') }}" class="waves-effect">
+                    <a href="{{ route('admin.dashboard') }}" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                         <span>Dashboard</span>
                     </a>
@@ -112,8 +112,8 @@ $adminData = App\Models\User::find($id);
                         <span>Cửa hàng</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">Mua hàng</a></li>
-                        <li><a href="">Giỏ hàng</a></li>
+                        <li><a href="{{ route('getCustomers') }}">Khách hàng</a></li>
+                        <li><a href="">Đơn hàng</a></li>
                     </ul>
 
                 </li>
