@@ -27,8 +27,6 @@ class HomeController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-        $cart = collect(session()->get('cart', []));
-        session()->put('cart', $cart);
 
         header("cache-Control: no-store, no-cache, must-revalidate");
         header("cache-Control: post-check=0, pre-check=0", false);
@@ -61,7 +59,7 @@ class HomeController extends Controller
     {
 
         $product = Product::findOrFail($id);
-        $cart = collect(session()->get('cart', []));
+        $cart =session()->get('cart', []);
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
@@ -87,8 +85,16 @@ class HomeController extends Controller
         if ($request->id && $request->quantity) {
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
+            $totalCart = number_format(($cart[$request->id]["price"])*$cart[$request->id]["quantity"]);
             session()->put('cart', $cart);
             session()->flash('message', 'Cart updated successfully');
+            return response()->json([
+                'status'=>'cập nhật thành công',
+                'totalCart' => ''.$totalCart,
+            ]);
+
+            // $data['cart'] =  session()->put('cart');
+            // return response()->json($data);
         }
     }
 
@@ -103,10 +109,10 @@ class HomeController extends Controller
             $cart = session()->get('cart');
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
-                session()->forget('cart', $cart);
+                session()->put('cart', $cart);
             }
         }
-        return response()->json(['message', 'Product removed successfully']);
+        // return response()->json(['message', 'Product removed successfully']);
     }
     public function checkOuts()
     {

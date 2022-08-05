@@ -36,30 +36,51 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $total = 0 @endphp
+                                @php
+                                    $total = 0;
+                                    $totalAll = 0;
+                                @endphp
                                 @if (session('cart'))
                                     @foreach (session('cart') as $id => $details)
-                                        @php $total += $details['price'] * $details['quantity'] @endphp
-                                        <tr class="item-{{ $id }}" data-id="{{ $id }}">
+                                        @php
+                                            $total = $details['price'] * $details['quantity'];
+                                            $totalAll += $total;
+                                        @endphp
+                                        <tr data-id="{{ $id }}" class="item-{{ $id }} cartPage">
                                             <td class="shoping__cart__item" data-th="Product">
                                                 <img src="{{ asset('frontend/img/cart/cart-1.jpg') }}" alt="">
                                                 <h5>{{ $details['nameVi'] ?? '' }}</h5>
                                             </td>
-                                            <td class="shoping__cart__price" data-th="Price">
+                                            <td class="shoping__cart__price price" data-th="Price">
                                                 {{ $details['price'] }}.vnd
                                             </td>
+                                            {{-- <input type="number" data-id="{{ $id }}"
+                                                name="quantity[]" step="1" class="quantity update-cart"
+                                                value="{{ $details['quantity'] }}"> --}}
                                             <td class="shoping__cart__quantity"data-th="Quantity">
-                                                <div class="">
-                                                    <div class="pro-qty">
-                                                        <input type="number" value="{{ $details['quantity'] }}"  class="quantity update-cart">
+                                                <div class="input-group inline-group">
+                                                    <div class="input-group-prepend">
+                                                        <button class="btn btn-outline-secondary btn-minus changeQuantity"
+                                                            data-id="{{ $id }}">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input class="form-control quantity " min="0" name="quantity[]"
+                                                        value="{{ $details['quantity'] }}" type="number"  data-id="{{ $id }}">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary btn-plus changeQuantity"
+                                                            data-id="{{ $id }}">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
-                                                {{ $details['price'] * $details['quantity'] }}.vnd
+                                                <span class="total_cart-{{ $id }}">{{ number_format($total) }}.vnd</span>
                                             </td>
                                             <td class="shoping__cart__item__close">
-                                                <a data-href="{{ route('remove.from.cart', $id) }}" class="btn btn-danger btn-sm fa fa-window-close"
+                                                <a data-href="{{ route('remove.from.cart', $id) }}"
+                                                    class="btn btn-danger btn-sm fa fa-window-close"
                                                     id="{{ $id }}"></a>
                                             </td>
                                         </tr>
@@ -101,12 +122,12 @@
                         <h5>Thanh Toán</h5>
                         <ul>
                             <li>Phương thức thanh toán <span>Free</span></li>
-                            <li>Tổng thanh toán <span>{{ $total }}.vnd</span></li>
+                            <li>Tổng thanh toán <span>{{ number_format($totalAll) }}.vnd</span></li>
                         </ul>
-                        @if(session('cart'))
-                        <a href="{{ route('checkOuts') }}" class="primary-btn">Mua hàng</a>
+                        @if (session('cart'))
+                            <a href="{{ route('checkOuts') }}" class="primary-btn">Mua hàng</a>
                         @else
-                        <a href="{{ route('showproduct') }}" class="primary-btn">Giỏ hàng của bạn đang trống</a>
+                            <a href="{{ route('showproduct') }}" class="primary-btn">Giỏ hàng của bạn đang trống</a>
                         @endif
 
                     </div>
@@ -121,41 +142,56 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $(".update-cart").change(function(e) {
-            e.preventDefault();
+            $(".changeQuantity").click(function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var quantity = $(this).parents("tr").find("input.quantity").val();
 
-            var ele = $(this);
-
-            $.ajax({
-                url: '{{ route('update.cart') }}',
-                method: "post",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: ele.parents("tr").attr("data-id"),
-                    quantity: ele.parents("tr").find(".quantity").val()
-                },
-                success: function(response) {
-                    window.location.reload();
-                }
-            });
-        });
-                $(document).on('click', '.fa-window-close', function(e) {
-                    e.preventDefault();
-                    let id = $(this).attr('id');
-                    let href = $(this).data('href');
-                    let csrf = '{{ csrf_token() }}';
-                    $.ajax({
-                        url: href,
-                        method: 'delete',
-                        data: {
-                            _token: csrf
-                        },
-                        success: function(res) {
-                            $('.item-' + id).remove();
-                        }
-                    });
+                console.log(id);
+                console.log(quantity);
+                var ele = $(this);
+                $.ajax({
+                    url: '{{ route('update.cart') }}',
+                    method: "patch",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id,
+                        quantity: quantity,
+                    },
+                    success: function(response) {
+                        // window.location.reload();
+                        console.log(response.totalCart);
+                        $('.total_cart-' + id).html(response.totalCart);
+                        $('.')
+                        alertify.set('notifier', 'position', 'top-right');
+                        alertify.success(response.status);
+                    }
                 });
+            });
+            $(document).on('click', '.fa-window-close', function(e) {
+                e.preventDefault();
+                let id = $(this).attr('id');
+                let href = $(this).data('href');
+                let csrf = '{{ csrf_token() }}';
+                $.ajax({
+                    url: href,
+                    method: 'delete',
+                    data: {
+                        _token: csrf
+                    },
+                    success: function(res) {
+                        $('.item-' + id).remove();
+                    }
+                });
+            });
 
         });
+        $('.btn-plus, .btn-minus').on('click', function(e) {
+            const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
+            const input = $(e.target).closest('.input-group').find('input');
+            if (input.is('input')) {
+                input[0][isNegative ? 'stepDown' : 'stepUp']()
+            }
+        })
     </script>
 @endsection

@@ -72,9 +72,7 @@
     <script type="text/javascript">
         $(".update-cart").change(function(e) {
             e.preventDefault();
-
             var ele = $(this);
-
             $.ajax({
                 url: '{{ route('update.cart') }}',
                 method: "patch",

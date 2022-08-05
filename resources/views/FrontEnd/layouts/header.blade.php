@@ -28,11 +28,15 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
+                            @if (Auth::guard('customers')->check())
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <a href="{{ route('logout') }}"onclick="event.preventDefault();
                                 this.closest('form').submit();"><i class="fa fa-user"></i> Logout</a>
                             </form>
+                            @else
+                            <a href="{{ route('login') }}"><i class="fa fa-user">Login</i></a>
+                            @endif
 
                         </div>
                     </div>

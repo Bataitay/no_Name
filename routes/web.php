@@ -81,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('cart/index', [HomeController::class, 'index'])->name('showproduct');
 Route::get('cart', [HomeController::class, 'cart'])->name('cart');
 Route::get('add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('add.to.cart');
-Route::post('update-cart', [HomeController::class, 'update'])->name('update.cart');
+Route::patch('update-cart', [HomeController::class, 'update'])->name('update.cart');
 Route::delete('remove-from-cart/{id}', [HomeController::class, 'remove'])->name('remove.from.cart');
 Route::post('order', [HomeController::class, 'order'])->name('order');
 Route::get('getDistricts', [HomeController::class, 'getDistricts'])->name('getDistricts');

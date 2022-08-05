@@ -2,7 +2,6 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -12,7 +11,6 @@
                 </div>
             </div>
             <!-- end page title -->
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -35,42 +33,36 @@
                                         <th>Tên Khách hàng</th>
                                         <th>Số điện thoại</th>
                                         <th>Tổng đơn hàng</th>
-                                        <th>Thành viên</th>
                                         <th>Doanh thu thực</th>
+                                        <th>Thành viên</th>
                                 </thead>
-
                                 <tbody id="myTable">
-
                                     @if (!$customers->count())
                                         <tr>
                                             <td colspan="5">Chưa có dữ liệu...</td>
                                         </tr>
                                     @else
+                                        @php
+                                            $Diamond = 10000000;
+                                            $Gold = 5000000;
+                                        @endphp
                                         @foreach ($customers as $customer)
                                             <tr>
                                                 <td> {{ $customer->id }}</td>
                                                 <td>{{ $customer->name }} </td>
                                                 <td>{{ $customer->phone }} </td>
-                                                @php
-                                                    $total = 0;
-                                                @endphp
-                                                @foreach ($orders as $order)
-                                                    @if ($customer->id == $order->customer_id)
-                                                        @php $total += $order->money_total @endphp
-                                                        <td>
-                                                            {{ $orderCount }}
-                                                        </td>
-                                                        <td></td>
-                                                    @endif
-                                                @endforeach
-                                                <td>
-                                                    {{ $total }}
-                                                </td>
-
+                                                <td>{{ $customer->total_orders }}</td>
+                                                <td>{{ number_format($customer->total_money) }}</td>
+                                                @if ($customer->total_money > $Diamond)
+                                                    <td> <span>Diamond</span> </td>
+                                                @elseif($customer->total_money > $Gold && $customer->total_money < $Diamond)
+                                                    <td> <span>Gold</span> </td>
+                                                @else
+                                                    <td> <span>Silver</span> </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     @endif
-
                                 </tbody>
                             </table>
                             <div class="row">
@@ -80,7 +72,6 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="btn-group float-end">
-
                                         {{ $customers->links() }}
                                     </div>
                                 </div>
@@ -90,9 +81,6 @@
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
-
-
-
         </div> <!-- container-fluid -->
     </div>
 @endsection
