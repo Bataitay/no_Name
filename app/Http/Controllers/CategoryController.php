@@ -61,13 +61,13 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        Category::insert([
-            'nameVi' => $request->nameVi,
-            'nameEn' => $request->nameEn,
-            'supplier_id' => $request->supplier_id,
-            'created_by' => Auth::user()->id,
-            'updated_by' => Carbon::now(),
-        ]);
+        $category = new Category();
+        $category->nameVi =  $request->nameVi;
+        $category->nameEn =  $request->nameEn;
+        $category->supplier_id =  $request->supplier_id;
+        $category->created_by =  Auth::user()->id;
+        $category->updated_by =  Carbon::now();
+        $category->save();
         $notification = array(
             'message' => 'Thêm danh mục' . $request->name . 'thành công',
             'alert-type' => 'success'
@@ -171,7 +171,6 @@ class CategoryController extends Controller
 
             return redirect()->route('categories.trashed')->with('message', 'delete ' . ' ' . $categories->name . ' ' . 'error');
         }
-
     }
     // public function getCategorys($id){
     //     if($id!=0){

@@ -18,22 +18,37 @@
 
                         <h2 class="card-title">Quản lý sản phẩm</h2>
                         <div class="row">
-                            <div class="col-sm-12 col-md-9 ">
-                                <div class="search_category ">
-                                    <label class="col-md-2 " for="">Tìm Kiếm</label>
-                                    <input id="myInput" class="form-control  form-control-sm " type="search">
+                            <div class="col-lg-4">
+                                <form action="" method="">
+                                    <div class="mb-4 d-flex">
+                                        <input id="myInput" name="keyword"
+                                            class="form-control value="{{ old('keyword') }}" form-control-sm " type="text">
+                                        <button type="submit" class="btn btn-warning ">
+                                            Search</button>
+                                    </div>
+                                    </form>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-md-3 ">
-                                @can('Product create')
-                                    <div class="action_add">
-                                        <a href="{{ route('product.create') }}"
-                                            class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Thêm
-                                            Sản phẩm</a>
-                                    @endcan
-                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Tìm kiếm nâng cao
+                                        </button>
 
+                                        <!-- Modal -->
+                                       @include('Backend.Products.search')
+                                </div>
+                                <div class="col-lg-4 ">
+                                    <div class="mb-4" style="float:right;">
+                                        @can('Product create')
+        <a href="{{ route('product.create') }}"
+                                                    class="btn btn-dark btn-rounded waves-effect waves-light">Thêm
+                                                    Sản phẩm</a>
+    @endcan
+                                    </div>
+                                </div>
                             </div>
+
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
@@ -82,94 +97,95 @@
 
                                         <tbody id="myTableP">
 
-                                            @if ($products->count())
-                                                @foreach ($products as $product)
-                                                    <tr class="item-{{ $product->id }}">
-                                                        <td>{{ $product->nameVi }} </td>
-                                                        <td>{{ $product->nameEn }} </td>
-                                                        <td> {{ $product->price }}</td>
-                                                        <td> {{ $product->quantity }}</td>
-                                                        <td>
-                                                            @if ($product->status == '0')
-                                                            <a href="{{ route('showToFe', $product->id) }}" class="btn btn-warning">Ẩn</a>
-                                                            @elseif($product->status == '1')
-                                                            <a  href="{{ route('hideToFe', $product->id) }}" class="btn btn-success">Hiện</a>
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ date('d-m-Y',strtotime($product->updated_by)) }} </td>
-                                                        <td>
-                                                            @can('Product update')
-                                                                <a href="{{ route('product.edit', $product->id) }}"
-                                                                    class="btn btn-info sm" data-bs-toggle="modal"
-                                                                    data-bs-target="#EditProduct{{ $product->id }}"> <i
-                                                                        class="fas fa-edit "></i> </a>
-                                                                @include('Backend.Products.edit')
-                                                            @endcan
-                                                            @can('Product delete')
-                                                                <a data-href="{{ route('product.destroy', $product->id) }}"
-                                                                    id="{{ $product->id }}"
-                                                                    class="btn btn-danger sm deleteIcon"><i
-                                                                        class=" fas fa-trash-alt "></i></a>
-                                                            @endcan
-                                                            @can('Product view')
-                                                                <a href="{{ route('product.show', $product->id) }}"
-                                                                    class="btn btn-primary waves-effect waves-light"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target=".bs-example-modal-lg{{ $product->id }}"><i
-                                                                        class="ri-eye-close-fill"></i></a>
-                                                                @include('Backend.Products.show')
-                                                            @endcan
+                                             @if ($products->count())
+                                        @foreach ($products as $product)
+                                            <tr class="item-{{ $product->id }}">
+                                                <td>{{ $product->nameVi }} </td>
+                                                <td>{{ $product->nameEn }} </td>
+                                                <td> {{ $product->price }}</td>
+                                                <td> {{ $product->quantity }}</td>
+                                                <td>
+                                                    @if ($product->status == '0')
+                                                        <a href="{{ route('showToFe', $product->id) }}"
+                                                            class="btn btn-warning">Ẩn</a>
+                                                    @elseif($product->status == '1')
+                                                        <a href="{{ route('hideToFe', $product->id) }}"
+                                                            class="btn btn-success">Hiện</a>
+                                                    @endif
+                                                </td>
+                                                <td>{{ date('d-m-Y', strtotime($product->updated_by)) }} </td>
+                                                <td>
+                                                    @can('Product update')
+                                                        <a href="{{ route('product.edit', $product->id) }}"
+                                                            class="btn btn-info sm" data-bs-toggle="modal"
+                                                            data-bs-target="#EditProduct{{ $product->id }}"> <i
+                                                                class="fas fa-edit "></i> </a>
+                                                        {{-- @include('Backend.Products.edit') --}}
+                                                    @endcan
+                                                    @can('Product delete')
+                                                        <a data-href="{{ route('product.destroy', $product->id) }}"
+                                                            id="{{ $product->id }}" class="btn btn-danger sm deleteIcon"><i
+                                                                class=" fas fa-trash-alt "></i></a>
+                                                    @endcan
+                                                    @can('Product view')
+                                                        <a href="{{ route('product.show', $product->id) }}"
+                                                            class="btn btn-primary waves-effect waves-light"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target=".bs-example-modal-lg{{ $product->id }}"><i
+                                                                class="ri-eye-close-fill"></i></a>
+                                                        @include('Backend.Products.show')
+                                                    @endcan
 
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="7">Chưa có dữ liệu...</td>
-                                                </tr>
-                                            @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7">Chưa có dữ liệu...</td>
+                                        </tr>
+                                        @endif
 
                                         </tbody>
-                                    </table>
-                                    <div class="row">
-                                        <div class="col-7">
-                                            Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của
-                                            {{ $products->lastPage() }}
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="btn-group float-end">
-                                                {{ $products->links() }}
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-7">
+                                                Hiển thị {{ $products->perPage() }} - {{ $products->currentPage() }} của
+                                        {{ $products->lastPage() }}
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="btn-group float-end">
+                                                    {{ $products->appends(request()->all())->links() }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane" id="softDelete" role="tabpanel">
-                                    <p class="mb-0">
-                                        @include('Backend.Products.softDelete')
+                                    <div class="tab-pane" id="softDelete" role="tabpanel">
+                                        <p class="mb-0">
+                                            @include('Backend.Products.softDelete')
 
-                                    </p>
-                                </div>
-                                <div class="tab-pane" id="messages" role="tabpanel">
-                                    <p class="mb-0">
-                                        Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                                        sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                                        farm-to-table readymade. Messenger bag gentrify pitchfork
-                                        tattooed craft beer, iphone skateboard locavore carles etsy
-                                        salvia banksy hoodie helvetica. DIY synth PBR banksy irony.
-                                        Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh
-                                        mi whatever gluten yr.
-                                    </p>
-                                </div>
-                                <div class="tab-pane" id="settings" role="tabpanel">
-                                    <p class="mb-0">
-                                        Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
-                                        art party before they sold out master cleanse gluten-free squid
-                                        scenester freegan cosby sweater. Fanny pack portland seitan DIY,
-                                        art party locavore wolf cliche high life echo park Austin. Cred
-                                        vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-                                        farm-to-table VHS.
-                                    </p>
-                                </div>
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane" id="messages" role="tabpanel">
+                                        <p class="mb-0">
+                                            Etsy mixtape wayfarers, ethical wes anderson tofu before they
+                                            sold out mcsweeney's organic lomo retro fanny pack lo-fi
+                                            farm-to-table readymade. Messenger bag gentrify pitchfork
+                                            tattooed craft beer, iphone skateboard locavore carles etsy
+                                            salvia banksy hoodie helvetica. DIY synth PBR banksy irony.
+                                            Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh
+                                            mi whatever gluten yr.
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane" id="settings" role="tabpanel">
+                                        <p class="mb-0">
+                                            Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+                                            art party before they sold out master cleanse gluten-free squid
+                                            scenester freegan cosby sweater. Fanny pack portland seitan DIY,
+                                            art party locavore wolf cliche high life echo park Austin. Cred
+                                            vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
+                                            farm-to-table VHS.
+                                        </p>
+                                    </div>
                             </div>
 
                         </div>
@@ -229,18 +245,20 @@
                     }
                 })
             });
-            $(document).ready(function() {
-                //#myInput id input-event onkey-up
-                $('#myInput').on('keyup', function(event) {
-                    event.preventDefault();
-                    //toLowerCase tìm chữ hoa và thường
-                    let key = $(this).val().toLowerCase();
-                    //<tbody id="myTable"> -> tr
-                    $('#myTableP tr').filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(key) > -1);
-                    });
-                });
-            });
+            // $(document).ready(function() {
+            //     //#myInput id input-event onkey-up
+            //     $('#myInput').on('keyup', function(event) {
+            //         event.preventDefault();
+            //         //toLowerCase tìm chữ hoa và thường
+            //         let key = $(this).val().toLowerCase();
+            //         //<tbody id="myTable"> -> tr
+            //         $('#myTableP tr').filter(function() {
+            //             $(this).toggle($(this).text().toLowerCase().indexOf(key) > -1);
+            //         });
+            //     });
+            // });
         </script>
+
     @endisset
+    
 @endsection

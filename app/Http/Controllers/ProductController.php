@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\SearchRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -33,11 +34,20 @@ class ProductController extends Controller
         $this->middleware('role_or_permission:Category forceDelete', ['only' => ['destroy']]);
         $this->middleware('role_or_permission:Category restore', ['only' => ['restore']]);
     }
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $products = Product::latest()->get()
-            ->filter(fn ($product) => $product->nameVi > now()->subMonths(3))
-            ->paginate(6);
+        $term = $request->keyword;
+
+        // dd($term);
+        $products = Product::where('created_at', '>', now()->subMonths(3))
+            ->search($term)
+            ->nameCate($request)
+            ->filter(request(['startPrice','endPrice']))
+            ->form_date_to(request(['start_date','end_date']))
+            ->status($request)
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
         $categories = Category::all();
         $suppliers = Supplier::all();
         $productSD = Product::onlyTrashed()->get();
@@ -50,7 +60,20 @@ class ProductController extends Controller
 
         return view('Backend.Products.index', $param);
     }
+    // public function searchAdvanced(Request $request)
+    // {
+    //     $term = $request->keyword;
 
+    //     $products = Product::where('created_at', '>', now()->subMonths(3))
+    //         ->search($term)
+    //         ->nameCate($request)
+    //         ->filter(request(['startPrice','endPrice']))
+    //         ->form_date_to(request(['start_date','end_date']))
+    //         ->orderBy('id', 'DESC')
+    //         ->paginate(6);
+
+    //     return view('Backend.Products.index', compact('products'));
+    // }
     /**
      * Show the form for creating a new resource.
      *
@@ -232,10 +255,11 @@ class ProductController extends Controller
         $allcategory = Category::where('supplier_id', $supplier_id)->get();
         return response()->json($allcategory);
     }
-    public function showToFe($id){
+    public function showToFe($id)
+    {
         $product = Product::findOrFail($id);
         $product->status = '1';
-        if($product->save()){
+        if ($product->save()) {
             $notification = array(
                 'message' => 'Duyệt sản phẩm thành công',
                 'alert-type' => 'success',
@@ -243,10 +267,11 @@ class ProductController extends Controller
             return redirect()->back()->with($notification);
         }
     }
-    public function hideToFe($id){
+    public function hideToFe($id)
+    {
         $product = Product::findOrFail($id);
         $product->status = '0';
-        if($product->save()){
+        if ($product->save()) {
             $notification = array(
                 'message' => 'Ẩn sản phẩm thành công',
                 'alert-type' => 'success',

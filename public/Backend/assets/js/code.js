@@ -3,7 +3,7 @@ $(function(){
         e.preventDefault();
         var link = $(this).attr("href");
 
-  
+
                   Swal.fire({
                     title: 'Are you sure?',
                     text: "Delete This Data?",
@@ -13,6 +13,7 @@ $(function(){
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
                   }).then((result) => {
+                      console.log(result);
                     if (result.isConfirmed) {
                       window.location.href = link
                       Swal.fire(
@@ -21,7 +22,7 @@ $(function(){
                         'success'
                       )
                     }
-                  }) 
+                  })
 
 
     });

@@ -11,7 +11,7 @@
                         <div class="flex flex-col space-y-2">
                             <label for="role_name" class="text-gray-700 select-none font-medium">Role Name</label>
                             <input id="role_name" type="text" name="name" value="{{ old('name', $role->name) }}"
-                                placeholder="Placeholder"
+                                placeholder="Placeholder" readonly
                                 class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200" />
                         </div>
                         <h3 class="text-xl my-4 text-gray-600">Permissions</h3>
@@ -43,4 +43,10 @@
         </main>
     </div>
     </div>
+    <style>
+        img {
+    display: inline-grid;
+    vertical-align: middle;
+}
+    </style>
 @endsection

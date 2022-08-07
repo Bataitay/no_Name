@@ -23,7 +23,7 @@
                                             wire:model="search">
                                     </div>
                                 </div>
-                            </div>
+                            </div><br>
                             <table id="datatable"
                                 class="table table-bordered dt-responsive nowrap text-center align-middle dataTable no-footer dtr-inline"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -57,8 +57,10 @@
                                                     <td> <span>Diamond</span> </td>
                                                 @elseif($customer->total_money > $Gold && $customer->total_money < $Diamond)
                                                     <td> <span>Gold</span> </td>
-                                                @else
+                                                @elseif($customer->total_money > 0)
                                                     <td> <span>Silver</span> </td>
+                                                @else
+                                                    <td> <span></span> </td>
                                                 @endif
                                             </tr>
                                         @endforeach

@@ -52,7 +52,7 @@
                                     <div class="checkout__input">
                                         <p>Số điện thoại<span>*</span></p>
                                         <input type="number" name="phone"
-                                        value="{{ Auth::guard('customers')->user()->phone ?? '' }}">
+                                            value="{{ Auth::guard('customers')->user()->phone ?? '' }}">
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,6 @@
                                                 <span><input type="hidden" value="{{ $total }}"
                                                         name="total[]">{{ $total }}</span>
                                             </li>
-
                                         @endforeach
                                     @endif
                                 </ul>
@@ -143,7 +142,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn">Thanh Toán</button>
+                                <button type="submit"  class="site-btn payment">Thanh Toán</button>
                             </div>
                         </div>
                     </div>
@@ -153,9 +152,16 @@
     </section>
     <script type="text/javascript">
         $(function() {
-            $(document).on('change', '.province_id', function() {
+            $(document).on('change', '.province_id, .payment', function() {
                 var province_id = $(this).val();
                 var district_name = $('.district_id').find('option:selected').text();
+                if (province_id == '') {
+                    $('#province_id').notify("Lỗi:Địa chỉ không được để trống", {
+                        globalPosition: 'top left',
+                    });
+                    return false;
+                }
+
                 $.ajax({
                     url: "{{ route('getDistricts') }}",
                     type: "GET",
@@ -176,9 +182,22 @@
     </script>
     <script type="text/javascript">
         $(function() {
-            $(document).on('change', '#district_id', function() {
+            $(document).on('change', '#district_id, .payment', function() {
                 var district_id = $(this).val();
+                var ward_id = $(this).val();
                 var ward_name = $('.ward_id').find('option:selected').text();
+                if (district_id == '') {
+                    $('#district_id').notify("Lỗi:Địa chỉ không được để trống", {
+                        globalPosition: 'top left',
+                    });
+                    return false;
+                }
+                if (ward_id == '') {
+                    $('#ward_id').notify("Lỗi:Địa chỉ không được để trống", {
+                        globalPosition: 'top left',
+                    });
+                    return false;
+                }
                 $.ajax({
                     url: "{{ route('getWards') }}",
                     type: "GET",

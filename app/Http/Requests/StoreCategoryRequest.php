@@ -24,8 +24,9 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'nameVi' => 'required|unique:categories|max:255',
+            'nameVi' => 'required|unique:categories| max:255',
             'nameEn' => 'required|unique:categories|max:255',
+            'supplier_id' => 'required',
         ];
     }
 
@@ -33,8 +34,9 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'required' => 'Bạn chưa nhập tên danh mục.',
-            'unique' => 'Tên danh mục đã tồn tại.',
             'max' => 'Tên danh mục không được quá 255 từ.',
+            'unique' =>' Tên danh mục đã tồn tại',
+            'supplier_id.required' => ' Nhà cung cấp không được để trống.'
         ];
     }
 }

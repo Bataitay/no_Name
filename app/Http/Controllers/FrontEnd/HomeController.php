@@ -59,10 +59,12 @@ class HomeController extends Controller
     {
 
         $product = Product::findOrFail($id);
-        $cart =session()->get('cart', []);
-        if (isset($cart[$id])) {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$id]))
+        {
             $cart[$id]['quantity']++;
-        } else {
+        } else
+        {
             $cart[$id] = [
                 "nameVi" => $product->nameVi,
                 "quantity" => 1,
@@ -85,16 +87,20 @@ class HomeController extends Controller
         if ($request->id && $request->quantity) {
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
-            $totalCart = number_format(($cart[$request->id]["price"])*$cart[$request->id]["quantity"]);
+            $totalCart = number_format(($cart[$request->id]["price"]) * $cart[$request->id]["quantity"]);
+            $totalAllCart = 0;
+            $TotalAllRefreshAjax = 0;
+            foreach ($cart as $id => $details) {
+                $totalAllCart = $details['price'] * $details['quantity'];
+                $TotalAllRefreshAjax += $totalAllCart;
+            }
             session()->put('cart', $cart);
             session()->flash('message', 'Cart updated successfully');
             return response()->json([
-                'status'=>'cập nhật thành công',
-                'totalCart' => ''.$totalCart,
+                'status' => 'cập nhật thành công',
+                'totalCart' => '' . $totalCart,
+                'TotalAllRefreshAjax' => '' . number_format($TotalAllRefreshAjax),
             ]);
-
-            // $data['cart'] =  session()->put('cart');
-            // return response()->json($data);
         }
     }
 
@@ -105,14 +111,16 @@ class HomeController extends Controller
     //  */
     public function remove(Request $request)
     {
-        if ($request->id) {
+        if ($request->id)
+        {
             $cart = session()->get('cart');
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
+            session()->put('cart', $cart);
+            return response()->json(['status' => 'Xóa đơn hàng thành công']);
         }
-        // return response()->json(['message', 'Product removed successfully']);
     }
     public function checkOuts()
     {
@@ -122,7 +130,6 @@ class HomeController extends Controller
     public function GetDistricts(Request $request)
     {
 
-        // dd($request->all());
         $province_id = $request->province_id;
         $allDistricts = Districts::where('province_id', $province_id)->get();
         return response()->json($allDistricts);
@@ -136,16 +143,17 @@ class HomeController extends Controller
 
     public function order(Request $request)
     {
-        // dd($request->all());
-        if ($request->product_id == null) {
+
+        if ($request->product_id == null)
+        {
             $notification = array(
-                'message' => 'Bạn vẫn chưa chọn sản phẩm nào để mua.',
+                'message' => 'Bạn vẫn chưa chọn sản phẩm nào.',
                 'alert-type' => 'warning',
             );
             return redirect()->back()->with($notification);
         } else {
             foreach (session('cart') as $id => $details) {
-                // dd($details['quantity']);
+
                 $product = Product::find($id);
                 if ($product->quantity < $details['quantity']) {
                     $notification = array(

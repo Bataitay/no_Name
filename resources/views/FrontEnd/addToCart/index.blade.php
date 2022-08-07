@@ -52,7 +52,7 @@
                                                 <h5>{{ $details['nameVi'] ?? '' }}</h5>
                                             </td>
                                             <td class="shoping__cart__price price" data-th="Price">
-                                                {{ $details['price'] }}.vnd
+                                                {{ $details['price'] }}
                                             </td>
                                             {{-- <input type="number" data-id="{{ $id }}"
                                                 name="quantity[]" step="1" class="quantity update-cart"
@@ -66,7 +66,8 @@
                                                         </button>
                                                     </div>
                                                     <input class="form-control quantity " min="0" name="quantity[]"
-                                                        value="{{ $details['quantity'] }}" type="number"  data-id="{{ $id }}">
+                                                        value="{{ $details['quantity'] }}" type="number"
+                                                        data-id="{{ $id }}">
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-secondary btn-plus changeQuantity"
                                                             data-id="{{ $id }}">
@@ -76,7 +77,9 @@
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
-                                                <span class="total_cart-{{ $id }}">{{ number_format($total) }}.vnd</span>
+                                                <span
+                                                    class="total_cart-{{ $id }}">{{ number_format($total) }}.vnd
+                                                </span>
                                             </td>
                                             <td class="shoping__cart__item__close">
                                                 <a data-href="{{ route('remove.from.cart', $id) }}"
@@ -102,8 +105,6 @@
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
                         <a href="{{ route('showproduct') }}" class="primary-btn cart-btn">Tiếp tục mua hàng</a>
-                        {{-- <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a> --}}
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -119,11 +120,19 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="shoping__checkout">
-                        <h5>Thanh Toán</h5>
-                        <ul>
-                            <li>Phương thức thanh toán <span>Free</span></li>
-                            <li>Tổng thanh toán <span>{{ number_format($totalAll) }}.vnd</span></li>
-                        </ul>
+                        <div id="TotalAllRefreshAjax">
+                            <div id="">
+                                <h5>Thanh Toán</h5>
+                                <ul>
+                                    <li>Phương thức thanh toán <span>Free</span></li>
+                                    <li>Tổng thanh toán
+                                        <span class="TotalAllAjaxCall">
+                                            {{ number_format($totalAll) }}.vnd
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         @if (session('cart'))
                             <a href="{{ route('checkOuts') }}" class="primary-btn">Mua hàng</a>
                         @else
@@ -146,10 +155,6 @@
                 e.preventDefault();
                 var id = $(this).data('id');
                 var quantity = $(this).parents("tr").find("input.quantity").val();
-
-                console.log(id);
-                console.log(quantity);
-                var ele = $(this);
                 $.ajax({
                     url: '{{ route('update.cart') }}',
                     method: "patch",
@@ -160,14 +165,14 @@
                     },
                     success: function(response) {
                         // window.location.reload();
-                        console.log(response.totalCart);
                         $('.total_cart-' + id).html(response.totalCart);
-                        $('.')
+                        $('.TotalAllAjaxCall').html(response.TotalAllRefreshAjax);
                         alertify.set('notifier', 'position', 'top-right');
                         alertify.success(response.status);
                     }
                 });
             });
+
             $(document).on('click', '.fa-window-close', function(e) {
                 e.preventDefault();
                 let id = $(this).attr('id');
@@ -179,8 +184,11 @@
                     data: {
                         _token: csrf
                     },
-                    success: function(res) {
+                    success: function(response) {
                         $('.item-' + id).remove();
+                        alertify.set('notifier', 'position', 'top-right');
+                        alertify.success(response.status);
+
                     }
                 });
             });

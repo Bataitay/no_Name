@@ -44,8 +44,9 @@
                                 <div class="card-body">
                                     <form method="POST" action="{{ route('product.store') }}">
                                         @csrf
-                                        <table  class="table table-bordered dt-responsive nowrap text-center align-middle dataTable no-footer dtr-inline"
-                                        style="border-color: #ddd; border-spacing: 0; width: 100%;">
+                                        <table
+                                            class="table table-bordered dt-responsive nowrap text-center align-middle dataTable no-footer dtr-inline"
+                                            style="border-color: #ddd; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th width="17%">Danh mục</th>
@@ -119,7 +120,7 @@
                     </td>
                 </tr>
             </script>
-            {{-----------------------------add column-----------------------------------}}
+            {{-- ---------------------------add column--------------------------------- --}}
             <script type="text/javascript">
                 $(document).ready(function() {
                     $(document).on("click", ".addeventmore", function() {
@@ -134,26 +135,26 @@
                         }
                         if (category_id == '') {
                             $('#category_id').notify("Danh mục không được để trống", {
-                                position:"top left",
+                                position: "top left",
                             });
                             return false;
                         }
                         var source = $("#document-template").html();
                         var tamplate = Handlebars.compile(source);
                         var data = {
-                            supplier_id:supplier_id,
-                            category_name:category_name,
-                            category_id:category_id,
+                            supplier_id: supplier_id,
+                            category_name: category_name,
+                            category_id: category_id,
                         };
                         var html = tamplate(data);
                         $('#addRow').append(html);
                     });
-                    $(document).on("click", ".removeeventmore ", function(event){
+                    $(document).on("click", ".removeeventmore ", function(event) {
                         $(this).closest(".delete_add_more_item").remove();
                         totalAll();
                     })
 
-                    $(document).on('keyup','.quantity, .price', function(event){
+                    $(document).on('keyup', '.quantity, .price', function(event) {
                         var quantity = $(this).closest('tr').find('input.quantity').val();
                         var price = $(this).closest('tr').find('input.price').val();
                         var total = quantity * price;
@@ -161,14 +162,13 @@
                         $(this).closest('tr').find('input.total').val(total);
                         totalAll();
                     });
-                    function totalAll(){
+
+                    function totalAll() {
                         var sum = 0;
-                        $('.total').each(function(){
+                        $('.total').each(function() {
                             var value = $(this).val();
-                            console.log(value);
-                            if(!isNaN(value) && value.length != 0){
+                            if (!isNaN(value) && value.length != 0) {
                                 sum += parseFloat(value);
-                                console.log(sum);
                             }
                         });
                         $('#estimated_amount').val(sum);
@@ -176,7 +176,7 @@
                 });
             </script>
 
-            {{-----------------------------end column-----------------------------------}}
+            {{-- ---------------------------end column--------------------------------- --}}
             <script type="text/javascript">
                 $(function() {
                     $(document).on('change', '#supplier_id', function() {
@@ -190,7 +190,8 @@
                             success: function(data) {
                                 var html = '<option value="">Chọn danh mục</option>';
                                 $.each(data, function(key, v) {
-                                    html += '<option value=" ' + v.id + ' ">' + v.nameEn + '-' + v.nameVi+'</option>';
+                                    html += '<option value=" ' + v.id + ' ">' + v.nameEn + '-' +
+                                        v.nameVi + '</option>';
                                 });
                                 $('#category_id').html(html);
                             }

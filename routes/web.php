@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SearchServer;
 use App\Http\Controllers\SupplierController;
 use App\Http\Livewire\Messages;
 use FontLib\Table\Type\name;
@@ -68,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('permission', PermissionController::class);
         Route::resource('employee', EmployeeController::class);
         Route::get('getCustomers', [CustomerController::class,'getCustomers'])->name('getCustomers');
-        // Route::get('getOder', [CustomerController::class],'getOder')->name('getOder');
+        Route::get('/search', SearchServer::class)->name('search-Product');
 
 
         Route::get('/notification/create', [NotificationController::class, 'create'])->name('notification.create');
@@ -91,3 +92,7 @@ Route::get('checkOuts', [HomeController::class, 'checkOuts'])->name('checkOuts')
 // });
 require __DIR__ . '/front_auth.php';
 require __DIR__ . '/auth.php';
+
+Route::get('hello', function (){
+    return view('welcome');
+});
