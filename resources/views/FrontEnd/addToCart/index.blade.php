@@ -138,7 +138,6 @@
                         @else
                             <a href="{{ route('showproduct') }}" class="primary-btn">Giỏ hàng của bạn đang trống</a>
                         @endif
-
                     </div>
                 </div>
             </div>

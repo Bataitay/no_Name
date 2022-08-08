@@ -1,137 +1,160 @@
-<div class="modal fade " id="EditProduct{{ $product->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Thêm sản phẩm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <h4 class="mb-4">let's go...</h4>
-                    <form action="{{ route('product.update', $product->id) }}"enctype="multipart/form-data"
-                        method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="nameVi">Tên sản phẩm(Vi)</label>
-                                    <input type="text" value="{{ old('nameVi', $product->nameVi) }}"
-                                        class="form-control" name="nameVi" id="nameVi"
-                                        placeholder=" Nhập tên sản phẩm">
+@extends('Backend.master')
+@section('content')
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Chỉnh Sửa danh mục</h4><br><br>
+                            <form method="post" action="{{ route('product.update', $product->id) }}" id="myForm"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="row mb-3">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">
+                                        Tên nhà cung cấp
+                                    </label>
+                                    <div class="form-group col-sm-10">
+                                        <select id="supplier_id " name="supplier_id" class="form-select"
+                                            aria-label="Default select example">
+                                            <option selected="">Chọn nhà cung cấp</option>
+                                            @foreach ($suppliers as $supp)
+                                                <option value="{{ $supp->id }}"
+                                                    @if ($product->category->supplier_id == $supp->id) selected @endif>{{ $supp->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Tên sản phẩm(En)</label>
-                                    <input type="text" value="{{ old('nameEn', $product->nameEn) }}"
-                                        class="form-control" name="nameEn" id="nameEn"
-                                        placeholder=" Nhập tên sản phẩm">
+                                <div class="row mb-3">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label ">
+                                        Tên danh mục
+                                    </label>
+                                    <div class="form-group col-sm-10">
+                                        <option selected="">Chọn nhà cung cấp</option>
+                                        <select class="form-select" name="category_id" id="category_id">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->nameVi }}-{{ $category->nameEn }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="mb-2">
-                                    <label class="form-label" for="price">Giá</label>
-                                    <input type="text" value="{{ old('price', $product->price) }}"
-                                        class="form-control" name="price" id="price" placeholder="Nhập Giá">
+                                <div class="row mb-3 ">
+                                    <label for="nameVi" class="col-sm-2 col-form-label">
+                                        Tên sản phẩm(Vi)
+                                    </label>
+                                    <div class="form-group col-sm-10 d-flex">
+                                        <input type="text" value="{{ old('nameVi', $product->nameVi) }}"
+                                            class="form-control" name="nameVi" id="nameVi"
+                                            placeholder=" Nhập tên sản phẩm">
+                                        @error('nameVi')
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="mb-2">
-                                    <label class="form-label" for="quantity">Số lượng</label>
-                                    <input type="text" value="{{ old('quantity', $product->quantity) }}"
-                                        class="form-control" name="quantity" id="quantity" placeholder="Nhập Số lượng">
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label " for="name">Tên sản phẩm(En)</label>
+
+                                    <div class="form-group col-sm-10">
+                                        <input type="text" value="{{ old('nameEn', $product->nameEn) }}"
+                                            class="form-control" name="nameEn" id="nameEn"
+                                            placeholder=" Nhập tên sản phẩm">
+                                        @error('nameEn')
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Nhà cung cấp</label>
-                                    <select class="form-select" name="supplier_id">
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}"
-                                                {{ $product->supplier_id == $supplier->id ? 'selected' : '' }}>
-                                                {{ $supplier->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>  
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="email">Danh mục(Vi-En)</label>
-                                    <select class="form-select" name="category_id">
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                                {{ $category->nameVi }}-{{ $category->nameEn }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label " for="price">Giá</label>
+
+                                    <div class="form-group col-sm-10">
+                                        <input type="text" value="{{ old('price', $product->price) }}"
+                                            class="form-control" name="price" id="price" placeholder="Nhập Giá">
+                                        @error('nameEn')
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="photo">Ảnh sản phẩm</label>
-                                    <input type="file" class="form-control" id="photo" name="photo">
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label " for="quantity">Số lượng</label>
+
+                                    <div class="form-group col-sm-10">
+                                        <input type="text" value="{{ old('quantity', $product->quantity) }}"
+                                            class="form-control" name="quantity" id="quantity" placeholder="Nhập Số lượng">
+
+                                        @error('nameEn')
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label " for="description">Mô tả</label>
+
+                                    <div class="form-group col-sm-10">
+                                        <input type="text" value="{{ old('description', $product->description) }}"
+                                            class="form-control" name="description" id="quantity" placeholder="Nhập Số lượng">
+
+                                        @error('description')
+                                            <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="mb-3">
-                                    <label class="form-label" for="discription">Mô tả</label>
-                                    <textarea name="description" class="form-control" id="discription" rows="5"></textarea>
+                                <div class="row mb-3">
+                                    <label for="role_name" class="col-sm-2 col-form-label ">Ảnh</label>
+                                    <div class="form-group col-sm-3">
+                                        <label for="role_name" class="col-form-label imageMain">Ảnh Chính</label>
+                                        <input type="file" name="image" id="image" class="img-fluid"  /><br>
+                                        <img id="showImage" class="rounded  avatar-lg"
+                                            src="{{ !empty($product->image) ? asset($product->image) : asset('uploads/no_image.jpg') }}">
+                                    </div>
+                                    <div class="form-group col-sm-7">
+                                        <label for="role_name" class="col-form-label imageDt">Ảnh chi tiết</label><br>
+                                        <input type="file" name="images[]" id="image" class="img-fluid " multiple />
+                                        <img id="showImageDl" class="rounded  avatar-lg"
+                                            src="{{ !empty($product->image) ? asset($product->image) : asset('uploads/no_image.jpg') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label text-danger" for=""><i
-                                            class="mdi-archive-arrow-down"></i></label><br>
-                                    <img id="showPhoto" class="rounded w-50 h-50 avatar-lg "
-                                        src="{{ !empty($product->image) ? url('uploads/admin_img/' . $product->image) : url('uploads/no_image.jpg') }}"
-                                        alt="Card image cap">
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
-            </div>
-            </form>
 
+                                <!-- end row -->
+
+                                <a class="btn btn-danger waves-effect waves-light"
+                                    href="{{ route('product.index') }}">Huỷ</a>
+                                <input type="submit" class="btn btn-info waves-effect waves-light" value="Cập nhật ">
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div>
         </div>
     </div>
-</div>
-
-
-<style>
-    .modal-dialog {
-        max-width: 1200px;
-        margin: 1.75rem auto;
-    }
-
-    .form-label {
-        margin-bottom: .5rem;
-        float: left;
-    }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#photo').change(function(e) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showPhoto').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(e.target.files['0']);
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files['0']);
+            });
         });
-    });
-</script>
+        $(".btn-success").click(function(){
+          var html = $(".clone").html();
+          $(".increment").after(html);
+      });
+
+      $("body").on("click",".btn-danger",function(){
+          $(this).parents(".control-group").remove();
+      });
+
+    </script>
+@endsection

@@ -66,4 +66,10 @@
         </div>
     </div>
     </div>
+    <style>
+        img {
+            display: inline-grid;
+            vertical-align: middle;
+        }
+    </style>
 @endsection

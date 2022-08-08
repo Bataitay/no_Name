@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\Category;
+use App\Models\FileDetail;
 use App\Models\Product;
 use App\Models\Supplier;
 use Carbon\Carbon;
@@ -42,8 +43,8 @@ class ProductController extends Controller
         $products = Product::where('created_at', '>', now()->subMonths(3))
             ->search($term)
             ->nameCate($request)
-            ->filter(request(['startPrice','endPrice']))
-            ->form_date_to(request(['start_date','end_date']))
+            ->filter(request(['startPrice', 'endPrice']))
+            ->form_date_to(request(['start_date', 'end_date']))
             ->status($request)
             ->orderBy('id', 'DESC')
             ->paginate(10);
@@ -60,20 +61,7 @@ class ProductController extends Controller
 
         return view('Backend.Products.index', $param);
     }
-    // public function searchAdvanced(Request $request)
-    // {
-    //     $term = $request->keyword;
 
-    //     $products = Product::where('created_at', '>', now()->subMonths(3))
-    //         ->search($term)
-    //         ->nameCate($request)
-    //         ->filter(request(['startPrice','endPrice']))
-    //         ->form_date_to(request(['start_date','end_date']))
-    //         ->orderBy('id', 'DESC')
-    //         ->paginate(6);
-
-    //     return view('Backend.Products.index', compact('products'));
-    // }
     /**
      * Show the form for creating a new resource.
      *
@@ -153,9 +141,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('Backend.Products.edit');
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
+        return view('Backend.Products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     /**
@@ -167,6 +159,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        // dd($request->all());
         $product = new Product;
         $product->nameVi = $request->nameVi;
         $product->nameEn = $request->nameEn;
@@ -174,15 +167,16 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
-        $product->supplier_id = $request->supplier_id;
         $product->created_by = Auth::user()->id;
         $product->updated_by = Carbon::now();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $extention = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extention;
-            $file->move('/images/products/', $fileName);
-            $product->image = $fileName;
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('image')->store('/products', 'public');
+            $product->image = $path;
         }
         try {
             $product->save();
@@ -199,6 +193,35 @@ class ProductController extends Controller
             );
             return redirect()->back()->with($notification);
         }
+    }
+    public function uploadImageDetail(UpdateProductRequest $request)
+    {
+        $this->validate($request, [
+
+            'images' => 'required',
+            'images.*' => 'mimes:doc,pdf,docx,zip'
+
+        ]);
+
+        $product = new Product();
+        if ($request->hasfile('images')) {
+            foreach ($request->file('images') as $file) {
+                $file = $request->file('images');
+                $filenameWithExt = $request->file('images')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('images')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+                $path = 'storage/' . $request->file('images')->store('/products', 'public');
+                $data[] = $path;
+            }
+        }
+
+        $file = new FileDetail();
+        $product->id = $file->product_id;
+        $file->images = json_encode($data);
+
+
+        $file->save();
     }
 
     /**

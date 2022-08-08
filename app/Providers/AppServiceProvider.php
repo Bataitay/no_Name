@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -50,9 +51,11 @@ class AppServiceProvider extends ServiceProvider
             $id = Auth::user()->id ?? '';
             $adminData = User::find($id);
             $currentRolo = Role::find($id);
+            $categoryFe = Category::limit(10)->get();
             $view->with([
                 'adminData'=> $adminData,
                 'currentRolo' => $currentRolo,
+                'categoryFe' => $categoryFe,
             ]);
         });
 

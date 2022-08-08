@@ -36,7 +36,7 @@ class HomeController extends Controller
     }
     public function index()
     {
-        $products = Product::all();
+        $products = Product::take(12)->get();
         return view('FrontEnd.product.index', compact('products'));
     }
 

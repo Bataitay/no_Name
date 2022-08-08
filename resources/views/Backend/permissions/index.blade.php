@@ -99,4 +99,10 @@
 
         </div> <!-- container-fluid -->
     </div>
+    <style>
+        img {
+            display: inline-grid;
+            vertical-align: middle;
+        }
+    </style>
 @endsection

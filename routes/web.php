@@ -37,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('storeprofile', 'storeprofile')->name('admin.storeprofile');
             Route::get('changepassword', 'Changepassword')->name('admin.changepassword');
             Route::post('updateprofile', 'updateprofile')->name('admin.updateprofile');
-            Route::post('uploadImage', 'uploadImage')->name('admin.uploadImage');
             Route::get('dashboard', 'dashboard')->name('admin.dashboard');
             Route::post('updatepassword', 'updatepassword')->name('admin.updatepassword');
         });
@@ -53,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('categories/trashed', 'trashed')->name('categories.trashed');
             Route::get('categories/restore/{id}', 'restore')->name('categories.restore');
             Route::get('categories/forceDelete/{id}', 'forceDelete')->name('categories.forceDelete');
+
         });
         Route::resource('supplier', SupplierController::class);
         Route::resource('/product', ProductController::class);
@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('product/restore/{id}', 'restore')->name('product.restore');
             Route::get('product/forceDelete/{id}', 'forceDelete')->name('product.forceDelete');
             Route::get('get-category', 'getCategory')->name('get-category');
+            Route::get('uploadImageDetail', 'uploadImageDetail')->name('uploadImageDetail');
             Route::get('showToFe/{id}', 'showToFe')->name('showToFe');
             Route::get('hideToFe/{id}', 'hideToFe')->name('hideToFe');
         });

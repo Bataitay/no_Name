@@ -59,6 +59,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(StoreCategoryRequest $request)
     {
         $category = new Category();
@@ -67,6 +68,15 @@ class CategoryController extends Controller
         $category->supplier_id =  $request->supplier_id;
         $category->created_by =  Auth::user()->id;
         $category->updated_by =  Carbon::now();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('image')->store('/category', 'public');
+            $category->image = $path;
+        }
         $category->save();
         $notification = array(
             'message' => 'Thêm danh mục' . $request->name . 'thành công',
@@ -114,6 +124,15 @@ class CategoryController extends Controller
         $category->supplier_id  = $request->supplier_id;
         $category->created_by = Auth::user()->id;
         $category->updated_by = Carbon::now();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
+            $path = 'storage/' . $request->file('image')->store('/category', 'public');
+            $category->image = $path;
+        }
         $category->save();
         $notification = array(
             'message' => 'Cập nhật danh mục' . $request->name . 'thành công',
