@@ -77,4 +77,8 @@ class Product extends Model
         };
         return $query;
     }
+    public function fileDetails()
+   {
+    return $this->hasMany(FileDetail::class);
+   }
 }

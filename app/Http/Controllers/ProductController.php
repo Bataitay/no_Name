@@ -144,7 +144,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        // dd($product->fileDetails->to);
         $categories = Category::all();
+        // $file_detail = FileDetail::findOrFail($id)
         $suppliers = Supplier::all();
 
         return view('Backend.Products.edit', compact('product', 'categories', 'suppliers'));
@@ -180,6 +182,14 @@ class ProductController extends Controller
         }
         try {
             $product->save();
+            foreach ($request->file('images') as $file_detail) {
+                $detail_path = 'storage/' . $file_detail->store('/products', 'public');
+                $product->fileDetails()->saveMany([
+                    new FileDetail([
+                        'images' => $detail_path,
+                    ]),
+                ]);
+            }
             $notification = array(
                 'message' => 'Cập nhật sản phẩm' . $request->name . 'thành công',
                 'alert-type' => 'success',
@@ -194,35 +204,7 @@ class ProductController extends Controller
             return redirect()->back()->with($notification);
         }
     }
-    public function uploadImageDetail(UpdateProductRequest $request)
-    {
-        $this->validate($request, [
 
-            'images' => 'required',
-            'images.*' => 'mimes:doc,pdf,docx,zip'
-
-        ]);
-
-        $product = new Product();
-        if ($request->hasfile('images')) {
-            foreach ($request->file('images') as $file) {
-                $file = $request->file('images');
-                $filenameWithExt = $request->file('images')->getClientOriginalName();
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension = $request->file('images')->getClientOriginalExtension();
-                $fileNameToStore = $filename . '_' . date('mdYHis') . uniqid() . '.' . $extension;
-                $path = 'storage/' . $request->file('images')->store('/products', 'public');
-                $data[] = $path;
-            }
-        }
-
-        $file = new FileDetail();
-        $product->id = $file->product_id;
-        $file->images = json_encode($data);
-
-
-        $file->save();
-    }
 
     /**
      * Remove the specified resource from storage.

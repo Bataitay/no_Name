@@ -100,7 +100,8 @@
 
                                     <div class="form-group col-sm-10">
                                         <input type="text" value="{{ old('description', $product->description) }}"
-                                            class="form-control" name="description" id="quantity" placeholder="Nhập Số lượng">
+                                            class="form-control" name="description" id="quantity"
+                                            placeholder="Nhập Số lượng">
 
                                         @error('description')
                                             <div class="text text-danger"><i class=" ri-spam-2-line"></i>{{ $message }}
@@ -113,15 +114,17 @@
                                     <label for="role_name" class="col-sm-2 col-form-label ">Ảnh</label>
                                     <div class="form-group col-sm-3">
                                         <label for="role_name" class="col-form-label imageMain">Ảnh Chính</label>
-                                        <input type="file" name="image" id="image" class="img-fluid"  /><br>
+                                        <input type="file" name="image" id="image" class="img-fluid" /><br>
                                         <img id="showImage" class="rounded  avatar-lg"
                                             src="{{ !empty($product->image) ? asset($product->image) : asset('uploads/no_image.jpg') }}">
                                     </div>
                                     <div class="form-group col-sm-7">
                                         <label for="role_name" class="col-form-label imageDt">Ảnh chi tiết</label><br>
                                         <input type="file" name="images[]" id="image" class="img-fluid " multiple />
-                                        <img id="showImageDl" class="rounded  avatar-lg"
-                                            src="{{ !empty($product->image) ? asset($product->image) : asset('uploads/no_image.jpg') }}">
+                                        @foreach ($product->fileDetails as $file_detail)
+                                            <img id="showImageDl" class="rounded  avatar-lg"
+                                                src="{{ !empty($file_detail->images) ? asset($file_detail->images) : asset('uploads/no_image.jpg') }}">
+                                        @endforeach
                                     </div>
                                 </div>
 
@@ -147,14 +150,5 @@
                 reader.readAsDataURL(e.target.files['0']);
             });
         });
-        $(".btn-success").click(function(){
-          var html = $(".clone").html();
-          $(".increment").after(html);
-      });
-
-      $("body").on("click",".btn-danger",function(){
-          $(this).parents(".control-group").remove();
-      });
-
     </script>
 @endsection
